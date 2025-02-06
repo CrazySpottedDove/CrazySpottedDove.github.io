@@ -1,0 +1,4 @@
+Sitemap: https://cojocarudavid.me/sitemap-index.xml
+
+User-agent: *
+Allow: /
