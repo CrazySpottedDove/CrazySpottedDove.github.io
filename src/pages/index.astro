@@ -1,71 +1,81 @@
 ---
 import AppLayout from "@layouts/AppLayout.astro";
 import { Image } from "astro:assets";
-import authorImage from "../assets/me.png";
-import technologies from "@data/technologies.json";
-import Skill from "@components/Skill.astro";
+import authorImage from "../assets/me.jpg";
 import { author } from "@data/socials";
 ---
 
-<AppLayout title="David Cojocaru - Junior Software Developer & Cybersecurity Enthusiast">
-  <header class="sm:flex sm:items-center sm:justify-between">
-    <div class="rounded aspect-square w-40 overflow-hidden inline-flex drop-shadow-none lg:drop-shadow-[0px_0px_35px_rgba(83,70,250,0.90)]">
-      <Image
-        src={authorImage}
-        alt="Image of the author"
-        loading="eager"
-        width={320}
-        height={320}
-      />
-    </div>
-    <div class="mt-8 max-w-lg 2xl:max-w-xl sm:my-0 sm:order-first">
-      <h1
-        class="mb-2 text-3xl font-bold tracking-tight dark:text-white text-zinc-900 sm:text-4xl"
-      >
-        {author}
-      </h1>
-      <p class="mb-4 dark:text-zinc-300 text-zinc-700 flex items-center">
-        Full Stack Developer from Romania <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.18 38.4" class="inline-block w-6 h-6 ml-2">
-          <path d="M17.75 0v38.4H3.03C1.37 38.4 0 37.04 0 35.37V3.03C0 1.36 1.37 0 3.03 0h14.72z" fill="#002b7f"/>
-          <path fill="#fcd116" d="M37.45 0v38.4h-19.7V0h19.7z"/>
-          <path d="M37.45 38.4V0h14.72c1.67 0 3.03 1.36 3.03 3.03v32.33c0 1.67-1.37 3.03-3.03 3.03H37.45v.01z" fill="#ce1126"/>
-        </svg>
-      </p>
-      <p
-        class="max-w-prose font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 sm:max-w-sm md:max-w-xl leading-relaxed"
-      >
-        I am a self-taught developer who loves to build things for the web. I
-        have been coding for 3 years now and I am always looking to learn new
-        things. I am currently working on a few projects, but I am always open
-        to new opportunities.
-      </p>
-    </div>
-  </header>
-  <section class="mt-10 sm:mt-28" aria-labelledby="section-title">
-    <h2
-      class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
-      id="section-title"
-    >
-      About Me
-    </h2>
-    <p
-      class="max-w-prose mb-8 font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 leading-relaxed"
-    >
-      Here are some of the technologies I have been working with:
-    </p>
-    <ul>
-      {Object.entries(technologies).map(([category, techList]) => (
-        <li class="flex flex-col mb-8 last:mb-0" key={category} id={category}>
-          <h3 class="dark:text-zinc-300 text-zinc-700 mb-4 text-lg font-semibold tracking-tight">
-            {category}
-          </h3>
-          <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
-            {techList.map((tech, index) => (
-              <Skill key={index} {...tech} />
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ul>
-  </section>
+<AppLayout title="CrazySpottedDove - 爱开发实用应用的傻咕咕">
+	<header class="sm:flex sm:items-center sm:justify-between">
+		<div
+			class="rounded aspect-square w-40 overflow-hidden inline-flex drop-shadow-none lg:drop-shadow-[0px_0px_35px_rgba(83,70,250,0.90)]"
+		>
+			<Image
+				src={authorImage}
+				alt="Image of the author"
+				loading="eager"
+				width={320}
+				height={320}
+			/>
+		</div>
+		<div class="mt-8 max-w-lg 2xl:max-w-xl sm:my-0 sm:order-first">
+			<h1
+				class="mb-2 text-3xl font-bold tracking-tight dark:text-white text-zinc-900 sm:text-4xl"
+			>
+				{author}
+			</h1>
+			<p class="mb-4 dark:text-zinc-300 text-zinc-700 flex items-center">
+				浙江大学计科学生
+				<path
+					d="M17.75 0v38.4H3.03C1.37 38.4 0 37.04 0 35.37V3.03C0 1.36 1.37 0 3.03 0h14.72z"
+					fill="#002b7f"
+				></path>
+				<path
+					fill="#fcd116"
+					d="M37.45 0v38.4h-19.7V0h19.7z"
+				></path>
+				<path
+					d="M37.45 38.4V0h14.72c1.67 0 3.03 1.36 3.03 3.03v32.33c0 1.67-1.37 3.03-3.03 3.03H37.45v.01z"
+					fill="#ce1126"
+				></path>
+			</p>
+			<p
+				class="max-w-prose font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 sm:max-w-sm md:max-w-xl leading-relaxed"
+			>
+				我的名字是
+				CrazySpottedDove，珠颈33颗。住在经常遭遇雪灾的浙江大学，未婚。我在东四教学楼坐牢，每天都要坐牢到晚上8点才能回洞穴。我不抽烟，冰红茶也是浅尝辄止。晚上11半点睡，保证每天7小时的睡眠。睡前我一定喝一杯一氧化二氢，然后看5分钟的小说，再上床睡觉。我一定能写代码到破防，就像做小组作业一样没有任何规划和行动力。红隼都说我很正常。
+			</p>
+			<p
+				class="max-w-prose font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 sm:max-w-sm md:max-w-xl leading-relaxed"
+			>
+				我只想平静地生活，不想给自己和社会带来任何麻烦。像个空调外机上的咕一样，默默地享受安静的鸠生。虽然我很清楚，这样的生活让我比任何人都要幸福。
+			</p>
+		</div>
+	</header>
+	<section
+		class="mt-10 sm:mt-28"
+		aria-labelledby="section-title"
+	>
+		<h2
+			class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
+			id="section-title"
+		>
+			More About Me
+		</h2>
+		<p
+			class="max-w-prose mb-8 font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 leading-relaxed"
+		>
+			喜欢瞎折腾，喜欢做实用（大概吧）小工具，喜欢浪费时间在看珠颈斑鸠浪费时间。
+		</p>
+		<p
+			class="max-w-prose mb-8 font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 leading-relaxed"
+		>
+			写过 js，写过 rust，对 C++ 和 python 浅尝辄止。
+		</p>
+		<p
+			class="max-w-prose mb-8 font-normal text-sm md:text-lg dark:text-zinc-400 text-zinc-600 leading-relaxed"
+		>
+			对前端和后端都有过了解（大概吧），但是都不精通。
+		</p>
+	</section>
 </AppLayout>

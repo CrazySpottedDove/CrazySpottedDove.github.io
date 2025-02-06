@@ -3,60 +3,77 @@ import AppLayout from "@layouts/AppLayout.astro";
 import Header from "@components/Header.astro";
 import data from "@data/contributions.json";
 import ProjectCard from "@components/ProjectCard.astro";
-
+import WxQrCode from "../assets/wx.jpg";
+import { Image } from "astro:assets";
 interface Project {
-  name: string;
-  description: string;
-  stars: number;
-  role: "author" | "contributor" | "maintainer";
-  url: string;
-  languages: string[];
+	name: string;
+	description: string;
+	role: "author" | "contributor" | "maintainer";
+	url: string;
+	languages: string[];
+	website?: string;
 }
 
 const openSourceContributions = data as Project[];
 
-openSourceContributions.sort((a, b) => {
-  if (a.role === "maintainer" && b.role !== "maintainer") {
-    return -1;
-  }
-  if (a.role === "maintainer" && b.role === "maintainer") {
-    return a.stars > b.stars ? -1 : 1;
-  }
-  if (a.role === "author" && b.role === "author") {
-    return a.stars > b.stars ? -1 : 1;
-  }
-  if (a.role === "author" && b.role !== "author") {
-    return -1;
-  }
-  return 0;
-});
-
-const description = "I love open source and I have been contributing to different projects for the some time. Here is a list of projects that I have contributed to and authored.";
-
+const description =
+	"我喜欢开源，也喜欢自己动手丰衣足食。我经常突发奇想想解决一些问题，然后像下蛋一样一颗一颗把项目生出来。";
+const moreover =
+	"我很乐意通过自己的努力帮助大家解决问题(如果能的话)。如果意识到我们有什么需求，并有了想法，欢迎联系我，我会努力让它落地 ↖(^ω^)↗";
 ---
 
-<AppLayout title="David Cojocaru - Projects" 
-           tags={["projects", "open source", "contributions", "github", "david cojocaru", "david", "cojocaru", "davidcojocaru", "romania", "developer", "software engineer", "software developer", "software engineering", "software development", "web developer", "web development", "full stack", "full stack developer" ]}
-           description={description}>
-  <Header title="Open Source" />
-  <p
-    class="max-w-prose mb-10 font-normal dark:text-zinc-400 text-zinc-600 leading-relaxed"
-  >
-    {description}
-  </p>
-  <ul class="grid grid-cols-1 gap-8">
-    {
-      openSourceContributions.map((project) => (
-        <ProjectCard
-          name={project.name}
-          description={project.description}
-          stars={project.stars}
-          role={project.role}
-          url={project.url}
-          languages={project.languages}
-          website={project.website || ""}
-        />
-      ))
-    }
-  </ul>
+<AppLayout
+	title="CrazySpottedDove - Projects"
+	tags={[
+		"projects",
+		"open source",
+		"contributions",
+		"github",
+		"CrazySpottedDove",
+		"developer",
+		"software",
+		"cli",
+	]}
+	description={description}
+>
+	<Header title="Open Source" />
+	<p
+		class="max-w-prose mb-10 font-normal dark:text-zinc-400 text-zinc-600 leading-relaxed"
+	>
+		{description}
+	</p>
+
+	<div class="flex justify-between items-center w-full gap-8">
+		<p
+			class="max-w-prose mb-10 font-normal dark:text-zinc-400 text-zinc-600 leading-relaxed w-3/5"
+		>
+			{moreover}
+		</p>
+		<div
+			class="rounded aspect-square w-60 overflow-hidden inline-flex drop-shadow-none lg:drop-shadow-[0px_0px_35px_rgba(83,70,250,0.90)]"
+		>
+			<Image
+				src={WxQrCode}
+				alt="WxQrCode of the author"
+				loading="eager"
+				width={400}
+				height={400}
+			/>
+		</div>
+	</div>
+	<br />
+	<ul class="grid grid-cols-1 gap-8">
+		{
+			openSourceContributions.map((project) => (
+				<ProjectCard
+					name={project.name}
+					description={project.description}
+					role={project.role}
+					url={project.url}
+					languages={project.languages}
+					website={project.website || ""}
+				/>
+			))
+		}
+	</ul>
 </AppLayout>

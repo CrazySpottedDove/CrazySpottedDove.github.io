@@ -1,27 +1,52 @@
 [
-  {
-    "name": "cojocaru-david",
-    "stars": 33,
-    "url": "https://github.com/cojocaru-david/cojocarudavid.me",
-    "description": "Blazing fast personal website built with Astro.js and styled with Tailwind CSS.",
-    "languages": [
-      "Astro",
-      "TypeScript",
-      "JavaScript",
-      "CSS"
-    ],
-    "role": "author"
-  },
-  {
-    "name": "david-dark-code",
-    "stars": 12,
-    "url": "https://github.com/cojocaru-david/david-dark-code",
-    "website": "https://marketplace.visualstudio.com/items?itemName=cojocaru-david.david-dark-code",
-    "description": "David Dark is a dark theme for VS Code. It is based on the github theme and the default dark theme. It is designed to be easy on the eyes and to be used for long periods of time.",
-    "languages": [
-      "NodeJS",
-      "JSON"
-    ],
-    "role": "author"
-  }
+    {
+        "name": "zac",
+        "url": "https://github.com/CrazySpottedDove/zac",
+        "description": "一个用于代替雪灾浙大网页端的命令行高速工具，支持拉取课件、提交作业、查看成绩(包括持续查询)",
+        "languages": [
+            "Rust"
+        ],
+        "role": "author"
+    },
+    {
+        "name": "Lab-Assistance",
+        "url": "https://github.com/CrazySpottedDove/Lab-Assistance",
+        "website": "https://github.com/CrazySpottedDove/Lab-Assistance/deployments/github-pages",
+        "description": "一个桌面应用，可以在考虑有效数字的同时进行数据处理，计算不确定度，并支持导出 LaTeX 图表代码",
+        "languages": [
+            "JavaScript",
+            "Vue",
+            "TeX",
+            "CSS"
+        ],
+        "role": "author"
+    },
+    {
+        "name": "ZJU-G.P.A.",
+        "url": "https://github.com/CrazySpottedDove/ZJU-G.P.A.",
+        "description": "精美(大概)的普通物理Ⅰ(H) 课程笔记，且包括定理证明、习题解答",
+        "languages": [
+            "TeX"
+        ],
+        "role": "maintainer"
+    },
+    {
+        "name":"wsl2ImageTransfer",
+        "url":"https://github.com/CrazySpottedDove/wsl2ImageTransfer",
+        "description":"一个用于快速在 tex 文档中插入截图的 vscode 插件，windows/wsl2 可用",
+        "languages":[
+            "JavaScript"
+        ],
+        "role":"author"
+    },
+    {
+        "name": "PhysicsLabReportTemplate_LaTeX",
+        "url": "https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX",
+        "description": "普通物理实验Ⅱ的混合实验报告 LaTeX 模板",
+        "languages": [
+            "TeX"
+        ],
+        "role": "author"
+    }
+
 ]
