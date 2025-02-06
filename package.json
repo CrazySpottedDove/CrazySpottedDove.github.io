@@ -1,6 +1,5 @@
 {
   "name": "CrazySpottedDove.github.io",
-  "packageManager": "npm@11.1.0",
   "version": "1.0.1",
   "scripts": {
     "dev": "astro dev",
