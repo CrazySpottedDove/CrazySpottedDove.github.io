@@ -51,7 +51,7 @@ const description = "这里写的东西基本都是自己看的。不过或许�
 					[...categories].map((cat) => (
 						<li>
 							<a
-								class="underline text-blue-600"
+								class="text-blue-500"
 								href={`#${cat}`}
 							>
 								{cat}
@@ -69,7 +69,7 @@ const description = "这里写的东西基本都是自己看的。不过或许�
 					<section class="mb-8">
 						<h2
 							class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
-							id="section-title"
+                            id={cat}
 						>
 							{cat}
 						</h2>
