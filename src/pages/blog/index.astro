@@ -30,17 +30,11 @@ const description = "这里写的东西基本都是自己看的。不过或许�
 <AppLayout
 	title={title}
 	description={description}
-    containerWidth="max-w-6xl"
+	containerWidth="max-w-6xl"
 >
-	<Header title="Blog" />
-	<p
-		class="max-w-prose mb-10 font-normal dark:text-zinc-400 text-zinc-600 leading-relaxed"
-	>
-		{description}
-	</p>
 	<div class="flex gap-8">
 		<!-- 左侧：分类菜单 -->
-		<aside class="w-48 flex-shrink-0">
+		<aside class="w-48 flex-shrink-0 fixed top-50">
 			<h2
 				class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
 				id="section-title"
@@ -64,13 +58,19 @@ const description = "这里写的东西基本都是自己看的。不过或许�
 		</aside>
 
 		<!-- 右侧：根据分类分组展示博文 -->
-		<main class="flex-1">
+		<main class="flex-1 ml-60">
+			<Header title="Blog" />
+			<p
+				class="max-w-prose mb-10 font-normal dark:text-zinc-400 text-zinc-600 leading-relaxed"
+			>
+				{description}
+			</p>
 			{
 				[...categories].map((cat) => (
 					<section class="mb-8">
 						<h2
 							class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
-                            id={cat}
+							id={cat}
 						>
 							{cat}
 						</h2>
