@@ -62,7 +62,7 @@ docker build -t example --network host .
 
 ### 常用命令
 
-```Dockerfile
+```dockerfile
 # FROM：指定基础镜像
 FROM ubuntu:20.04
 

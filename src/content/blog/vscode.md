@@ -108,9 +108,7 @@ VSCODE_INJECTION=1
 
 然后，我把现有的 vscode 实例关闭，再次尝试在 wsl 终端中使用同样的命令。步豪！它又跑不动了。
 
-## 选择正确的 VSCODE_IPC_HOOK_CLI 和保持一个 vscode 实例
-
-### bash 脚本：选择正确的 VSCODE_IPC_HOOK_CLI
+## 选择正确的 VSCODE_IPC_HOOK_CLI
 
 注意到
 
@@ -196,7 +194,7 @@ sudo ln -s /path/to/quickcode.sh /usr/local/bin/code
 
 来改变`code`命令的行为：现在，它将改为执行这个脚本！
 
-### ahk 脚本：保证有可用的 vscode 实例
+## 保证有可用的 vscode 实例
 
 老实说，上面的 shell 脚本并没有处理没有可用的 vscode 实例的情况。这就要求我们保证后台总有一个 vscode 实例提供快速启动的入口。而这一任务，可以用`.ahk`脚本完成。
 

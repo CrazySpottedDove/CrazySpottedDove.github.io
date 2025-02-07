@@ -6,24 +6,26 @@ import "@fontsource-variable/inter";
 import "@styles/global.css";
 
 interface Props {
-  title?: string;
-  description?: string;
-  ogImage?: {
-    src: string;
-    alt: string;
-  };
-  pubDate?: Date;
-  tags?: string[];
-  lastmod?: Date;
+	title?: string;
+	description?: string;
+	ogImage?: {
+		src: string;
+		alt: string;
+	};
+	pubDate?: Date;
+	tags?: string[];
+	lastmod?: Date;
+	containerWidth?: string;
 }
 
 const {
-  title,
-  description = defaultMeta.description,
-  ogImage = defaultMeta.ogImage,
-  pubDate,
-  tags = defaultMeta.keywords,
-  lastmod,
+	title,
+	description = defaultMeta.description,
+	ogImage = defaultMeta.ogImage,
+	pubDate,
+	tags = defaultMeta.keywords,
+	lastmod,
+	containerWidth = "max-w-4xl",
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url).href;
@@ -31,72 +33,166 @@ const date = pubDate || lastmod || new Date();
 ---
 
 <!doctype html>
-<html lang="en"
-      class="overflow-x-hidden break-words text-zinc-900 dark:text-zinc-100 dark"
+<html
+	lang="en"
+	class="overflow-x-hidden break-words text-zinc-900 dark:text-zinc-100 dark"
 >
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{title || defaultMeta.title}</title>
-    <link rel="canonical" href={canonicalURL} />
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta property="og:type" content="blog" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:site_name" content={author} />
-    <meta property="og:image:alt" content={ogImage.alt} />
-    <meta property="og:locale" content="en_US" />
-    <meta name="theme-color" content="#60A5FA" />
-    <meta name="msapplication-TileColor" content="#60A5FA">
-    <meta name="color-scheme" content="light dark" />
-    <meta name="apple-mobile-web-app-title" content={title} />
-    <meta name="application-name" content={title} />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="robots" content="follow, index" />
-    <link rel="icon" href="/src/assets/me.jpg">
-    <link rel="manifest" href="/manifest.json">
-{
-  tags && tags.map((tag) => ( <meta property="article:tag" content={tag} /> ))
-}
-    <meta name="author" content={author} />
-    <meta name="pubdate" content={pubDate || "Fri Oct 20 2023 03:00:00 GMT+0300 (Eastern European Summer Time)"} />
-    <meta name="date" content={date} />
-    <meta name="keywords" content={tags} />
-  </head>
-  <body
-    class="dark:bg-zinc-900 bg-zinc-100 antialiased selection:bg-blue-300 selection:text-zinc-900 dark:selection:bg-blue-600 dark:selection:text-white 2xl:text-lg"
-    >
-  <div style={{ background: "linear-gradient(45deg, rgba(96, 122, 250, 0) 20.79%, rgba(96, 122, 250, 0.09) 40.92%, rgba(255,255,255, 0) 70.35%)" }} class="fixed top-0 left-0 w-full h-full pointer-events-none -z-1">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width,initial-scale=1"
+		/>
+		<title>{title || defaultMeta.title}</title>
+		<link
+			rel="canonical"
+			href={canonicalURL}
+		/>
+		<meta
+			name="title"
+			content={title}
+		/>
+		<meta
+			name="description"
+			content={description}
+		/>
+		<meta
+			property="og:type"
+			content="blog"
+		/>
+		<meta
+			property="og:url"
+			content={canonicalURL}
+		/>
+		<meta
+			property="og:title"
+			content={title}
+		/>
+		<meta
+			property="og:description"
+			content={description}
+		/>
+		<meta
+			property="og:site_name"
+			content={author}
+		/>
+		<meta
+			property="og:image:alt"
+			content={ogImage.alt}
+		/>
+		<meta
+			property="og:locale"
+			content="en_US"
+		/>
+		<meta
+			name="theme-color"
+			content="#60A5FA"
+		/>
+		<meta
+			name="msapplication-TileColor"
+			content="#60A5FA"
+		/>
+		<meta
+			name="color-scheme"
+			content="light dark"
+		/>
+		<meta
+			name="apple-mobile-web-app-title"
+			content={title}
+		/>
+		<meta
+			name="application-name"
+			content={title}
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+		<meta
+			name="robots"
+			content="follow, index"
+		/>
+		<link
+			rel="icon"
+			href="/src/assets/me.jpg"
+		/>
+		<link
+			rel="manifest"
+			href="/manifest.json"
+		/>
+		{
+			tags &&
+				tags.map((tag) => (
+					<meta
+						property="article:tag"
+						content={tag}
+					/>
+				))
+		}
+		<meta
+			name="author"
+			content={author}
+		/>
+		<meta
+			name="pubdate"
+			content={pubDate ||
+				"Fri Oct 20 2023 03:00:00 GMT+0300 (Eastern European Summer Time)"}
+		/>
+		<meta
+			name="date"
+			content={date}
+		/>
+		<meta
+			name="keywords"
+			content={tags}
+		/>
+	</head>
+	<body
+		class="dark:bg-zinc-900 bg-zinc-100 antialiased selection:bg-blue-300 selection:text-zinc-900 dark:selection:bg-blue-600 dark:selection:text-white 2xl:text-lg"
+	>
+		<div
+			style={{
+				background:
+					"linear-gradient(45deg, rgba(96, 122, 250, 0) 20.79%, rgba(96, 122, 250, 0.09) 40.92%, rgba(255,255,255, 0) 70.35%)",
+			}}
+			class="fixed top-0 left-0 w-full h-full pointer-events-none -z-1"
+		>
+		</div>
+		<nav
+			class="sticky top-0 z-10 lg:backdrop-blur-lg bg-zinc-900 bg-opacity-90 lg:bg-opacity-50 py-4 px-6 lg:px-0"
+		>
+			<ul class="flex justify-center space-x-4 text-sm">
+				{
+					navigation.map((item) => (
+						<li>
+							<Link
+								{...item}
+								addClass="font-lg font-medium"
+							/>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<main
+			class=`px-6 lg:px-0 mx-auto ${containerWidth} flex flex-col min-h-screen py-6`
+			id="main-content"
+		>
+			<slot />
+		</main>
 
-  </div>
-    <nav
-      class="sticky top-0 z-10 lg:backdrop-blur-lg bg-zinc-900 bg-opacity-90 lg:bg-opacity-50 py-4 px-6 lg:px-0"
-    >
-      <ul class="flex justify-center space-x-4 text-sm">
-        {
-          navigation.map((item) => (
-            <li>
-              <Link {...item} addClass="font-lg font-medium" />
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    <main class="px-6 lg:px-0 mx-auto max-w-3xl flex flex-col min-h-screen py-6" id="main-content">
-      <slot />
-    </main>
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-1GQ8HDJ8L1"
+		></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GQ8HDJ8L1"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-1GQ8HDJ8L1");
-    </script>
-  </body>
+			gtag("config", "G-1GQ8HDJ8L1");
+		</script>
+	</body>
 </html>

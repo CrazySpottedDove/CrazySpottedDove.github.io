@@ -24,12 +24,13 @@ for (const post of allPosts) {
 }
 
 const title = "CrazySpottedDove - Blog";
-const description = "这里写的东西基本都是自己看的。不过或许意外地实用也没准？";
+const description = "这里写的东西基本都是自己看的。不过或许意外的实用也没准？";
 ---
 
 <AppLayout
 	title={title}
 	description={description}
+    containerWidth="max-w-6xl"
 >
 	<Header title="Blog" />
 	<p
@@ -51,7 +52,7 @@ const description = "这里写的东西基本都是自己看的。不过或许�
 					[...categories].map((cat) => (
 						<li>
 							<a
-								class="text-blue-500"
+								class="text-blue-500 font-bold"
 								href={`#${cat}`}
 							>
 								{cat}

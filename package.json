@@ -38,6 +38,7 @@
     "@octokit/core": "^4.2.4",
     "astro-compressor": "^0.4.1",
     "gh-pages": "^6.3.0",
+    "remark-slug": "^7.0.1",
     "tailwindcss": "^3.3.3",
     "typescript-esbuild": "^0.2.22",
     "vite-plugin-compress": "^2.1.1"
