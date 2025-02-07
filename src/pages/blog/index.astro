@@ -4,13 +4,27 @@ import BlogCard from "@components/BlogCard.astro";
 import Header from "@components/Header.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("blog")).sort(
-	(a, _) => new Date() - new Date(a.data.pubDate),
+// 1. 获取全部博客文章，并按发布时间降序排序
+const allPosts = (await getCollection("blog")).sort(
+	(a, b) =>
+		new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
 );
 
+// 2. 将文章按 category 进行分组，如果没有 category 则放到"未分类"
+const categories = new Set<string>();
+const postsByCategory: Record<string, typeof allPosts> = {};
+
+for (const post of allPosts) {
+	const cat = post.data.category ?? "作者似乎懒得分类";
+	categories.add(cat);
+	if (!postsByCategory[cat]) {
+		postsByCategory[cat] = [];
+	}
+	postsByCategory[cat].push(post);
+}
+
 const title = "CrazySpottedDove - Blog";
-const description =
-	"这里写的东西基本都是自己看的。不过或许意外地实用也没准？";
+const description = "这里写的东西基本都是自己看的。不过或许意外地实用也没准？";
 ---
 
 <AppLayout
@@ -23,17 +37,56 @@ const description =
 	>
 		{description}
 	</p>
-	<ul class="space-y-8">
-		{
-			posts.map((post) => (
-				<BlogCard
-					title={post.data.title}
-					pubDate={post.data.pubDate}
-					description={post.data.description}
-					url={`/blog/${post.slug}/`}
-					tags={post.data.tags}
-				/>
-			))
-		}
-	</ul>
+	<div class="flex gap-8">
+		<!-- 左侧：分类菜单 -->
+		<aside class="w-48 flex-shrink-0">
+			<h2
+				class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
+				id="section-title"
+			>
+				目录
+			</h2>
+			<ul class="space-y-2">
+				{
+					[...categories].map((cat) => (
+						<li>
+							<a
+								class="underline text-blue-600"
+								href={`#${cat}`}
+							>
+								{cat}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</aside>
+
+		<!-- 右侧：根据分类分组展示博文 -->
+		<main class="flex-1">
+			{
+				[...categories].map((cat) => (
+					<section class="mb-8">
+						<h2
+							class="dark:text-zinc-300 text-zinc-700 mb-4 text-2xl font-bold tracking-tight"
+							id="section-title"
+						>
+							{cat}
+						</h2>
+						<ul class="space-y-8">
+							{postsByCategory[cat].map((post) => (
+								<BlogCard
+									title={post.data.title}
+									pubDate={post.data.pubDate}
+									description={post.data.description}
+									url={`/blog/${post.slug}/`}
+									tags={post.data.tags}
+								/>
+							))}
+						</ul>
+					</section>
+				))
+			}
+		</main>
+	</div>
 </AppLayout>

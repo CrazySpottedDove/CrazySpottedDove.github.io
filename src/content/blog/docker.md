@@ -4,6 +4,7 @@ description: docker 容器技术解决了依赖地狱问题，使得项目的构
 pubDate: 2025-02-07
 updatedDate: 2025-02-07
 tags: ["docker","Dockerfile","network"]
+category: "实用技术"
 ---
 
 ## Docker 网络配置

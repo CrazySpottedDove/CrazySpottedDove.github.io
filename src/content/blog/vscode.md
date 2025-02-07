@@ -4,6 +4,7 @@ description: 在 wsl2 中，vscode 的冷启动速度较慢。我们可以通过
 pubDate: 2025-02-07
 updatedDate: 2025-02-07
 tags: ["vscode","autohotkey"]
+category: "瞎折腾"
 ---
 
 ## wsl2 里 vscode 启动咋这么慢？

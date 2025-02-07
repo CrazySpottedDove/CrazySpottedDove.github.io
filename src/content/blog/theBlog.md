@@ -4,6 +4,7 @@ description: 仅仅是记录一下如何使用这个模板而已。
 pubDate: 2025-02-06
 updatedDate: 2025-02-06
 tags: ["astro","template","blog"]
+category: "瞎折腾"
 ---
 
 ## 处理 Blog 配置文件与相关文件
