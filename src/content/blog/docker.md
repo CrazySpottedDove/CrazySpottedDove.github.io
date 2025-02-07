@@ -1,9 +1,9 @@
 ---
 title: 基本的 docker 使用方法
-description: docker 容器技术解决了依赖地狱问题。
+description: docker 容器技术解决了依赖地狱问题，使得项目的构建变得简单
 pubDate: 2025-02-07
 updatedDate: 2025-02-07
-tags: ["docker","Dockerfile"]
+tags: ["docker","Dockerfile","network"]
 ---
 
 ## Docker 网络配置
@@ -72,5 +72,12 @@ WORKDIR /app
 ENV VCPKG_ROOT=/app/vcpkg
 
 # COPY：将本地文件或目录复制到镜像中
-COPY
+COPY . /app
+
+# ARG：接受 docker build 时的变量
+# 通过 --build-arg EXAMPLE=whatever 传递
+ARG EXAMPLE
+
+# 运行一个命令
+RUN apt-get install git
 ```
