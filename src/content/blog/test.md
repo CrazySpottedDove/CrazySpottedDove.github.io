@@ -189,3 +189,51 @@ Project 的主文件为`/src/pages/projects.astro`。至于想要修改项目卡
 ## 修改个人信息
 
 在`/src/data/social.ts`中修改有关信息。
+
+## 添加工作流文件
+
+创建`/.github/workflows/deploy.yml`，内容为
+
+```yml
+name: Deploy to GitHub Pages
+
+on:
+  # 每次推送到 `main` 分支时触发这个“工作流程”
+  # 如果你使用了别的分支名，请按需将 `main` 替换成你的分支名
+  push:
+    branches: [ main ]
+  # 允许你在 GitHub 上的 Actions 标签中手动触发此“工作流程”
+  workflow_dispatch:
+
+# 允许 job 克隆 repo 并创建一个 page deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+      - name: Install, build, and upload your site
+        uses: withastro/action@v3
+        with:
+          path: . # 存储库中 Astro 项目的根位置。（可选）
+          node-version: 23.7.0 # 用于构建站点的特定 Node.js 版本，默认为 20。（可选）
+          package-manager: npm@latest # 应使用哪个 Node.js 包管理器来安装依赖项和构建站点。会根据存储库中的 lockfile 自动检测。（可选）
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+注：这是网页为 `https://<user-name>.github.io`时的情况，其余情况可能有所不同，需要对`astro.config.mjs`进行额外配置
