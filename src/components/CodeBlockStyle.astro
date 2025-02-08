@@ -1,0 +1,60 @@
+---
+
+---
+
+<style is:global>
+	/* 样式可按需调整 */
+	.code-container {
+		position: relative;
+	}
+	.copy-button {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		background: rgba(0, 0, 0, 0.6);
+		color: white;
+		border: none;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.75rem;
+		border-radius: 0.25rem;
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.3s;
+	}
+	.code-container:hover .copy-button {
+		opacity: 1;
+	}
+	pre,
+	code {
+		white-space: pre-wrap;
+		word-break: break-all;
+	}
+</style>
+
+<script is:inline>
+	document.addEventListener("DOMContentLoaded", () => {
+		document.querySelectorAll("pre").forEach((pre) => {
+			// 确保 pre 包裹在自定义容器中
+			if (!pre.parentElement.classList.contains("code-container")) {
+				const wrapper = document.createElement("div");
+				wrapper.className = "code-container";
+				pre.parentNode.insertBefore(wrapper, pre);
+				wrapper.appendChild(pre);
+			}
+			// 如果该 pre 还没有复制按钮，创建一个
+			if (!pre.parentElement.querySelector(".copy-button")) {
+				const button = document.createElement("button");
+				button.className = "copy-button";
+				button.textContent = "Copy";
+				button.addEventListener("click", () => {
+					const codeText = pre.innerText;
+					navigator.clipboard.writeText(codeText).then(() => {
+						button.textContent = "Copied!";
+						setTimeout(() => (button.textContent = "Copy"), 2000);
+					});
+				});
+				pre.parentElement.appendChild(button);
+			}
+		});
+	});
+</script>

@@ -11,7 +11,7 @@ interface Project {
 	role: "author" | "contributor" | "maintainer";
 	url: string;
 	languages: string[];
-	website?: string;
+	website: boolean;
 }
 
 const openSourceContributions = data as Project[];
@@ -71,7 +71,7 @@ const moreover =
 					role={project.role}
 					url={project.url}
 					languages={project.languages}
-					website={project.website || ""}
+					website={project.website}
 				/>
 			))
 		}

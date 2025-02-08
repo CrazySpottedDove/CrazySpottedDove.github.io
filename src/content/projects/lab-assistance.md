@@ -92,9 +92,7 @@ lab-assistance.sty
 
 即可愉快地使用 Lab-Assistance 的命令了。
 
-### 其它
-
-浙江大学-普物实验采用了电子实验报告的形式，作者提供了一个 [LaTeX 模板](https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX "LaTeX 模板仓库")，内部也使用了 lab-assistance.sty。
+> 浙江大学-普物实验采用了电子实验报告的形式，作者提供了一个 [LaTeX 模板](https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX "LaTeX 模板仓库")，内部也使用了 lab-assistance.sty。
 
 ## 安装与更新
 

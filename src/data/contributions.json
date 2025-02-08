@@ -2,6 +2,7 @@
     {
         "name": "zac",
         "url": "https://github.com/CrazySpottedDove/zac",
+        "website":true,
         "description": "一个用于代替雪灾浙大网页端的命令行高速工具，支持拉取课件、提交作业、查看成绩(包括持续查询)",
         "languages": [
             "Rust"
@@ -11,7 +12,7 @@
     {
         "name": "Lab-Assistance",
         "url": "https://github.com/CrazySpottedDove/Lab-Assistance",
-        "website": "https://crazyspotteddove.github.io/projects/lab-assistance",
+        "website": true,
         "description": "一个桌面应用，可以在考虑有效数字的同时进行数据处理，计算不确定度，并支持导出 LaTeX 图表代码",
         "languages": [
             "JavaScript",
@@ -24,6 +25,7 @@
     {
         "name": "ZJU-G.P.A.",
         "url": "https://github.com/CrazySpottedDove/ZJU-G.P.A.",
+        "website":false,
         "description": "精美(大概)的普通物理Ⅰ(H) 课程笔记，且包括定理证明、习题解答",
         "languages": [
             "TeX"
@@ -33,6 +35,7 @@
     {
         "name":"wsl2ImageTransfer",
         "url":"https://github.com/CrazySpottedDove/wsl2ImageTransfer",
+        "website":false,
         "description":"一个用于快速在 tex 文档中插入截图的 vscode 插件，windows/wsl2 可用",
         "languages":[
             "JavaScript"
@@ -42,6 +45,7 @@
     {
         "name": "PhysicsLabReportTemplate_LaTeX",
         "url": "https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX",
+        "website":false,
         "description": "普通物理实验Ⅱ的混合实验报告 LaTeX 模板",
         "languages": [
             "TeX"
