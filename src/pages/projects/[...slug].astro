@@ -1,0 +1,29 @@
+---
+import ProjectLayout from "@layouts/ProjectLayout.astro";
+import { CollectionEntry, getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("projects");
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<"projects">;
+
+const post = Astro.props;
+const frontmatter = post.data;
+const { Content, headings } = await post.render();
+---
+
+<ProjectLayout
+	title={frontmatter.title}
+	pubDate={frontmatter.pubDate}
+	description={frontmatter.description}
+	url={post.slug}
+	updatedDate={frontmatter.updatedDate}
+	tags={frontmatter.tags}
+	headings={headings}
+>
+	<Content />
+</ProjectLayout>

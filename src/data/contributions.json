@@ -11,7 +11,7 @@
     {
         "name": "Lab-Assistance",
         "url": "https://github.com/CrazySpottedDove/Lab-Assistance",
-        "website": "https://crazyspotteddove.github.io/Lab-Assistance/",
+        "website": "https://crazyspotteddove.github.io/projects/lab-assistance",
         "description": "一个桌面应用，可以在考虑有效数字的同时进行数据处理，计算不确定度，并支持导出 LaTeX 图表代码",
         "languages": [
             "JavaScript",
