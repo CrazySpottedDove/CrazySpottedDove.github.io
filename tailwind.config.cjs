@@ -1,43 +1,71 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,astro}"],
-  darkMode: "class",
-  
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
-      },
-      typography: (theme) => ({
-        DEFAULT: {
-          css: {
-            "code::before": {
-              content: '""',
+    content: ["./src/**/*.{js,ts,jsx,tsx,astro}"],
+    darkMode: "class",
+
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
             },
-            "code::after": {
-              content: '""',
-            },
-            ":not(pre) > code": {
-              backgroundColor: theme("colors.neutral.200"),
-              border: "1px solid",
-              borderColor: theme("colors.zinc.300"),
-              padding: "0.250rem 0.4rem",
-              borderRadius: "0.250rem",
-              fontWeight: "400",
-            },
-          },
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        "code::before": {
+                            content: '""',
+                        },
+                        "code::after": {
+                            content: '""',
+                        },
+                        // 为 inline code 增加左右间距
+                        ":not(pre) > code": {
+                            backgroundColor: theme("colors.neutral.200"),
+                            border: "1px solid",
+                            borderColor: theme("colors.zinc.300"),
+                            padding: "0.25rem 0.4rem",
+                            borderRadius: "0.25rem",
+                            fontWeight: "400",
+                            marginLeft: "0.5rem",
+                            marginRight: "0.5rem",
+                        },
+                        // 移除 blockquote 自动添加的引号
+                        "blockquote p:first-of-type::before": {
+                            content: "none",
+                        },
+                        "blockquote p:last-of-type::after": {
+                            content: "none",
+                        },
+                        img: {
+                            margin: "2rem auto",       // 上下外边距
+                            maxWidth: "100%",           // 最大宽度为容器宽度
+                            borderRadius: "0.5rem",     // 圆角
+                        },
+                    },
+                },
+                invert: {
+                    css: {
+                        ":not(pre) > code": {
+                            backgroundColor: theme("colors.neutral.800"),
+                            borderColor: theme("colors.zinc.700"),
+                            marginLeft: "0.5rem",
+                            marginRight: "0.5rem",
+                        },
+                        "blockquote p:first-of-type::before": {
+                            content: "none",
+                        },
+                        "blockquote p:last-of-type::after": {
+                            content: "none",
+                        },
+                        img: {
+                            margin: "2rem auto",       // 上下外边距
+                            maxWidth: "100%",           // 最大宽度为容器宽度
+                            borderRadius: "0.5rem",     // 圆角
+                        },
+                    },
+                },
+            }),
         },
-        invert: {
-          css: {
-            ":not(pre) > code": {
-              backgroundColor: theme("colors.neutral.800"),
-              borderColor: theme("colors.zinc.700"),
-            },
-          },
-        },
-      }),
     },
-  },
-  plugins: [require("@tailwindcss/typography")],
+    plugins: [require("@tailwindcss/typography")],
 };
