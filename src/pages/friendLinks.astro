@@ -4,7 +4,7 @@ import FriendCard from "@components/FriendCard.astro";
 import Header from "@components/Header.astro";
 import friendlinks from "@data/friendlinks.json";
 // 使用 globEager 批量导入所有友链图片
-const images = import.meta.glob("../../assets/friendlinks/*.{png,jpg,jpeg,webp}", { eager: true });
+const images = import.meta.glob("/assets/friendlinks/*.{png,jpg,jpeg,webp}", { eager: true });
 
 // 根据 JSON 中存储的路径，映射对应的 imageMetadata 对象
 function getImage(imagePath: string) {
