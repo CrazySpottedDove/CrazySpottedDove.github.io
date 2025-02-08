@@ -4,5 +4,11 @@
         "url":"https://mem.ac",
         "description":"在海月的虚空中，纵身飞过秋凉的时鸟。",
         "image":"/assets/friends/mem.png"
+    },
+    {
+        "name":"lane",
+        "url":"https://lane-home.top",
+        "description":"love 篮球和 rap",
+        "image":"/assets/friends/lane.jpg"
     }
 ]
