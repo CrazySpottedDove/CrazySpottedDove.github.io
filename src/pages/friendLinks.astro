@@ -1,0 +1,41 @@
+---
+import AppLayout from "@layouts/AppLayout.astro";
+import FriendCard from "@components/FriendCard.astro";
+import Header from "@components/Header.astro";
+import friendlinks from "@data/friendlinks.json";
+// 使用 globEager 批量导入所有友链图片
+const images = import.meta.glob("../../assets/friendlinks/*.{png,jpg,jpeg,webp}", { eager: true });
+
+// 根据 JSON 中存储的路径，映射对应的 imageMetadata 对象
+function getImage(imagePath: string) {
+  // 假设在 JSON 中 imagePath 为类似 "/assets/friendlinks/xxx.png"
+  // 此时 globEager 导入后的 key 可能为 ../assets/friendlinks/xxx.png 或类似路径，视构建配置而定
+  const entry = Object.entries(images).find(([key]) => key.includes(imagePath));
+  return entry ? entry[1].default : imagePath;
+}
+
+const friendlinksWithImage = friendlinks.map(friendlink => ({
+  ...friendlink,
+  image: getImage(friendlink.image)
+}));
+---
+
+<AppLayout
+	title="CrazySpottedDove - Friend Links"
+	tags={["friend links", "blog", "CrazySpottedDove"]}
+	description="这里是友链~"
+>
+    <Header title="Friend Links!"></Header>
+	<ul class="grid grid-cols-1 gap-8">
+		{
+			friendlinksWithImage.map((friendlink) => (
+				<FriendCard
+					name={friendlink.name}
+					description={friendlink.description}
+					url={friendlink.url}
+					image={friendlink.image}
+				/>
+			))
+		}
+	</ul>
+</AppLayout>

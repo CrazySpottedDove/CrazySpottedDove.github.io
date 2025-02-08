@@ -41,7 +41,7 @@ const websiteRoute = `/projects/${name
 		<div class="flex gap-2">
 			<a
 				href={url}
-				target="_blank"
+                target="_blank"
 				rel="noopener noreferrer"
 				aria-label={`Open ${name} repository in a new tab`}
 			>
@@ -54,9 +54,6 @@ const websiteRoute = `/projects/${name
 				website && (
 					<a
 						href={websiteRoute}
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label={`Open ${name} website in a new tab`}
 					>
 						<Icon
 							name="mdi:web"
