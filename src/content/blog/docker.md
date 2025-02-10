@@ -1,11 +1,13 @@
 ---
-title: 基本的 docker 使用方法
+title: docker 使用方法-基础篇
 description: docker 容器技术解决了依赖地狱问题，使得项目的构建变得简单
 pubDate: 2025-02-07
 updatedDate: 2025-02-07
 tags: ["docker","Dockerfile","network"]
 category: "实用技术"
 ---
+> Reference: [https://docker-curriculum.com/](https://docker-curriculum.com/)
+
 ## 基本概念
 
 * image <=> 镜像：一个模板，包含了运行某个应用程序所需的一切，比如代码、运行时环境、库和配置等。
@@ -82,7 +84,8 @@ a7ce83fb76c1   busybox                  "echo 'hello from bu…"   About a minut
 想要让容器不止执行一个命令？一个可能的想法是进入容器，然后在里面执行一些命令。这时，我们可以用
 
 ```bash
-docekr run -it busybox
+docekr run -it busybox sh
+# 在镜像名后面指定需要使用的交互工具，常见的选择为 bash，此处为 sh
 ```
 
 这时，你大概率会发现你的终端提示符不太一样了，这表明你进入了容器内部。一个通用的检查方法是：`ls`一下吧
@@ -287,6 +290,13 @@ git clone https://github.com/prakhar1989/docker-curriculum.git
 cd docker-curriculum/flask-app
 ```
 
+因为 python 包的一些破坏性更新，这个项目不能直接使用，我们修改`flask-app`中的`requirement.txt`:
+
+```txt
+Flask==2.1.3
+Werkzeug==2.3.7
+```
+
 在项目目录下，我们可以看见一个 Dockerfile 文件。它的内容如下：
 
 ```dockerfile
@@ -325,7 +335,7 @@ CMD ["python", "./app.py"]
 # docker build 接受一个参数，用于指明包含 Dockerfile 的目录
 # 这里 docker build 还使用了一个 flag -t，用于为镜像赋予一个 tag
 # tag 的前缀一般建议用你的用户名
-docker build -t CrazySpottedDove/catnip .
+docker build -t crazyspotteddove0/catnip .
 # example stdout
 [+] Building 6.1s (9/9) FINISHED                                                                                                                         docker:default
 => [internal] load build definition from Dockerfile                                                                                                                0.0s
@@ -345,13 +355,13 @@ docker build -t CrazySpottedDove/catnip .
 => => naming to CrazySpottedDove/catnip                                                                                                                            0.0s
 ```
 
->由于网络问题，上面的命令可能会失败。你可以尝试按照之前在 *Docker 网络配置*中提到的方法，确认宿主机代理正常，并改用命令`docker build -t CrazySpottedDove/catnip --network host .`
+>由于网络问题，上面的命令可能会失败。你可以尝试首先确认宿主机代理正常，并改用命令`docker build -t <user_name>/catnip --network host .`，这会强制临时容器使用宿主机网络
 
 现在，我们可以在`docker images`中看到新建立的镜像了：
 
 ```bash
 REPOSITORY                TAG          IMAGE ID       CREATED         SIZE
-CrazySpottedDove/catnip   latest       e38fe3a6e779   3 minutes ago   1.01GB
+crazyspotteddove0/catnip   latest       e38fe3a6e779   3 minutes ago   1.01GB
 ```
 
 利用*使用 docker 运行静态网页*中提到的方法，验证一下镜像的可用性吧！
@@ -361,27 +371,179 @@ docker run -p 8888:5000 CrazySpottedDove/catnip --rm
 
 ```
 
-### 常用命令
+你应当可以在`localhost:8888`中看到一张随机的猫猫！
+![alt text](../../../assets/mdPaste/docker/image-1.png)
 
-```dockerfile
-# FROM：指定基础镜像
-FROM ubuntu:20.04
+## 上传自己的 docker 镜像
 
-# WORKDIR：
-WORKDIR /app
+我们已经可以制作自己的 docker 镜像并创建出可用的容器实例了。这很好，但是，如果我想要把它方便地分发出去呢？
 
-# ENV：添加环境变量
-ENV VCPKG_ROOT=/app/vcpkg
+### 登录
 
-# COPY：将本地文件或目录复制到镜像中
-COPY . /app
+如果还没有上传过自己的镜像， docker 会要求你先登录。建议使用的信息和 Docker Hub 账户相同。
 
-# ARG：接受 docker build 时的变量
-# 通过 --build-arg EXAMPLE=whatever 传递
-ARG EXAMPLE
-
-# 运行一个命令
-RUN apt-get install git
+```bash
+docker login
 ```
 
-> Reference: [https://docker-curriculum.com/](https://docker-curriculum.com/)
+### 发布镜像
+
+```bash
+# 通过 docker push 发布镜像
+docker push user_name/image_name
+# for example
+docker push crazyspotteddove0/catnip
+```
+
+成功上传后，你应当能在 Docker Hub 账号中找到属于自己的镜像了：
+![alt text](../../../assets/mdPaste/docker/image-2.png)
+
+现在，任何拥有 docker 的人想要使用这个应用，都可以直接使用
+
+```bash
+# for example
+docker run -p 8888:5000 crazyspotteddove0/catnip
+```
+
+## 小玩具
+
+如果你真的和我一样奇葩，日常用 wsl，wsl 还用的是 arch，而且还不愿意使用 Docker Desktop，那你可以试试这个叫 ducker 的小玩具
+
+```bash
+sudo pacman -S ducker
+```
+
+它可以帮你在命令行端做一些基本的 Docker 镜像与容器管理操作。
+![alt text](../../../assets/mdPaste/docker/image-3.png)
+
+以下使用方法摘自[官方文档](https://github.com/robertpsoane/ducker)：
+
+### Usage
+
+Ducker is comprised of a set of **pages**, each of which display specific information about and/or allow interaction with the docker containers and images on the host system.
+
+Top level **pages** can be navigated to with **commands**, input via the **prompt**.  **Pages** can be interacted with using **actions**; these are input via hotkey inputs.
+
+A legend for common global hotkey inputs is displayed at the bottom of the screen; one for contextual (eg different on each page) hotkey inputs are displayed in the top right.
+
+#### Commands
+
+The following commands are supported:
+
+| Command      | Aliases     | Description                          |
+| ------------ | ----------- | ------------------------------------ |
+| `images`     | `image`     | Open the `Images` top level page     |
+| `containers` | `container` | Open the `Containers` top level page |
+| `volumes`    | `volume`    | Open the `Volumes` top level page    |
+| `networks`   | `network`   | Open the `Networks` top level page   |
+| `quit`       | `q`         | Close the application                |
+
+#### Actions
+
+##### Global
+
+The following global actions are available on all pages:
+
+| Hotkey  | Action                                    |
+| ------- | ----------------------------------------- |
+| `k`/`↑` | Navigate up in a list/table               |
+| `j`/`↓` | Navigate down in a list/table             |
+| `Q`/`q` | Close the application                     |
+| `:`     | Open the command prompt                   |
+| `G`     | Navigate to the bottom of a list or table |
+| `g`     | Navigate to the top of a list or table    |
+
+##### Containers
+
+The following actions are available on the Containers page:
+
+| Hotkey   | Action                                                                |
+| -------- | --------------------------------------------------------------------- |
+| `Ctrl+d` | Delete the currently selected container                               |
+| `a`      | Exec into the currently selected container (if container is running)* |
+| `l`      | View the logs for the currently selected container                    |
+| `r`      | Run the currently selected container                                  |
+| `s`      | Stop the currently selected container                                 |
+
+***NB**: exec currently only supports containers with bash installed.  The intention is that this will be updated to provide a user option.
+
+##### Images
+
+The following actions are available on the Images page:
+
+| Hotkey   | Action                                                         |
+| -------- | -------------------------------------------------------------- |
+| `Ctrl+d` | Delete the currently selected image                            |
+| `d`      | Describe the currently selected image                          |
+| `D`      | Toggle whether or not to show dangling images (off by default) |
+
+##### Volumes
+
+The following actions are available on the Volumes page:
+
+| Hotkey   | Action                                 |
+| -------- | -------------------------------------- |
+| `Ctrl+d` | Delete the currently selected volume   |
+| `d`      | Describe the currently selected volume |
+
+##### Networks
+
+The following actions are available on the Networks page:
+
+| Hotkey   | Action                                  |
+| -------- | --------------------------------------- |
+| `Ctrl+d` | Delete the currently selected network   |
+| `d`      | Describe the currently selected network |
+
+> :warning: **Network deletion isn't entirely complete**: A failed deletion currently results in a yes/no modal telling you that it couldn't be deleted.  There is no difference between the yes and no results.  This is due to the current modal story and a quick and dirty hack to get them set up.  Once a generic modal exists this will be patched up!
+
+##### Logs
+
+The following actions are available on the Logs page:
+
+| Hotkey | Action                        |
+| ------ | ----------------------------- |
+| `Esc`  | Return to the containers page |
+
+### Configuration
+
+Ducker is configured via a yaml file found in the relevant config directory for host platform.  On linux this is `~/.config/ducker/config.yaml`.
+
+The following table summarises the available config values:
+
+| Key              | Default                       | Description                                                                                                                   |
+| ---------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| prompt           | 🦆                             | The default prompt to display in the command pane                                                                             |
+| default_exec     | `/bin/bash`                   | The default prompt to display in the command pane. NB - currently uses this for all exec's; it is planned to offer a choice   |
+| docker_path      | `unix:///var/run/docker.sock` | The location of the socket on which the docker daemon is exposed (defaults to `npipe:////./pipe/docker_engine` on windows)    |
+| check_for_update | `true`                        | When true, checks whether there is a newer version on load.  If a newer version is found, indicates via note in bottom right. |
+| theme            | [See below]                   | The colour theme configuration                                                                                                |
+
+If a value is unset or if the config file is unfound, Ducker will use the default values.  If a value is malformed, Ducker will fail to run.
+
+To create a fully populated default config, run ducker with the `-e/--export-default-config` flag; this will write the default config to the default location, overwriting any existing config.
+
+#### Themes
+
+By default, ducker uses the terminal emulator's preset colours.  However, it is possible to set a custom colour theme in config.  This is set in the `theme` section of the config file.  The following table describes the theme options.  The default theme provides the colours provided in the GIF in this README.
+
+| Key                | Default   | Description                                                                                          |
+| ------------------ | --------- | ---------------------------------------------------------------------------------------------------- |
+| use_theme          | `false`   | When `true` uses the colour scheme defined in config, when `false` uses the default terminal colours |
+| title              | `#96E072` | The colour used for the Ducker font in the header                                                    |
+| help               | `#EE5D43` | The colour used in the help prompts in the header                                                    |
+| background         | `#23262E` | The colour used in the background                                                                    |
+| footer             | `#00E8C6` | The colour used for the text in the footer                                                           |
+| success            | `#96E072` | The colour used for a successful result                                                              |
+| error              | `#EE5D43` | The colour used for an error result                                                                  |
+| positive_highlight | `#96E072` | The colour used for highlighting in a happy state                                                    |
+| negative_highlight | `#FF00AA` | The colour used for highlighting in a sad state                                                      |
+
+#### Tmux
+
+Some characters in ducker use italics/boldface.  This doesn't work by default when running in tmux.  To fix this, add the following to your add to tmux.conf
+
+```bash
+set -g default-terminal "tmux-256color"
+set -as terminal-overrides ',xterm*:sitm=\E[3m'
+```

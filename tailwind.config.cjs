@@ -8,10 +8,12 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
+                mono: ["Fira Code", ...defaultTheme.fontFamily.mono], // 添加 FiraCode
             },
             typography: (theme) => ({
                 DEFAULT: {
                     css: {
+                        fontFamily: theme("fontFamily.mono"), // 设置所有文本使用 Fira Code
                         "code::before": {
                             content: '""',
                         },
@@ -45,6 +47,7 @@ module.exports = {
                 },
                 invert: {
                     css: {
+                        fontFamily: theme("fontFamily.mono"), // 设置所有文本使用 Fira Code
                         ":not(pre) > code": {
                             backgroundColor: theme("colors.neutral.800"),
                             borderColor: theme("colors.zinc.700"),

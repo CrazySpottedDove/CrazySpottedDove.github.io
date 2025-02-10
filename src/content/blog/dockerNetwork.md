@@ -216,14 +216,11 @@ alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 #!/bin/bash
 # docker-ipconfig.sh
 ip=$(ip addr show eth3 | awk '/inet / {print $2}' | cut -d/ -f1)
-echo '{
-  "proxies": {
-    "default": {
-      "httpProxy": "http://'"$ip"':10809",
-      "httpsProxy": "http://'"$ip"':10809"
-    }
-  }
-}' >~/.docker/config.json
+
+jq --arg ip "$ip" '
+  .proxies.default.httpProxy = "http://\($ip):10809" |
+  .proxies.default.httpsProxy = "http://\($ip):10809"
+' ~/.docker/config.json > /tmp/config.json && mv /tmp/config.json ~/.docker/config.json
 ```
 
 然后，我们为它赋予可执行权限，然后扔到环境变量吧~
