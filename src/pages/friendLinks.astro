@@ -3,6 +3,7 @@ import AppLayout from "@layouts/AppLayout.astro";
 import FriendCard from "@components/FriendCard.astro";
 import Header from "@components/Header.astro";
 import friendlinks from "@data/friendlinks.json";
+import Discussion from "@components/discussion.astro";
 // 使用 globEager 批量导入所有友链图片
 const images = import.meta.glob("../../assets/friends/*.{png,jpg,jpeg,webp}", { eager: true });
 console.log(images);
@@ -38,4 +39,5 @@ const friendlinksWithImage = friendlinks.map(friendlink => ({
 			))
 		}
 	</ul>
+    <Discussion />
 </AppLayout>

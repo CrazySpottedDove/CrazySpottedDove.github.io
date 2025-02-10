@@ -4,7 +4,7 @@ import Pagination from "@components/Pagination.astro";
 import { Image } from "astro:assets";
 import authorImage from "../assets/me.jpg";
 import { author, tag } from "@data/socials";
-
+import Discussion from "@components/discussion.astro";
 interface Props {
 	title: string;
 	description: string;
@@ -50,6 +50,8 @@ const fullPubDate = pubDate.toLocaleDateString("en", {
 	tags={tags}
 	containerWidth="max-w-8xl"
 >
+
+
 	<div class="flex gap-8">
 		<!-- 左侧：根据二级标题生成目录 -->
 		<aside class="w-60 flex-shrink-0 fixed top-16 ml-20">
@@ -117,6 +119,8 @@ const fullPubDate = pubDate.toLocaleDateString("en", {
 			>
 				<slot />
 			</article>
+			<Pagination />
+			<Discussion />
 		</main>
 		<aside class="w-60 flex-shrink-0 fixed top-16 right-0 right-menu mr-10">
 			<h2
@@ -132,7 +136,7 @@ const fullPubDate = pubDate.toLocaleDateString("en", {
 			</ul>
 		</aside>
 	</div>
-	<Pagination />
+
 	<script is:inline>
 		document.addEventListener("DOMContentLoaded", () => {
 			// 选取所有 h2、h3 元素（确保 Markdown 渲染时为 <h2>、<h3> 且有 id 属性）
@@ -227,3 +231,4 @@ const fullPubDate = pubDate.toLocaleDateString("en", {
 		});
 	</script>
 </AppLayout>
+

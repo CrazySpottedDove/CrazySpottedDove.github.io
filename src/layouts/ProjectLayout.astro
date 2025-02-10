@@ -1,6 +1,6 @@
 ---
 import AppLayout from "@layouts/AppLayout.astro";
-
+import Discussion from "@components/discussion.astro";
 interface Props {
 	title: string;
 	description: string;
@@ -77,6 +77,7 @@ const ogImage = {
 			>
 				<slot />
 			</article>
+			<Discussion />
 		</main>
 	</div>
 	<aside class="w-60 flex-shrink-0 fixed top-16 right-0 right-menu mr-10">
