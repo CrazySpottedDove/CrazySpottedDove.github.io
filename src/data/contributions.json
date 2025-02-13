@@ -23,9 +23,9 @@
         "role": "author"
     },
     {
-        "name": "ZJU-G.P.A.",
+        "name": "ZJU-GPA",
         "url": "https://github.com/CrazySpottedDove/ZJU-G.P.A.",
-        "website":false,
+        "website":true,
         "description": "精美(大概)的普通物理Ⅰ(H) 课程笔记，且包括定理证明、习题解答",
         "languages": [
             "TeX"
