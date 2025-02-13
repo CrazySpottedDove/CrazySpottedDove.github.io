@@ -3,7 +3,7 @@ title: docker 使用方法-基础篇
 description: docker 容器技术解决了依赖地狱问题，使得项目的构建变得简单
 pubDate: 2025-02-07
 updatedDate: 2025-02-07
-tags: ["docker","Dockerfile","network"]
+tags: ["docker","Dockerfile","docker build","docker image","docker run"]
 category: "实用技术"
 ---
 > Reference: [https://docker-curriculum.com/](https://docker-curriculum.com/)

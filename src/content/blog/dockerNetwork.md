@@ -231,3 +231,59 @@ sudo ln -s /path/to/docker-ipconfig.sh /usr/local/bin/docker-ipconfig
 ```
 
 如此，在需要为 docker 容器配置网络的时候，只要运行一下`docker-ipconfig`，就可以保证容器接受正确的网络代理服务啦 ٩(๑˃̵ᴗ˂̵๑)۶
+
+## 在 build 时使用 ssh 私钥
+
+> Reference:[https://www.lixueduan.com/posts/docker/11-use-ssh-private-key-in-docker-build/#3--ssh-mount-type](https://www.lixueduan.com/posts/docker/11-use-ssh-private-key-in-docker-build/#3--ssh-mount-type)
+在 build 阶段使用 ssh 私钥的需求可以很好地通过 BuildKit 的 SSH mount type 解决。
+
+由于使用 arch 系统，在启用 buildx 方面较为方便，我们只要运行
+
+```bash
+sudo pacman -S docker-buildx
+```
+
+之后，`docker build`命令会默认使用`buildx`。
+
+### 通过 mount 传入 ssh key
+
+常见的 ssh key 位置为`~/.ssh/id_rsa`，下面以此为例。如果想要把这个 ssh 传入`docker build`过程，可以使用
+
+```bash
+docker build --ssh default=~/.ssh/id_rsa .
+```
+
+如果你需要传入多个私钥，比如说，`~/.ssh/github_ssh_id_rsa`和`~/.ssh/gitlab_ssh_id_rsa`，就可以使用
+
+```bash
+docker build --ssh github_ssh_key=~/.ssh/github_ssh_id_rsa --ssh gitlab_ssh_key=~/.ssh/gitlab_ssh_id_rsa .
+```
+
+### 处理 ssh key
+
+我们在`Dockerfile`中需要添加一些命令来处理传入的 ssh key。主要是信任 hosts。
+
+```dockerfile
+# 传入单个 github.com 的 ssh key，依照需求，你可以修改其中的 github.com
+RUN --mount=type=ssh mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+# 传入多个 ssh key
+RUN --mount=type=ssh mkdir -p -m 0700 ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
+    ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+
+```
+
+### 使用 ssh key
+
+在任何需要使用 ssh key 的命令中，都需要加上`--mount=type=ssh`，否则命令运行时将没有权限访问对应的 ssh key。
+
+```dockerfile
+# 传入单个 github.com 的 ssh key 时
+RUN --mount=type=ssh git clone git@github.com:CrazySpottedDove/zac.git
+
+# 传入多个 ssh key 时
+# --ssh 后的参数即为 id=/path/to/id_rsa
+RUN --mount=type=ssh,id=github_ssh_key git clone git@github.com:CrazySpottedDove/zac.git
+RUN --mount=type=ssh,id=gitlab_ssh_key git clone git@gitlab.com:CrazySpottedDove/zac.git
+```
