@@ -405,6 +405,65 @@ docker push crazyspotteddove0/catnip
 docker run -p 8888:5000 crazyspotteddove0/catnip
 ```
 
+## 实例：构建项目并分发
+
+我们从一个`Dockerfile`来看构建一个 C++ 项目并分发的步骤。该项目需要使用 vcpkg, clang-18, ninja, cmake。同时，项目脚手架使用私人仓库。
+
+```dockerfile
+# 构建的第一步，指定 ubuntu:22.04 为 builder，用于编译项目
+FROM ubuntu:22.04 AS builder
+
+# 指定工作目录为 /app，指定 vcpkg 的目录为 /app/vcpkg
+WORKDIR /app
+ENV VCPKG_ROOT=/app/vcpkg
+
+# 预先下载需要的包
+RUN apt-get update -y
+RUN apt-get install -y git curl zip unzip tar pkg-config libxmu-dev libxi-dev libgl-dev libgl1-mesa-glx libglvnd-dev libxt-dev linux-libc-dev make lsb-release software-properties-common gnupg wget
+
+# 下载 vcpkg 并初始化
+RUN git clone https://github.com/microsoft/vcpkg.git ./vcpkg --depth=1 && \
+./vcpkg/bootstrap-vcpkg.sh
+
+# 利用 mount 来传递 ssh key，生成信任的 host
+RUN --mount=type=ssh mkdir -p -m 0700 ~/.ssh && ssh-keyscan ryon.ren >> ~/.ssh/known_hosts
+
+# 下载私人仓库
+RUN --mount=type=ssh git clone git@ryon.ren:GroupCommon/vcpkg-registry.git $VCPKG_ROOT/registries/ryon.ren
+RUN cp $VCPKG_ROOT/registries/ryon.ren/hack/vcpkg_from_git* $VCPKG_ROOT/scripts/cmake
+
+# 复制当前文件夹到 /app 里
+COPY . /app
+
+# 下载 llvm 工具，指定使用 clang-18
+RUN wget https://apt.llvm.org/llvm.sh -O llvm.sh \
+    && chmod +x ./llvm.sh
+RUN bash ./llvm.sh all
+ENV CC=clang-18
+ENV CXX=clang++-18
+
+# 使用 vcpkg_install 脚本下载项目依赖
+RUN --mount=type=ssh ./scripts/vcpkg_install.sh
+
+# 添加工具 cmake 和 ninja 到环境变量
+ENV PATH="$VCPKG_ROOT/downloads/tools/cmake-3.30.1-linux/cmake-3.30.1-linux-x86_64/bin:${PATH}"
+ENV PATH="$VCPKG_ROOT/downloads/tools/ninja/1.12.1-linux:${PATH}"
+
+# cmake 构建
+RUN cmake -S . -B build --preset release && \
+    cmake --build build
+
+# 构建的第二步，使用 runtime 为运行时容器
+FROM ubuntu:22.04 AS runtime
+WORKDIR /app
+# 复制构建出的二进制文件到 runtime 中
+COPY --from=builder /app/build/apps/cli/trimesh_processing_cli /usr/local/bin/trimesh_processing_cli
+# 指定运行命令
+ENTRYPOINT ["/usr/local/bin/trimesh_processing_cli"]
+```
+
+这里使用了分部构建的技巧。这样做可以最小化镜像，避免带有不必要的构建工具。
+
 ## 小玩具
 
 如果你真的和我一样奇葩，日常用 wsl，wsl 还用的是 arch，而且还不愿意使用 Docker Desktop，那你可以试试这个叫 ducker 的小玩具

@@ -235,6 +235,7 @@ sudo ln -s /path/to/docker-ipconfig.sh /usr/local/bin/docker-ipconfig
 ## 在 build 时使用 ssh 私钥
 
 > Reference:[https://www.lixueduan.com/posts/docker/11-use-ssh-private-key-in-docker-build/#3--ssh-mount-type](https://www.lixueduan.com/posts/docker/11-use-ssh-private-key-in-docker-build/#3--ssh-mount-type)
+
 在 build 阶段使用 ssh 私钥的需求可以很好地通过 BuildKit 的 SSH mount type 解决。
 
 由于使用 arch 系统，在启用 buildx 方面较为方便，我们只要运行
