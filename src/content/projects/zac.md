@@ -25,6 +25,8 @@ O(∩_∩)O~~ **zac** 可以满足以上全部需求！
 
 ### 查看作业
 
+![alt text](../../../assets/mdPaste/zac/image-4.png)
+
 ### 提交作业
 
 ### 查看成绩

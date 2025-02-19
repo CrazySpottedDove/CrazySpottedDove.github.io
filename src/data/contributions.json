@@ -1,5 +1,15 @@
 [
     {
+        "name":"fiz",
+        "url":"https://github.com/CrazySpottedDove/fiz",
+        "website":true,
+        "description":"高速简洁的学在浙大第三方",
+        "languages":[
+            "tauri","Rust","Vue","CSS","JavaScript","Html"
+        ],
+        "role":"author"
+    },
+    {
         "name": "zac",
         "url": "https://github.com/CrazySpottedDove/zac",
         "website":true,
@@ -18,7 +28,8 @@
             "JavaScript",
             "Vue",
             "TeX",
-            "CSS"
+            "CSS",
+            "Html"
         ],
         "role": "author"
     },
