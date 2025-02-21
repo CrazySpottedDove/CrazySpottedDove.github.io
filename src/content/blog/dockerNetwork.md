@@ -208,6 +208,8 @@ set-cookie: NID=521=Q6rL41dRxH8BfuiC53__X1a6eoZPAPxR1SQ0C21A7R2rv9YDtQ92bQDXHvmA
 alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 ```
 
+> 你可能发现这里的代理并不是有效的，这时你可以检查你的 v2rayN（或其它代理工具），确保它允许来自局域网的连接。只有这样，才能让代理监听除了 127.0.0.1 之外的地址。
+
 如果你把`http_proxy`,`https_proxy`全部重新设置成它，然后再用传递变量的方法使用`docker run`，你会发现，哦豁，容器内可以使用代理了。
 
 然而，不幸的是，这个 IP 地址会随 wifi 改变发生改变，这将对我们的使用产生很大的不便。同时，因为用的不是 Docker Desktop，我们无法使用`host.docker.internal`来动态表示 ip 。因此，我们可以用一个自动化脚本来帮助我们修改`~/.docker/config.json`文件。
