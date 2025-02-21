@@ -3,12 +3,18 @@ import tailwind from "@astrojs/tailwind";
 import { readFileSync } from "node:fs";
 import mdx from '@astrojs/mdx';
 import compressor from "astro-compressor";
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 // https://astro.build/config
 export default defineConfig({
     site: "https://CrazySpottedDove.github.io",
     integrations: [tailwind(), compressor(), mdx()],
     image: {
         service: sharpImageService()
+    },
+    markdown: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex]
     },
     vite: {
         plugins: [rawFonts([".ttf", ".woff"])],

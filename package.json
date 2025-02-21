@@ -38,6 +38,8 @@
     "@octokit/core": "^4.2.4",
     "astro-compressor": "^0.4.1",
     "gh-pages": "^6.3.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "remark-slug": "^7.0.1",
     "tailwindcss": "^3.3.3",
     "typescript-esbuild": "^0.2.22",
