@@ -464,6 +464,47 @@ ENTRYPOINT ["/usr/local/bin/trimesh_processing_cli"]
 
 这里使用了分部构建的技巧。这样做可以最小化镜像，避免带有不必要的构建工具。
 
+然而，直接这么做显然也会引入一些问题，比如说，当构建出的二进制文件还依赖一些动态链接库的时候，仅仅复制构建出的二进制文件到`runtime`容器中是远远不够的。
+
+我们可以进入构建容器中，使用`ldd`指令来查看这个二进制文件依赖哪些动态链接库：
+
+```bash
+ldd ./trimesh_processing_cli
+# stdout
+        linux-vdso.so.1 (0x00007ffdc4960000)
+        libc++abi.so.1 => /lib/x86_64-linux-gnu/libc++abi.so.1 (0x00007f7c63400000)
+        libexodus.so.2 => /app/vcpkg_installed/x64-linux-clang/lib/libexodus.so.2 (0x00007f7c627b7000)
+        libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7c626d0000)
+        libGLX.so.0 => /lib/x86_64-linux-gnu/libGLX.so.0 (0x00007f7c6269c000)
+        libOpenGL.so.0 => /lib/x86_64-linux-gnu/libOpenGL.so.0 (0x00007f7c62670000)
+        libGL.so.1 => /lib/x86_64-linux-gnu/libGL.so.1 (0x00007f7c625e7000)
+        libSM.so.6 => /lib/x86_64-linux-gnu/libSM.so.6 (0x00007f7c625dc000)
+        libICE.so.6 => /lib/x86_64-linux-gnu/libICE.so.6 (0x00007f7c625bf000)
+        libX11.so.6 => /lib/x86_64-linux-gnu/libX11.so.6 (0x00007f7c6247f000)
+        libXext.so.6 => /lib/x86_64-linux-gnu/libXext.so.6 (0x00007f7c6246a000)
+        libc++.so.1 => /lib/x86_64-linux-gnu/libc++.so.1 (0x00007f7c62370000)
+        libunwind.so.1 => /lib/x86_64-linux-gnu/libunwind.so.1 (0x00007f7c62360000)
+        libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f7c62340000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7c62117000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007f7c63e85000)
+        libGLdispatch.so.0 => /lib/x86_64-linux-gnu/libGLdispatch.so.0 (0x00007f7c6205f000)
+        libuuid.so.1 => /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007f7c62056000)
+        libbsd.so.0 => /lib/x86_64-linux-gnu/libbsd.so.0 (0x00007f7c6203c000)
+        libxcb.so.1 => /lib/x86_64-linux-gnu/libxcb.so.1 (0x00007f7c62012000)
+        libmd.so.0 => /lib/x86_64-linux-gnu/libmd.so.0 (0x00007f7c62005000)
+        libXau.so.6 => /lib/x86_64-linux-gnu/libXau.so.6 (0x00007f7c61fff000)
+        libXdmcp.so.6 => /lib/x86_64-linux-gnu/libXdmcp.so.6 (0x00007f7c61ff7000)
+```
+
+对于其中的文件，如果是可以直接靠包管理器下载的，就直接用包管理器。如果不能，则可以直接用复制的方法转移到新的容器中
+
+```dockerfile
+# for example
+COPY --from=builder /app/vcpkg_installed/x64-linux-clang/lib/libexodus.so.2 /usr/local/lib/
+
+RUN apt-get update -y && apt-get install -y libc++abi1 libc++1 libglx-mesa0 libgl1-mesa-glx libsm6 libice6 libx11-6 libxext6 libunwind8 libopengl0
+```
+
 ## 小玩具
 
 如果你真的和我一样奇葩，日常用 wsl，wsl 还用的是 arch，而且还不愿意使用 Docker Desktop，那你可以试试这个叫 ducker 的小玩具
