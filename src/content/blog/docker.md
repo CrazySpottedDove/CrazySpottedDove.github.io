@@ -405,9 +405,11 @@ docker push crazyspotteddove0/catnip
 docker run -p 8888:5000 crazyspotteddove0/catnip
 ```
 
-## 实例：构建项目并分发
+## 实例：构建项目并使用
 
-我们从一个`Dockerfile`来看构建一个 C++ 项目并分发的步骤。该项目需要使用 vcpkg, clang-18, ninja, cmake。同时，项目脚手架使用私人仓库。
+### 构建
+
+我们从一个`Dockerfile`来看构建一个 C++ 项目的步骤。该项目需要使用 vcpkg, clang-18, ninja, cmake。同时，项目脚手架使用私人仓库。
 
 ```dockerfile
 # 构建的第一步，指定 ubuntu:22.04 为 builder，用于编译项目
@@ -426,11 +428,11 @@ RUN git clone https://github.com/microsoft/vcpkg.git ./vcpkg --depth=1 && \
 ./vcpkg/bootstrap-vcpkg.sh
 
 # 利用 mount 来传递 ssh key，生成信任的 host
-RUN --mount=type=ssh mkdir -p -m 0700 ~/.ssh && ssh-keyscan ryon.ren >> ~/.ssh/known_hosts
+RUN --mount=type=ssh mkdir -p -m 0700 ~/.ssh && ssh-keyscan ynor.ren >> ~/.ssh/known_hosts
 
 # 下载私人仓库
-RUN --mount=type=ssh git clone git@ryon.ren:GroupCommon/vcpkg-registry.git $VCPKG_ROOT/registries/ryon.ren
-RUN cp $VCPKG_ROOT/registries/ryon.ren/hack/vcpkg_from_git* $VCPKG_ROOT/scripts/cmake
+RUN --mount=type=ssh git clone git@ynor.ren:GroupCommon/vcpkg-registry.git $VCPKG_ROOT/registries/ynor.ren
+RUN cp $VCPKG_ROOT/registries/ynor.ren/hack/vcpkg_from_git* $VCPKG_ROOT/scripts/cmake
 
 # 复制当前文件夹到 /app 里
 COPY . /app
@@ -457,9 +459,9 @@ RUN cmake -S . -B build --preset release && \
 FROM ubuntu:22.04 AS runtime
 WORKDIR /app
 # 复制构建出的二进制文件到 runtime 中
-COPY --from=builder /app/build/apps/cli/trimesh_processing_cli /usr/local/bin/trimesh_processing_cli
+COPY --from=builder /app/build/apps/cli/tp_cli /usr/local/bin/tp_cli
 # 指定运行命令
-ENTRYPOINT ["/usr/local/bin/trimesh_processing_cli"]
+ENTRYPOINT ["/usr/local/bin/tp_cli"]
 ```
 
 这里使用了分部构建的技巧。这样做可以最小化镜像，避免带有不必要的构建工具。
@@ -469,7 +471,7 @@ ENTRYPOINT ["/usr/local/bin/trimesh_processing_cli"]
 我们可以进入构建容器中，使用`ldd`指令来查看这个二进制文件依赖哪些动态链接库：
 
 ```bash
-ldd ./trimesh_processing_cli
+ldd ./tp_cli
 # stdout
         linux-vdso.so.1 (0x00007ffdc4960000)
         libc++abi.so.1 => /lib/x86_64-linux-gnu/libc++abi.so.1 (0x00007f7c63400000)
@@ -504,6 +506,16 @@ COPY --from=builder /app/vcpkg_installed/x64-linux-clang/lib/libexodus.so.2 /usr
 
 RUN apt-get update -y && apt-get install -y libc++abi1 libc++1 libglx-mesa0 libgl1-mesa-glx libsm6 libice6 libx11-6 libxext6 libunwind8 libopengl0
 ```
+
+### 运行
+
+这个工具需要输入文件路径（用于读取）和输出文件路径（用于写入）。显然，直接传入的路径会被容器认为是容器内部的路径，而那里很可能实际上并没有我们提供的文件。解决的方法是，把本地的文件目录挂载上去：
+
+```bash
+docker run --rm -v $(pwd)/data:/app/data -v $(pwd)/output:/app/output tp:latest --input /app/data/somedata.txt --output /app/output/somedata.txt
+```
+
+在这个命令中，我们使用`-v`将本地的`$(pwd)/data`挂载到容器中的`/app/data`，然后在输入目录处给出容器内的路径`/app/data`，就可以做到让容器访问本地文件。这里也同理解决了容器输出到本地文件的问题。
 
 ## 小玩具
 
