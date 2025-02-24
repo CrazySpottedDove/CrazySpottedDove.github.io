@@ -103,3 +103,76 @@ category: "课程笔记"
 - 数据控制语言(DCL)：安全性相关。
 
 SQL = DDL + DML + DCL
+
+## 关系模型 Relational Model
+
+### 六大基本操作
+
+在关系代数中，有六个基本操作：
+
+- 选择 Select，把表中符合某些条件的数据找出来，形成一个新的表。
+
+> 记作 $\sigma_{p}(r)$，此处 $p$ 为筛选条件， $r$ 为表格。
+
+- 投影 Project，它是一种纵向操作，提取一张表中的某些属性形成一个新的表，并合并其中重复的行。
+
+> 记作 $\Pi_{array}(r)$，$array$ 是一个属性数组。
+
+- 并 Union，合并两张拥有相同属性名的表，并合并其中重复的行。
+- 集合差 Set Difference，在原表中去掉另一张表中已存在的行。
+- 笛卡尔积 Cartesian product，对两个拥有不同属性的表操作，返回由各自的行的全部自由组合 collect 成的新表。
+- 重命名 Rename，重命名一张表里的属性名字。
+
+所有其它操作都可以表示成这六个基本操作的组合。
+
+例如交操作，就可以表示成 $r∩s=r-(r-s)$，即用两次集合差实现。
+
+### 四大常见操作
+
+- 交 Set Intersection，提取两张表中相同的行。
+- 自然连接 Natural join，连接两张表，保留其中公共属性相等的行。
+
+> 首先对两张表做笛卡尔积，然后选择其中各对公共属性相等的行，最后用投影除去其中重复的公共属性
+>
+> theta 连接:先做笛卡尔积，然后做条件为 $\theta$ 的选择.
+
+- 除 Division，首先舍弃除数表中所有被除数表不拥有的属性，然后返回一张最大的表，使得它与作为除数的表的笛卡尔积是被除的表的子集。
+- 赋值 Assignment，把一个运算的结果赋给临时变量。
+
+### 拓展操作
+
+- 广义投影 Generalized Projection，允许把投影的属性数组替换成属性函数数组
+- 聚合操作 Aggregate Functions and Operations，实现取平均、最大值、最小值、求和、计数。
+
+### 数据库的修改
+
+无非就是增删改的操作，我们用符号来表达它们。
+
+- Deletion $A \leftarrow A-\sigma_{a=sth}(A)$
+- Insertion $A \leftarrow A ∪ {(element_1,...element_n)}$
+- Update $A \leftarrow \Pi_{f(a_1),f(a_2),...f(a_n)}$
+
+<!-- ## SQL(Structured Query Language)
+
+### DDL(Data Definition Language)
+
+```sql
+-- 创建一个表
+CREATE TABLE branch(
+    branch_name char(15) not null,
+    branch_city varchar(30),
+    assets numeric(8,2),
+    -- 设置 key
+    primary key (branch_name),
+    -- 完整性检查
+    check(assets>=0)
+)
+```
+
+```sql
+-- 完全删除一个表（包括表本身）
+DROP TABLE branch2(
+
+)
+ALTER TABLE a_table ADD an_attribute a_value
+``` -->
