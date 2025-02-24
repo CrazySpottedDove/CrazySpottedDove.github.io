@@ -152,27 +152,69 @@ SQL = DDL + DML + DCL
 - Insertion $A \leftarrow A ∪ {(element_1,...element_n)}$
 - Update $A \leftarrow \Pi_{f(a_1),f(a_2),...f(a_n)}$
 
-<!-- ## SQL(Structured Query Language)
+## 实验1 DBMS的安装和使用
 
-### DDL(Data Definition Language)
+操作系统：ArchWsl2
 
-```sql
--- 创建一个表
-CREATE TABLE branch(
-    branch_name char(15) not null,
-    branch_city varchar(30),
-    assets numeric(8,2),
-    -- 设置 key
-    primary key (branch_name),
-    -- 完整性检查
-    check(assets>=0)
-)
+DBMS：MySQL
+
+### 安装 MySQL
+
+在 archlinux 中，一般使用 MySQL 的一个分支 mariadb。
+
+```bash
+# 安装 mariadb
+sudo pacman -S mariadb
+# 初始化数据库
+sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+# 启动 mariadb 服务
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+# 进行安全配置
+sudo mysql_secure_installation
+# 初次进入交互界面
+sudo mariadb
+# 创建新的用户
+create user YourUsername identified by "YourPassword";
+# 退出
+exit
 ```
 
-```sql
--- 完全删除一个表（包括表本身）
-DROP TABLE branch2(
+如上操作完成了安装 MySQL，初始化数据库，启动 MySQL 服务，并创建新的用户的过程。之后，我们就可以使用命令
 
-)
-ALTER TABLE a_table ADD an_attribute a_value
-``` -->
+```bash
+mariadb -uYourUsername -pYourPassword
+```
+
+来进入 MySQL 交互界面了。
+
+It behaves like:
+
+```txt
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 20
+Server version: 11.7.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
++--------------------+
+1 row in set (0.008 sec)
+```
+
+### 使用 mycli 优化交互体验
+
+mariadb 看起来丑丑的，语法补全也不是很智能，我们可以运行以下命令来获得 mycli，这是一个基于 python 的 mysql 命令行客户端，支持更好的终端界面和语法补全。
+
+```bash
+# 尽管没有被列为依赖，但是如果缺少了 python-pyfzf，mycli 是有可能无法工作的
+yay -S mycli python-pyfzf
+```
+
+现在可以使用`mycli -u YourUsername -p YourPassword`来打开交互界面啦。
