@@ -1,6 +1,6 @@
 ---
 title: 数据库实验1
-description: 数据库笔记
+description: 数据库实验1
 pubDate: 2025-02-24
 updatedDate: 2025-02-24
 tags: ["database","lab"]
