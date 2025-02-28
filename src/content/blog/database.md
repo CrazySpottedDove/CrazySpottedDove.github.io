@@ -6,7 +6,6 @@ updatedDate: 2025-02-17
 tags: ["database"]
 category: "课程笔记"
 ---
-
 ## Introduction
 
 ### 测试与评分
@@ -91,11 +90,10 @@ category: "课程笔记"
 数据库的逻辑结构发生变化时，应用程序无需修改。
 
 > 这个较难实现
->
+
 ### DB 语言
 
 - 数据定义语言(DDL)：指明结构
-
 - **数据操纵语言(DML)**：增删改查。
 
 > M: Manipulation

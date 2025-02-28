@@ -105,7 +105,7 @@ yay -S mycli python-pyfzf
 
 看起来还是不错的。
 
-![alt text](../../../assets/mdPaste/database/image.png)
+![alt text](../../../assets/mdPaste/database-lab1/image-9.png)
 
 ### 起步练习
 >
