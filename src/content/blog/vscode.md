@@ -200,7 +200,7 @@ sudo ln -s /path/to/quickcode.sh /usr/local/bin/code
 
 >`autohotkey`是仅在 windows 平台有效的强大脚本工具，在自动化工作流程中很有效。你可以在官网安装`autohotkey`的 v2 版本。
 
-```ahk
+```python
 ;background_vscode.ahk
 RUN "D:\Microsoft VS Code\code.exe --remote=wsl+Arch"
 WinWait("ahk_exe Code.exe")
