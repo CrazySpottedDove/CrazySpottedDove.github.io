@@ -539,6 +539,8 @@ WHERE B.customer_name = D.customer_name
 - 不使用嵌套时， `FROM borrower B, depositor D` 引入了一次昂贵的笛卡尔积操作。
 - 使用嵌套时，先获得 `depositor` 中全部的 `customer_name`，然后再用它们过滤 `borrower` 表格。
 
+>在同一 SQL 语句内，除非外层查询的元组变量引入内层查询，否则层查询只进行一次。
+
 #### 比较
 
 我们也可以通过嵌套来进行比较
@@ -741,7 +743,7 @@ CREATE VIEW some_view (new_attr_1, new_attr_2, ... new_attr_n) AS(
 #### 删除视图
 
 ```sql
-DROP VIEW some_view
+DROP VIEW some_view;
 ```
 
 ### 派生关系 Derived Relations
@@ -758,6 +760,133 @@ FROM (
 WHERE TT.sno = S.sno and c_num > 10;
 ```
 
-### Modification of the Database
+> 不管是否被引用， `FROM` 中用表达式得到的导出表 derived table 必须给出别名。
 
+使用 `WITH` 关键字，我们可以把这个表达式单独移出去，以使结构更加清晰。
+
+```sql
+WITH TT(sno, c_num) AS
+    SELECT sno, count(cno) AS c_num
+    FROM enroll
+    GROUP BY sno
+SELECT TT.sno, sname, c_num
+FROM TT, student S
+WHERE TT.sno = S.sno and c_num > 10;
+```
+
+需要注意的是， `WITH` 生成的 `View` 是单独为了对应的 query 服务的，它并不能被全局使用。
+
+### 修改数据库 Modification of the Database
+
+#### 删除行
+
+```sql
+DELETE FROM some_table_or_view
+WHERE some_condition;
+```
+
+#### 插入行
+
+直接插入
+
+```sql
+-- 如果少写几个属性，将会插入 null
+INSERT INTO some_table_or_view(attr_1, attr_2, ..., attr_n)
+VALUES(domain_1, domain_2, ..., domain_n);
+```
+
+使用 `SELECT` 语句的结果插入
+
+```sql
+INSERT INTO account
+SELECT loan_number, branch_name, 200
+FROM loan
+WHERE branch_name = 'Perryridge';
+
+```
+
+> 在 `INSERT` 之前， `SELECT` 的结果就已经计算完毕。所以，诸如在同一个表中 `SELECT` 并插入它本身的代码是可以执行的。
+>
+#### 更新行
+
+```sql
+UPDATE some_table_or_view
+SET attr_1 = domain_1, attr_2 = domain_2, ..., attr_n = domain_n
+WHERE some_condition;
+```
+
+`CASE` 语句可以辅助 `SET` 赋值
+
+```sql
+UPDATE account
+SET balance =(
+    CASE
+        WHEN balance <= 10000 THEN balance * 1.05
+        ELSE   balance * 1.06
+    END
+);
+```
+
+> 值得注意的是， `View` 是虚表，任何对 `View` 的操作都将转化为对基表的操作。
+>
+> 因此， `View` 的更新是受到严格限制的。只有**行列视图**，即建立在单个基本表上，且列能够对应的视图，才能够更新数据。
+>
 ### Joined Relations
+
+`JOIN` 接受两个表格，然后返回一个新的表格。
+
+我们举例说明：
+
+![alt text](../../../assets/mdPaste/database/image-11.png)
+
+**Join condition** 定义了两个表格中的哪些行可以匹配。
+
+- `NATURAL` 自然连接。比较所有同名属性，且在返回的表格中消去重名属性(见 **Join type** 配图)。
+- `ON some_condition` 非自然连接。它容许不同名属性的比较，且返回的表格中不消去重名属性。
+
+```sql
+SELECT * FROM loan INNER JOIN borrower ON loan.loan_number = borrower.loan_number;
+```
+
+![alt text](../../../assets/mdPaste/database/image-12.png)
+
+- `USING (common_attr_1, common_attr_2, ..., common_attr_n)` 类似于自然连接，只是仅以它列出的公共属性作为连接条件。
+
+```sql
+SELECT * FROM loan INNER JOIN borrower USING(loan_number);
+```
+
+![alt text](../../../assets/mdPaste/database/image-13.png)
+**Join type** 定义了参与 `JOIN` 的表格中不与其它表格的任何行匹配的行会如何被处理。
+
+- `INNER JOIN` 只输出匹配成功的行
+
+```sql
+SELECT * FROM loan NATURAL INNER JOIN borrower;
+```
+
+![alt text](../../../assets/mdPaste/database/image-7.png)
+
+- `LEFT OUTER JOIN`
+
+```sql
+SELECT * FROM loan NATURAL LEFT OUTER JOIN borrower;
+```
+
+![alt text](../../../assets/mdPaste/database/image-8.png)
+
+- `RIGHT OUTER JOIN`
+
+```sql
+SELECT * FROM loan NATURAL RIGHT OUTER JOIN borrower;
+```
+
+![alt text](../../../assets/mdPaste/database/image-9.png)
+
+- `FULL OUTER JOIN`
+
+```sql
+SELECT * FROM loan NATURAL FULL OUTER JOIN borrower;
+```
+
+![alt text](../../../assets/mdPaste/database/image-10.png)

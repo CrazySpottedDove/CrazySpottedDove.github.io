@@ -28,8 +28,8 @@ module.exports = {
                             padding: "0.25rem 0.4rem",
                             borderRadius: "0.25rem",
                             fontWeight: "400",
-                            marginLeft: "0.5rem",
-                            marginRight: "0.5rem",
+                            marginLeft: "0.3rem",
+                            marginRight: "0.3rem",
                         },
                         // 移除 blockquote 自动添加的引号
                         "blockquote p:first-of-type::before": {
@@ -51,8 +51,8 @@ module.exports = {
                         ":not(pre) > code": {
                             backgroundColor: theme("colors.neutral.800"),
                             borderColor: theme("colors.zinc.700"),
-                            marginLeft: "0.5rem",
-                            marginRight: "0.5rem",
+                            marginLeft: "0.3rem",
+                            marginRight: "0.3rem",
                         },
                         "blockquote p:first-of-type::before": {
                             content: "none",
