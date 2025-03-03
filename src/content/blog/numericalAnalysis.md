@@ -44,6 +44,7 @@ category: "课程笔记"
 误差也分为绝对误差(absolute error)和相对误差(relative error)
 
 而有效数字(siginificant digits)应该是一个相对误差概念。可以注意到，对应数值的部分被移到了科学计数法中的指数部分。
+
 > 有了有效数字的概念，我们应该把数字 0.123 看成 $0.123\pm\epsilon_1$
 > 使用四舍五入的方法时，有效数字 0.1 的相对误差是 50%
 
@@ -133,7 +134,7 @@ $$
 
 #### P54-T15
 
->令 $p_n=\sum^{n}_{k=1}\frac{1}{k}$，证明 $p_n$ 是发散 diverge 的，即使 $\lim_{n\rightarrow\infty}(p_n-p_{n-1})=0$。
+>令 $p_n=\sum_{k=1}^{n}\frac{1}{k}$，证明 $p_n$ 是发散 diverge 的，即使 $\lim_{n\rightarrow\infty}(p_n-p_{n-1})=0$。
 
 这算是很经典的题目了，典型的方法有积分放缩。这里则采取证明连续多项的和拥有固定下界的方法：
 $$

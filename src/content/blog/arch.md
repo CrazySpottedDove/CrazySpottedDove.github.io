@@ -562,3 +562,25 @@ Defaults env_keep += "http_proxy https_proxy no_proxy"
 ## 网络与 docker 网络
 
 见 [wsl 原生 docker 网络配置](https://crazyspotteddove.github.io/blog/dockernetwork/)
+
+## 锁定使用旧版本软件
+
+yazi 在某一次更新后，在 `wezterm` 中使用会有明显延迟并报错。更新的版本中，预览也无法正常工作了。因此，需要锁定它的版本。
+
+首先，访问 [Arch Linux Archive](https://archive.archlinux.org/packages)。在其中找到需要的包，然后复制你需要的版本的 url。
+
+然后，在 `/etc/pacman.conf` 中，设置 `IgnorePkg`:
+
+```bash
+# for example
+IgnorePkg = yazi
+```
+
+这一步是为了防止系统更新的时候将旧版本的软件又更新了。
+
+最后，使用命令
+
+```bash
+# 最后一个参数为对应的 url
+sudo pacman -U https://archive.archlinux.org/packages/y/yazi/yazi-0.4.2-2-x86_64.pkg.tar.zst
+```
