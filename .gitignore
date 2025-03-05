@@ -22,5 +22,6 @@ pnpm-debug.log*
 # Local Netlify folder
 .netlify
 
-src/content/blog/build/
-src/content/projects/build
+src/content/mdbuild/
+src/content/blog/mdbuild/
+src/content/projects/mdbuild/
