@@ -39,8 +39,6 @@ CREATE DATABASE banking;
 USE banking;
 ```
 
-![alt text](assets/mdPaste/database-lab2/image.png)
-
 ### 数据定义
 
 #### 创建与删除表格
@@ -84,7 +82,7 @@ CREATE TABLE transactions (
 );
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-1.png)
+![alt text](mdPaste/database-lab2/image-1.png)
 
 数据表关系如下：
 
@@ -142,7 +140,7 @@ CREATE TABLE tmp(
 DROP TABLE tmp;
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-4.png)
+![alt text](mdPaste/database-lab2/image-4.png)
 
 #### 创建与删除索引
 
@@ -152,14 +150,14 @@ CREATE INDEX idx_customer_phone ON customers(phone);
 CREATE INDEX idx_transaction_time ON transactions(timestamp);
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-2.png)
+![alt text](mdPaste/database-lab2/image-2.png)
 
 ```sql
 -- 删除索引
 DROP INDEX idx_customer_phone ON customers;
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-5.png)
+![alt text](mdPaste/database-lab2/image-5.png)
 
 #### 创建与删除视图
 
@@ -171,13 +169,13 @@ FROM accounts NATURAL INNER JOIN customers
 WHERE balance > 10000;
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-3.png)
+![alt text](mdPaste/database-lab2/image-3.png)
 
 ```sql
 DROP VIEW high_balance_accounts;
 ```
 
-![alt text](assets/mdPaste/database-lab2/image-6.png)
+![alt text](mdPaste/database-lab2/image-6.png)
 
 ### 数据更新
 
@@ -209,40 +207,69 @@ INSERT INTO transactions (account_id, amount, type) VALUES
 ### 数据查询
 
 ```sql
--- 删除对象示例
-
-
 -- 单表查询
 SELECT * FROM customers
-WHERE address LIKE '%Oak%';
+WHERE address LIKE '%angzh%';
+```
 
+![alt text](../assets/mdPaste/database-lab2/image.png)
+
+```sql
 -- 多表连接查询
 SELECT c.name, a.account_id, a.balance
 FROM customers c
 JOIN accounts a ON c.customer_id = a.customer_id
 JOIN branches b ON a.branch_id = b.branch_id
 WHERE b.name = 'Main Branch';
+```
 
+![alt text](../assets/mdPaste/database-lab2/image-1.png)
+
+```sql
 -- 嵌套子查询
-SELECT name FROM customers
+SELECT * FROM customers
 WHERE customer_id IN (
     SELECT customer_id
     FROM accounts
-    GROUP BY customer_id
-    HAVING COUNT(*) > 2
+    WHERE balance >= 1000
 );
+```
+
+![alt text](../assets/mdPaste/database-lab2/image-2.png)
+
+### 视图操作
+
+为了能够继续，先创建一个新的视图。
+
+```sql
 -- 创建可更新视图
 CREATE VIEW customer_accounts AS
 SELECT c.customer_id, c.name, a.account_id, a.balance
 FROM customers c
 JOIN accounts a ON c.customer_id = a.customer_id;
+```
 
+![alt text](${documentDirname}/mdPaste/database-lab2/image.png)
+
+```sql
 -- 通过视图查询
 SELECT * FROM customer_accounts
 WHERE balance > 5000;
+```
 
+![alt text](${documentDirname}/mdPaste/database-lab2/image-1.png)
+
+```sql
 -- 通过视图更新（需满足可更新条件）
 UPDATE customer_accounts
 SET balance = balance - 100
-WHERE account_id = 1001;
+WHERE account_id = 1;
 ```
+
+![alt text](${documentDirname}/mdPaste/database-lab2/image-2.png)
+
+![alt text](${documentDirname}/mdPaste/database-lab2/image-3.png)
+
+## 讨论
+
+通过本实验，对于课上提及的多数操作进行了实际练习。
