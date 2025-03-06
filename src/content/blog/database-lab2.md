@@ -212,7 +212,7 @@ SELECT * FROM customers
 WHERE address LIKE '%angzh%';
 ```
 
-![alt text](../assets/mdPaste/database-lab2/image.png)
+![alt text](mdPaste/database-lab2/image-11.png)
 
 ```sql
 -- 多表连接查询
@@ -223,7 +223,7 @@ JOIN branches b ON a.branch_id = b.branch_id
 WHERE b.name = 'Main Branch';
 ```
 
-![alt text](../assets/mdPaste/database-lab2/image-1.png)
+![alt text](mdPaste/database-lab2/image-12.png)
 
 ```sql
 -- 嵌套子查询
@@ -235,7 +235,7 @@ WHERE customer_id IN (
 );
 ```
 
-![alt text](../assets/mdPaste/database-lab2/image-2.png)
+![alt text](mdPaste/database-lab2/image-13.png)
 
 ### 视图操作
 
@@ -249,7 +249,7 @@ FROM customers c
 JOIN accounts a ON c.customer_id = a.customer_id;
 ```
 
-![alt text](${documentDirname}/mdPaste/database-lab2/image.png)
+![alt text](mdPaste/database-lab2/image-7.png)
 
 ```sql
 -- 通过视图查询
@@ -257,7 +257,7 @@ SELECT * FROM customer_accounts
 WHERE balance > 5000;
 ```
 
-![alt text](${documentDirname}/mdPaste/database-lab2/image-1.png)
+![alt text](mdPaste/database-lab2/image-8.png)
 
 ```sql
 -- 通过视图更新（需满足可更新条件）
@@ -266,9 +266,9 @@ SET balance = balance - 100
 WHERE account_id = 1;
 ```
 
-![alt text](${documentDirname}/mdPaste/database-lab2/image-2.png)
+![alt text](mdPaste/database-lab2/image-9.png)
 
-![alt text](${documentDirname}/mdPaste/database-lab2/image-3.png)
+![alt text](mdPaste/database-lab2/image-10.png)
 
 ## 讨论
 
