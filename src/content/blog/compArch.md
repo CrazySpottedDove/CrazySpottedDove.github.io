@@ -101,3 +101,139 @@ PMD 上的应用往往是多媒体应用程序(基于 Web，面向媒体)。响�
 3. 硬件
 
 上课实在太粪了，放弃治疗了，靠看别人整理的内容学习吧。
+
+## 流水线
+
+### What is pipelining
+
+流水线体现在将指令拆分成各个阶段 stage/segment，然后尽可能利用硬件资源，将不同阶段的各个指令执行**并行化**。它没有减小单条指令的执行时间，但是缩短了整段程序的执行时间。
+
+> 英汉词典：一条指令还在执行时，下一条指令已经开始执行。
+>
+> 阶段的数量被称为流水线的深度(the depth of pipelining)
+
+在单核处理器的时期，流水线大大加快了多条指令的执行速度。
+
+如果每个阶段的指令执行时间不相同，就会因为需要等待执行时间较长的阶段结束而浪费硬件资源。
+
+当然，流水线也不是只有好处。它会使处理逻辑复杂化，并且需要更多的硬件资源。
+
+### 流水线的分类
+
+根据并行阶段的数量，流水线被分成
+
+- Single funtion pipelining(单阶段并行)
+- Multi function pipelining(多阶段并行)。
+
+根据并行的灵活性，流水线被分为
+
+- 静态流水线 Static pipelining: 只有输入的一系列任务都是相同操作时，才能并行执行。否则，等待当前任务执行完成，然后再执行另一种任务。
+- 动态流水线 Dynamic pipelining: 可以并行执行不同操作的任务。
+
+![alt text](mdPaste/compArch/image.png)
+
+根据硬件级别。流水线被分为
+
+- 组件级流水线 Component level pipelining：将处理器中的算术与逻辑运算部件划分为多个部分，这样便可以通过流水线方式执行多种类型的操作。
+
+- 处理器级流水线 Processor level pipelining：通过流水线实现指令的译码与执行。指令的执行过程被分解为多个子过程，每个子过程在独立的功能单元中执行。
+
+- 处理器间流水线 Inter processor pipelining：将两个或多个处理器串联起来，共同处理相同的数据流，每个处理器完成整体任务中的一部分。
+
+根据是否存在反馈回路 feedback loop，流水线被分为
+
+- 线性流水线 Linear pipelining：流水线中的每个分段都是串行连接且无反馈回路，当数据经过流水线的各个分段时，每个分段最多只处理一次数据。
+- 非线性流水线 Nonlinear pipelining：在串行连接的基础上，还存在反馈回路。
+
+![alt text](mdPaste/compArch/image-1.png)
+
+根据输入和输出的顺序，流水线被分为
+
+- 有序流水线 Ordered pipelining：任务的输入顺序和输出顺序相同。
+- 无序流水线 Disordered pipelining：任务的输入顺序和输出顺序可以不同，如最后一个任务不是最后一个完成。
+
+根据数据类型的不同，处理器(?)有如下分类
+
+- 标量处理器 Scalar processor：只通过流水线处理标量数据。
+- 向量处理器 Vector processor：具备向量数据表示和处理向量指令能力的处理器，是向量数据表示与流水线技术的结合。
+
+### 流水线的性能评估
+
+#### 吞吐量 Throughput/TP
+
+$$
+TP=\frac{n(\text{指令数})}{T_k(\text{总执行时间})}<TP_{\text{max}}=\frac{1}{\Delta t_0(\text{单阶段最长耗时})}
+$$
+
+实际情况中
+$$
+T_k=(m(\text{单指令阶段数})+n-1)\Delta t_0
+$$
+
+最长的阶段被称为瓶颈阶段 bottleneck segemnt。它决定 $\Delta t_0$，从而影响吞吐量。
+
+常见的解决瓶颈的方法有
+
+- 分段 Subdivision：把瓶颈阶段再划分成多个更小的子阶段。
+- 重复 Repetition：用多个相同功能的处理单元并行处理瓶颈阶段。
+
+> 流水线阶段过多并不好，那会让我们需要考虑更多的前后依赖关系，Control logic 也会很多，过高并发处理上也不是很方便。
+>
+> 另外，为了保证流水线的正常进行，每个阶段之间要有一个锁存器，这些锁存器也是多阶段的代价。
+
+![alt text](mdPaste/compArch/image-2.png)
+
+上图使用了重复的方法，利用三个 $S_2$ 阶段的处理单元并行处理 $S_2$。
+
+#### 提速比例 Speedup/Sp
+
+$$
+Sp=\frac{nm\Delta t_0(\text{单周期执行时间})}{(m+n-1)\Delta t_0(\text{流水线执行时间})}=\frac{nm}{m+n-1}<m
+$$
+
+#### 效率 Efficiency/η
+
+$$
+\eta = \frac{nm\Delta t_0}{m(m+n-1)\Delta t_0}<1
+$$
+
+上下两项可以看成单周期和流水线的空间与时间乘积。
+
+#### 案例
+
+静态流水线
+> ![alt text](mdPaste/compArch/image-3.png)
+>
+> 由于使用静态流水线，我们可以把执行大致分成三块：
+>
+> 1. $a_1b_1,a_2b_2,a_3b_3,a_4b_4$
+> 2. $a_1b_1+a_2b_2,a_3b_3+a_4b_4$
+> 3. $(a_1b_1+a_2b_2)+(a_3b_3+a_4b_4)$
+>
+> ![alt text](mdPaste/compArch/image-4.png)
+>
+> 于是有
+> $$
+> \begin{align*}
+>     TP&=\frac{7}{[(3-1+4)+(4-1+2)+4]\Delta t_0}=\frac{7}{15}\\
+>     Sp&=\frac{4\times 3+3\times 4}{15}=1.6\\
+>     \eta&=\frac{4\times 3+3\times 4}{5\times 15}=32\%
+> \end{align*}
+> $$
+动态流水线
+> ![alt text](mdPaste/compArch/image-5.png)
+>
+> 这题较为复杂，我们要考虑加法在什么时候可以插入乘法计算中。
+>
+> ![alt text](mdPaste/compArch/image-6.png)
+>
+> 在 $a_1b_1,a_2b_2$ 计算完成时，就可以考虑插入 $a_1b_1+a_2b_2$ 了。考虑到乘法之间本来就因为阶段二用时更长的原因需要停顿一次，就插到两个除法中间。
+>
+> 于是有
+> $$
+> \begin{align*}
+>     TP&=\frac{7}{18\Delta t_0}\\
+>     Sp&=\frac{4\times 7}{18}\approx 1.56\\
+>     \eta&=\frac{4\times 7}{5\times 18}\approx 31\%
+> \end{align*}
+> $$
