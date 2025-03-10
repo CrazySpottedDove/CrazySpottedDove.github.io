@@ -77,7 +77,7 @@ category: "课程笔记"
 
 - Physical Level: 描述一个 record 如何被存储
 - Logical Level: 描述存储在数据库中的数据以及这些数据之间更高级的关系
-- View Level: 通过应用程序来显示某些数据的细节（可能隐藏一些细节）
+- VIEW Level: 通过应用程序来显示某些数据的细节（可能隐藏一些细节）
 
 #### 物理层的独立性
 
@@ -108,7 +108,7 @@ SQL = DDL + DML + DCL
 
 在关系代数中，有六个基本操作：
 
-- 选择 Select，把表中符合某些条件的数据找出来，形成一个新的表。
+- 选择 SELECT，把表中符合某些条件的数据找出来，形成一个新的表。
 
 > 记作 $\sigma_{p}(r)$，此处 $p$ 为筛选条件， $r$ 为表格。
 
@@ -116,11 +116,11 @@ SQL = DDL + DML + DCL
 
 > 记作 $\Pi_{array}(r)$，$array$ 是一个属性数组。
 
-- 并 Union，合并两张拥有相同属性名的表，并合并其中重复的行。
+- 并 UNION，合并两张拥有相同属性名的表，并合并其中重复的行。
 
 > 记作 $a \cup b$
 
-- 集合差 Set Difference，在原表中去掉另一张表中已存在的行。
+- 集合差 SET Difference，在原表中去掉另一张表中已存在的行。
 
 >记作 $a-b$
 
@@ -138,17 +138,17 @@ SQL = DDL + DML + DCL
 
 ### 四大常见操作
 
-- 交 Set Intersection，提取两张表中相同的行。
+- 交 SET Intersection，提取两张表中相同的行。
 
 > $$
 > a\cap b=r-(r-s)
 > $$
 
-- 自然连接 Natural join，连接两张表，保留其中公共属性相等的行。
+- 自然连接 Natural JOIN，连接两张表，保留其中公共属性相等的行。
 
 > 例如， 对于表 $r(A,B),s(B,C)$，有
 > $$
-> r \Join s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
+> r \JOIN s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
 > $$
 >
 > theta 连接:先做笛卡尔积，然后做条件为 $\theta$ 的选择.
@@ -165,7 +165,7 @@ SQL = DDL + DML + DCL
 ### 拓展操作
 
 - 广义投影 Generalized Projection，允许把投影的属性数组替换成属性函数数组
-- 聚合操作 Aggregate Functions and Operations，实现取平均、最大值、最小值、求和、计数。
+- 聚合操作 Aggregate Functions AND Operations，实现取平均、最大值、最小值、求和、计数。
 
 > 记作
 > $$
@@ -179,7 +179,7 @@ SQL = DDL + DML + DCL
 
 - Deletion $A \leftarrow A-\sigma_{a=sth}(A)$
 - Insertion $A \leftarrow A ∪ {(element_1,...element_n)}$
-- Update $A \leftarrow \Pi_{f(a_1),f(a_2),...f(a_n)}$
+- UPDATE $A \leftarrow \Pi_{f(a_1),f(a_2),...f(a_n)}$
 
 ## SQL
 
@@ -189,14 +189,14 @@ SQL = DDL + DML + DCL
 
 ```sql
 CREATE TABLE branch(
-                    branch_name   char(15) not null,
+                    branch_name   char(15) NOT NULL,
                     branch_city    varchar(30),
                     assets    numeric(8, 2),
-                    primary key (branch_name)
+                    PRIMARY KEY (branch_name)
                 );
 ```
 
-支持使用 `super key`, `candidate key`, `primary key` 来指定键。
+支持使用 `super KEY`, `candidate KEY`, `PRIMARY KEY` 来指定键。
 
 支持的数据类型：
 
@@ -211,21 +211,21 @@ CREATE TABLE branch(
 - `Time`: 如 `11:18:16`
 - `timestamp`: 如 `2011-3-17 11:18:16`
 
-所有的数据类型都允许 `null`。
+所有的数据类型都允许 `NULL`。
 
 在建表时，我们可以添加完整性约束 Integrity Constraints，令一些属性必须满足一定的规则，如：
 
 ```sql
 -- inside CREATE TABEL
 
--- 不可以是 null
-branch_name   char(15) not null
+-- 不可以是 NULL
+branch_name   char(15) NOT NULL
 -- 指定为主键
-primary key (id)
+PRIMARY KEY (id)
 -- 另一种方法
-int id primary key
+int id PRIMARY KEY
 -- 添加检查条件
-check (age >= 0)
+CHECK (age >= 0)
 ```
 
 #### 删除表格
@@ -246,7 +246,7 @@ ALTER TABLE some_table ADD (attribute_n domain_n, ... attributen_n domain_n);
 添加一列
 
 ```sql
--- 所有的已有的行的新的 attribute 会被赋为 null
+-- 所有的已有的行的新的 attribute 会被赋为 NULL
 ALTER TABLE some_table ADD some_attribute some_domain_type;
 ```
 
@@ -260,8 +260,8 @@ ALTER TABLE some_table DROP some_attribute;
 修改列的定义
 
 ```sql
--- 修改了 branch_name 的数据类型，然后让 assets 不允许 null
-ALTER TABLE branch MODIFY (branch_name char(30), assets not null);
+-- 修改了 branch_name 的数据类型，然后让 assets 不允许 NULL
+ALTER TABLE branch MODIFY (branch_name char(30), assets NOT NULL);
 ```
 
 建立索引。被建立索引后的字段查询效率可以提升。
@@ -274,7 +274,7 @@ CREATE INDEX somes_index ON some_table (attribute_1, attribute_2);
 
 ```
 
-建立唯一索引。唯一索引保证了不出现重复值，实际上是指定了一个 `candidate key` 。
+建立唯一索引。唯一索引保证了不出现重复值，实际上是指定了一个 `candidate KEY` 。
 
 ```sql
 CREATE UNIQUE INDEX unique_index ON some_table (some_attribute);
@@ -289,7 +289,7 @@ DROP INDEX some_index;
 
 ### 基础 Basic Structure
 
-#### Select
+#### SELECT
 
 ```sql
 SELECT a_1, a_2, ... a_n FROM r_1, r_2, ... r_n WHERE some_predication;
@@ -297,19 +297,19 @@ SELECT a_1, a_2, ... a_n FROM r_1, r_2, ... r_n WHERE some_predication;
 
 这和
 $$
-\Pi_{a_1,a_2,\ldots,a_n}(\sigma_{\text{some\_predication}}(r_1\times r_2\times\ldots\times r_m))
+\Pi_{a_1,a_2,\ldots,a_n}(\sigma_{\text{SOME\_predication}}(r_1\times r_2\times\ldots\times r_m))
 $$
 等价。
 
 sql 对大小写不敏感，但是不允许名称中使用 `-`。
 
-sql 允许表中出现重复的 domain。因此，我们在 `SELECT` 的时候可以决定是否查询重复的 domain：
+sql 允许表中出现重复的 DOMAIN。因此，我们在 `SELECT` 的时候可以决定是否查询重复的 DOMAIN：
 
 ```sql
--- 查询全部的 domain，all 是默认的
-SELECT all attr FROM rel;
--- 查询全部的 domain, 但是舍弃其中的重复部分
-SELECT distinct attr FROM rel;
+-- 查询全部的 DOMAIN，ALL 是默认的
+SELECT ALL attr FROM rel;
+-- 查询全部的 DOMAIN, 但是舍弃其中的重复部分
+SELECT DISTINCT attr FROM rel;
 ```
 
 可以使用通配符查询全部的属性
@@ -406,7 +406,7 @@ LIKE 'Main\%' ESCAPE '\'
 ```sql
 SELECT '客户名=' || customer_name
 FROM customer;
--- 获得的 domain 类似于
+-- 获得的 DOMAIN 类似于
 -- 客户名=张三
 -- 客户名=李四
 -- 客户名=王五
@@ -420,7 +420,7 @@ FROM customer;
 使用 `ORDER BY` 来排序。
 
 ```sql
-SELECT distinct customer_name
+SELECT DISTINCT customer_name
 FROM borrower A, loan B
 WHERE A.loan_number = B.loan_number AND branch_name = 'Perryridge'
 ORDER BY customer_name;
@@ -438,17 +438,17 @@ $$
 \begin{align*}
     r_1(A,B)&={(1,a),(2,a)}\\
     r_2(C)&={(2),(3),(3)}
-\end{align*}
+\END{align*}
 $$
 有
 $$
 \begin{align*}
 \Pi_B(r_1)&={(a),(a)}\\
 \Pi_B(r_1)\times r_2&={(a,2),(a,2),(a,3),(a,3),(a,3),(a,3)}
-\end{align*}
+\END{align*}
 $$
 
-### 集合运算 Set Operations
+### 集合运算 SET Operations
 
 在 `sql` 中，可以使用 `UNION`(并), `INTERSECT`(交), `EXCEPT`(减)来实现集合运算。
 
@@ -521,12 +521,12 @@ FROM <r1, …>
 6. `DISTINCT`
 7. `ORDER BY`
 
-### Null Values
+### NULL VALUES
 
- `null` 意味着一个未知或不存在的值。
+ `NULL` 意味着一个未知或不存在的值。
 
-- 任何 `null` 相关的算术运算都会返回 `null`。
-- 任何 `null` 相关的比较运算都会返回 `unknown`。
+- 任何 `NULL` 相关的算术运算都会返回 `NULL`。
+- 任何 `NULL` 相关的比较运算都会返回 `unknown`。
 
 下面是 `unknown` 参与逻辑运算的行为：
 
@@ -534,14 +534,14 @@ FROM <r1, …>
 
 这可以简单地总结为 `true OR anything = true`, `false AND anything = false`。
 
-当 `where` 子句的计算结果为 `unknown` 时，它会被作为 `false` 处理。
+当 `WHERE` 子句的计算结果为 `unknown` 时，它会被作为 `false` 处理。
 
-我们使用 `is null, is not null` 来处理 `null`，而非使用 `=, !=`。
+我们使用 `IS NULL, IS NOT NULL` 来处理 `NULL`，而非使用 `=, !=`。
 
-类似地，我们使用 `is unknown` 来处理某个条件的结果为 `unknown` 的情况。
+类似地，我们使用 `IS unknown` 来处理某个条件的结果为 `unknown` 的情况。
 
-对于大多数聚合函数，它会忽略掉所有为 `null` 的值。如果所有的值都为 `null`，聚合函数也会返回 `null`。
-> 需要注意的是，对于 `count()` 函数，它会对为 `null` 的行计数。
+对于大多数聚合函数，它会忽略掉所有为 `NULL` 的值。如果所有的值都为 `NULL`，聚合函数也会返回 `NULL`。
+> 需要注意的是，对于 `count()` 函数，它会对为 `NULL` 的行计数。
 >
 ### 嵌套查询 Nested Subqueries
 
@@ -551,7 +551,7 @@ FROM <r1, …>
 
 ```sql
 -- 使用嵌套
-SELECT distinct customer_name
+SELECT DISTINCT customer_name
 FROM borrower
 -- 反之为 NOT IN
 WHERE customer_name IN (
@@ -560,7 +560,7 @@ WHERE customer_name IN (
 );
 
 -- 不使用嵌套
-SELECT distinct B.customer_name
+SELECT DISTINCT B.customer_name
 FROM borrower B, depositor D
 WHERE B.customer_name = D.customer_name
 ```
@@ -641,7 +641,7 @@ $$
 \begin{align*}
     &\Pi_{\text{customer\_name, branch\_name}}(\text{depositor}\bowtie\text{account})\\
     \div&\Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
-\end{align*}
+\END{align*}
 $$
 
 首先，我们可以分别写出
@@ -715,7 +715,7 @@ WHERE(
 
 ```sql
 -- 收集 customer_name
-SELECT distinct S.customer_name
+SELECT DISTINCT S.customer_name
 FROM depositor S
 -- 判断是否为空
 WHERE NOT EXISTS(
@@ -788,10 +788,10 @@ FROM (
     FROM enroll
     GROUP BY sno
 ) AS TT, student S
-WHERE TT.sno = S.sno and c_num > 10;
+WHERE TT.sno = S.sno AND c_num > 10;
 ```
 
-> 不管是否被引用， `FROM` 中用表达式得到的导出表 derived table 必须给出别名。
+> 不管是否被引用， `FROM` 中用表达式得到的导出表 derived TABLE 必须给出别名。
 
 使用 `WITH` 关键字，我们可以把这个表达式单独移出去，以使结构更加清晰。
 
@@ -802,12 +802,12 @@ WITH TT(sno, c_num) AS
     GROUP BY sno
 SELECT TT.sno, sname, c_num
 FROM TT, student S
-WHERE TT.sno = S.sno and c_num > 10;
+WHERE TT.sno = S.sno AND c_num > 10;
 ```
 
-需要注意的是， `WITH` 生成的 `View` 是单独为了对应的 query 服务的，它并不能被全局使用。
+需要注意的是， `WITH` 生成的 `VIEW` 是单独为了对应的 query 服务的，它并不能被全局使用。
 
-### 修改数据库 Modification of the Database
+### 修改数据库 Modification OF the Database
 
 #### 删除行
 
@@ -821,7 +821,7 @@ WHERE some_condition;
 直接插入
 
 ```sql
--- 如果少写几个属性，将会插入 null
+-- 如果少写几个属性，将会插入 NULL
 INSERT INTO some_table_or_view(attr_1, attr_2, ..., attr_n)
 VALUES(domain_1, domain_2, ..., domain_n);
 ```
@@ -858,9 +858,9 @@ SET balance =(
 );
 ```
 
-> 值得注意的是， `View` 是虚表，任何对 `View` 的操作都将转化为对基表的操作。
+> 值得注意的是， `VIEW` 是虚表，任何对 `VIEW` 的操作都将转化为对基表的操作。
 >
-> 因此， `View` 的更新是受到严格限制的。只有**行列视图**，即建立在单个基本表上，且列能够对应的视图，才能够更新数据。
+> 因此， `VIEW` 的更新是受到严格限制的。只有**行列视图**，即建立在单个基本表上，且列能够对应的视图，才能够更新数据。
 >
 ### Joined Relations
 
@@ -870,9 +870,9 @@ SET balance =(
 
 ![alt text](../../../assets/mdPaste/database/image-11.png)
 
-**Join condition** 定义了两个表格中的哪些行可以匹配。
+**JOIN condition** 定义了两个表格中的哪些行可以匹配。
 
-- `NATURAL` 自然连接。比较所有同名属性，且在返回的表格中消去重名属性(见 **Join type** 配图)。
+- `NATURAL` 自然连接。比较所有同名属性，且在返回的表格中消去重名属性(见 **JOIN type** 配图)。
 - `ON some_condition` 非自然连接。它容许不同名属性的比较，且返回的表格中不消去重名属性。
 
 ```sql
@@ -888,7 +888,7 @@ SELECT * FROM loan INNER JOIN borrower USING(loan_number);
 ```
 
 ![alt text](../../../assets/mdPaste/database/image-13.png)
-**Join type** 定义了参与 `JOIN` 的表格中不与其它表格的任何行匹配的行会如何被处理。
+**JOIN type** 定义了参与 `JOIN` 的表格中不与其它表格的任何行匹配的行会如何被处理。
 
 - `INNER JOIN` 只输出匹配成功的行
 
@@ -924,21 +924,21 @@ SELECT * FROM loan NATURAL FULL OUTER JOIN borrower;
 
 ## SQL 进阶
 
-### SQL Data Types and Schemas
+### SQL Data Types AND Schemas
 
 sql 允许自定义类型：
 
 ```sql
 -- 创建类型
-CREATE TYPE person_name as varchar (20)
+CREATE TYPE person_name AS varchar (20)
 -- 删除类型
-Drop type person_name
+DROP type person_name
 ```
 
 sql 也允许自定义域(可添加约束)
 
 ```sql
-Create domain Dollars as numeric(12, 2) not null;
+CREATE DOMAIN Dollars AS numeric(12, 2) NOT NULL;
 ```
 
 另外，我们再介绍两种类型：Large-object types
@@ -949,8 +949,8 @@ Create domain Dollars as numeric(12, 2) not null;
 查询时，返回它们的指针而非它们本身。
 
 ```sql
-Create table students(
-    sid char(10) primary key,
+CREATE TABLE students(
+    sid char(10) PRIMARY KEY,
     name varchar(10),
     gender char(1),
     photo blob(20MB),
@@ -960,18 +960,27 @@ Create table students(
 
 ### 完整性约束 Integrity Constraints
 
-#### 域约束 Domain Constraints
+#### 域约束 DOMAIN Constraints
 
-- `Not null`
-- `Primary key`
-- `Unique`
-- `Check(some condition)`
+- `NOT NULL`
+- `PRIMARY KEY`
+- `UNIQUE`
+- `CHECK(SOME condition)`
 
 #### 参照完整性 Referential Integrity
 
-~~一般来说~~，假设有表 $a,b$， $a$ 中的一个属性 $p$ 是 $b$ 中的主键，那么我们说 $p$ 是 $a$ 中的一个外键 foreign key。此时， $a$ 被称为参照关系 referencing relation， $b$ 被称为被参照关系 referenced relation。
+~~一般来说~~，假设有表 $a,b$， $a$ 中的一个属性 $p$ 是 $b$ 中的主键，那么我们说 $p$ 是 $a$ 中的一个外键 FOREIGN KEY。此时， $a$ 被称为参照关系 REFERENCING relation， $b$ 被称为被参照关系 referenced relation。
 
-参照关系中外键的值若不为 `null`，则必须在被参照关系中实际存在。
+参照关系中外键的值若不为 `NULL`，则必须在被参照关系中实际存在。
+
+在建表时，我们这样说明参照
+
+```sql
+-- account_number 是关联 account 中 account_number 的外键
+FOREIGN KEY (account_number) REFERENCES account
+-- account_number1 是关联 account 中 account_number2 的外键
+FOREIGN KEY (account_number_1) REFERENCES account (account_number_2)
+```
 
 参照关系会引入增删改查上的一些限制，所谓参照完整性。
 
@@ -982,11 +991,137 @@ Create table students(
 - 当我想要更新 $a$ 时，我一定要检查新的 $p$ 的值在 $b$ 中能够找到。
 - 当我想要更新 $b$ 时，如果修改了 $p$，要么拒绝这个更新，要么所有 $a$ 中包含原 $p$ 的行都要被更新。
 
-在建表时，我们这样说明参照
+为了保证上述完整性，我们可以使用 `SQL` 的级联操作 `Cascading actions`：
+
+- `ON DELETE CASCADE`：被参照关系中的行被删除时，删除参照关系中所有引用改行的记录
+- `ON UPDATE CASCADE`：被参照关系中的主键更新时，同步更新参照关系中引用该键的外键值
+- `ON DELETE SET NULL`：被参照关系中的行被删除时，参照关系中对应外键变为 `NULL`
+- `ON UPDATE SET NULL`：被参照关系中的主键更新时，参照关系中对应外键变为 `NULL`
+
+> 一般来说，不建议使用 `NULL`，这容易导致参照完整性的语义更为复杂。
 
 ```sql
--- account_number 是关联 account 中 account_number 的外键
-foreign key (account_number) references account
--- account_number1 是关联 account 中 account_number2 的外键
-foreign key (account_number_1) references account (account_number_2)
+CREATE TABLE parent (
+    id INT PRIMARY KEY
+);
+
+CREATE TABLE child (
+    id INT PRIMARY KEY,
+    parent_id INT,
+    FOREIGN KEY (parent_id)
+        REFERENCES parent(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 ```
+
+如果多个表之间存在级联外键依赖，且都设置了 `ON DELETE CASCADE`/`ON UPDATE CASCADE`，那么在链的一端执行删除或更新操作会自动传播到整个依赖链上。但如果这种级联操作中某一处导致了无法通过进一步级联解决的约束冲突，系统便会中止整个事务，所有因该事务及其级联操作所做的更改都会被回滚。
+
+值得注意的是，参照完整性只在事务 transaction 的最后进行检查。这意味着，一些可能在中间破坏约束，但是在最后恢复约束的操作是被允许的。
+
+#### 断言 ASSERTION
+
+断言包含一个必须始终被满足的条件。
+
+```sql
+CREATE ASSERTION some_assertion_name
+    CHECK some_condition;
+```
+
+在建立一个断言后，每一次可能与断言条件冲突的更新都会被检测。如果断言条件不符合，就会汇报错误。
+> 这些检测有可能引入很高的开销，因此应慎用
+
+比如说，我们希望约束每一个银行分行的总 loan 要小于它的总 balance，那么就可以有：
+
+```sql
+CREATE ASSERTION sum_constraint CHECK(
+    NOT EXISTS(
+        SELECT *
+        FROM branch B
+        WHERE(
+            SELECT sum(amount)
+            FROM loan
+            WHERE loan.branch_name = B.branch_name
+        ) > (
+            SELECT sum(balance)
+            FROM account
+            WHERE account.branch_name = B.branch_name
+        )
+    )
+);
+```
+
+这里使用了逻辑
+$$
+\forall xP(x)=(\lnot\exist x)(\lnot P(x))
+$$
+
+#### 触发器 TRIGGER
+
+触发器是一段会在对数据库进行一定修改时自动触发的指令。我们需要明确触发器的触发条件和行为。
+
+我们从一个实例出发：假设我们不允许一个负存款用户，而是希望把存款归零，然后把负数部分变成贷款。此时，触发器的触发条件就是某次更新使得存款变成负数。
+
+```sql
+-- loan(loan_number, branch_name, amount)
+-- borrower(customer_name, loan_number)
+-- account(account_number, branch_name, balance)
+-- depositor(customer_name, account_numeber)
+
+-- 创建一个叫做 overdraft_trigger 的触发器
+CREATE TRIGGER overdraft_trigger
+    -- 在对 account 更新后触发
+    AFTER UPDATE ON account
+    -- 命名被更新的行为 nrow
+    REFERENCING NEW ROW AS nrow
+    -- 指定每更新一行就触发一次
+    FOR EACH ROW
+    -- 指定只有更新的行的 balance < 0 才触发后续行为
+    WHEN nrow.balance < 0
+-- 标志触发器行为开始，atomic 表明触发器内部所有操作视为一个原子操作
+BEGIN ATOMIC
+    -- 将负余额的账户对应存款人信息插入到 borrower 表中
+    INSERT INTO borrower (
+        SELECT customer_name, account_number
+        FROM depositor
+        WHERE nrow.account_number = depositor.account_number
+    );
+
+    -- 将负余额变成贷款信息插入到 loan 表中，贷款金额为负余额的绝对值
+    INSERT INTO loan
+    VALUES (
+        nrow.account_number,
+        nrow.branch_name,
+        -nrow.balance
+    );
+
+    -- 更新 account 表，将余额置零
+    UPDATE account
+    SET balance = 0
+    WHERE account.account_number = nrow.account_number;
+END;
+```
+
+在上面的代码中，引起触发器的事件为 `AFTER UPDATE ON account`。共有三种可用的触发事件:
+
+- `INSERT`
+- `DELETE`
+- `UPDATE`
+
+其中， `ON UPDATE` 这个触发事件可以被限制到特定属性的更新上，如上面就可以改成 `AFTER UPDATE OF balance ON account`。
+
+对于行级别的触发器，参照有如下选择：
+
+- 对于删除或更新，可使用 `REFERENCING OLD row AS some_name`
+- 对于插入或更新，可使用 `REFERENCING NEW row AS some_name`
+
+对于指令级别的触发器(`FOR EACH statement`)，参照则有如下选择：
+
+- 对于删除或更新，可使用 `REFERENCING OLD TABLE AS some_name`
+- 对于插入或更新，可使用 `REFERENCING NEW TABLE AS some_name`
+
+上面的 `TABLE` 都只包含被改变的行。对于需要改变大量的行的操作，指令级别的触发器更有效率。
+
+我们有时可能希望在一些操作发生时，可以调用数据库外部的一些命令。遗憾的是，触发器只对数据库内部生效，无法直接调用外部命令。
+
+一个 workaround 是，我们在需要调用外部命令时，就在一张特定的表格中添加一行，代表一些操作。然后，作为通讯方式，让一个独立的外部进程轮询这个表格。一旦发现有待执行的操作，就执行它。执行完对应操作后，再把记录删除。
