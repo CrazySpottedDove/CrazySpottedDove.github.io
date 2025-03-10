@@ -117,9 +117,20 @@ SQL = DDL + DML + DCL
 > 记作 $\Pi_{array}(r)$，$array$ 是一个属性数组。
 
 - 并 Union，合并两张拥有相同属性名的表，并合并其中重复的行。
+
+> 记作 $a \cup b$
+
 - 集合差 Set Difference，在原表中去掉另一张表中已存在的行。
+
+>记作 $a-b$
+
 - 笛卡尔积 Cartesian product，对两个拥有不同属性的表操作，返回由各自的行的全部自由组合 collect 成的新表。
+
+>记作 $a\times b$
+
 - 重命名 Rename，重命名一张表里的属性名字。
+
+>记作  $\rho_{R(A,B,\ldots)}(r)$，意为把表 $r$ 重命名为 $R$，并且把它的属性重命名为 $A,B,\ldots$
 
 所有其它操作都可以表示成这六个基本操作的组合。
 
@@ -128,19 +139,39 @@ SQL = DDL + DML + DCL
 ### 四大常见操作
 
 - 交 Set Intersection，提取两张表中相同的行。
+
+> $$
+> a\cap b=r-(r-s)
+> $$
+
 - 自然连接 Natural join，连接两张表，保留其中公共属性相等的行。
 
-> 首先对两张表做笛卡尔积，然后选择其中各对公共属性相等的行，最后用投影除去其中重复的公共属性
+> 例如， 对于表 $r(A,B),s(B,C)$，有
+> $$
+> r \Join s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
+> $$
 >
 > theta 连接:先做笛卡尔积，然后做条件为 $\theta$ 的选择.
 
 - 除 Division，首先舍弃除数表中所有被除数表不拥有的属性，然后返回一张最大的表，使得它与作为除数的表的笛卡尔积是被除的表的子集。
+
+> 例如，对于表 $r(A,B),s(B)$，有
+> $$
+> r \div s = \{\, a \in \Pi_{A}(r) \mid \forall b \in s,\; (a,b) \in r \,\}
+> $$
+
 - 赋值 Assignment，把一个运算的结果赋给临时变量。
 
 ### 拓展操作
 
 - 广义投影 Generalized Projection，允许把投影的属性数组替换成属性函数数组
 - 聚合操作 Aggregate Functions and Operations，实现取平均、最大值、最小值、求和、计数。
+
+> 记作
+> $$
+> G_1,G_2,\ldots G_n\ {\Large g}_{f_1(R_1),f_2(R_2),\ldots f_n(R_n)}(r)
+> $$
+> 其中 $r$ 为表格，$f_1,f_2\ldots f_n$ 为聚合函数， $R_1, R_2,\ldots R_n$ 为 $r$ 的属性， $G_1,G_2,\ldots G_n$ 表示按照这些属性来聚合(可以为空)
 
 ### 数据库的修改
 
@@ -890,3 +921,72 @@ SELECT * FROM loan NATURAL FULL OUTER JOIN borrower;
 ```
 
 ![alt text](../../../assets/mdPaste/database/image-10.png)
+
+## SQL 进阶
+
+### SQL Data Types and Schemas
+
+sql 允许自定义类型：
+
+```sql
+-- 创建类型
+CREATE TYPE person_name as varchar (20)
+-- 删除类型
+Drop type person_name
+```
+
+sql 也允许自定义域(可添加约束)
+
+```sql
+Create domain Dollars as numeric(12, 2) not null;
+```
+
+另外，我们再介绍两种类型：Large-object types
+
+- blob: binary large object
+- clob: character large object
+
+查询时，返回它们的指针而非它们本身。
+
+```sql
+Create table students(
+    sid char(10) primary key,
+    name varchar(10),
+    gender char(1),
+    photo blob(20MB),
+    cv clob(10KB)
+);
+```
+
+### 完整性约束 Integrity Constraints
+
+#### 域约束 Domain Constraints
+
+- `Not null`
+- `Primary key`
+- `Unique`
+- `Check(some condition)`
+
+#### 参照完整性 Referential Integrity
+
+~~一般来说~~，假设有表 $a,b$， $a$ 中的一个属性 $p$ 是 $b$ 中的主键，那么我们说 $p$ 是 $a$ 中的一个外键 foreign key。此时， $a$ 被称为参照关系 referencing relation， $b$ 被称为被参照关系 referenced relation。
+
+参照关系中外键的值若不为 `null`，则必须在被参照关系中实际存在。
+
+参照关系会引入增删改查上的一些限制，所谓参照完整性。
+
+继续以 $a,b$ 为例:
+
+- 当我想要在 $a$ 中插入时，我一定要在 $b$ 中检查，确保插入的 $p$ 在 $b$ 中能够找到。
+- 当我想要在 $b$ 中删除时，我一定要在 $a$ 中删除所有的包含被删除的 $p$ 的行。
+- 当我想要更新 $a$ 时，我一定要检查新的 $p$ 的值在 $b$ 中能够找到。
+- 当我想要更新 $b$ 时，如果修改了 $p$，要么拒绝这个更新，要么所有 $a$ 中包含原 $p$ 的行都要被更新。
+
+在建表时，我们这样说明参照
+
+```sql
+-- account_number 是关联 account 中 account_number 的外键
+foreign key (account_number) references account
+-- account_number1 是关联 account 中 account_number2 的外键
+foreign key (account_number_1) references account (account_number_2)
+```
