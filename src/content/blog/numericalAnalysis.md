@@ -451,7 +451,7 @@ $$
 
 #### Partial pivoting/maximal column pivoting
 
-选择第 $i$ 列中最小的 $p\gt i$，使得 $|a_{pi}|$ 是最大的。然后把第 $p$ 行和第 $i$ 行交换。这样可以保证除的时候除以一个较大的数。
+第 $i$ 次迭代时， 选择第 $i$ 列中最小的 $p\gt i$，使得 $|a_{pi}|$ 是最大的。然后把第 $p$ 行和第 $i$ 行交换。这样可以保证除的时候除以一个较大的数。
 
 然而，这个方法有一个问题，即除数大无法保证伸缩系数小。
 
@@ -459,7 +459,7 @@ $$
 
 #### Scaled Partial Pivoting/scaled-column pivoting
 
-不仅仅看 $|a_{pi}$，也考虑本行中的表现。
+不仅仅看 $|a_{pi}|$，也考虑本行中的表现。
 
 我们定义一个 scale factor  $s_p=\max|a_{pj}|$。这表现了这一行中的伸缩系数分子中的最大值。
 
@@ -471,38 +471,111 @@ $$
 
 #### Complete Pivoting/maximal pivoting
 
-如果在 Scaled Partial Pivoting 中每次递归过程都重新计算 $s_p$，那么时间复杂度会到达立方。既然如此，不如也对列做交换。
+一个想法是，如果在 Scaled Partial Pivoting 中每次递归过程都重新计算 $s_p$，那么时间复杂度会到达立方。既然如此，不如也对列做交换。
+
+对于 $n$ 阶的线性方程组，在第 $i$ 次递归时，会有一个 $n+1-i$ 阶子阵。在这个子阵中，找到最大的元素 $a_{pq}$，然后交换 $i$ 行与 $p$ 行，再交换 $i$ 列与 $q$ 列。
 
 > 时间复杂度： $O(\frac{n^3}{3})$
 
 ### 矩阵分解 Matrix Factorization
 
-每一次消元就相当于一个矩阵(这里是一个下三角矩阵)乘法。我们可以把每一个消元操作对应的矩阵先相乘。这样，可以得到一个下三角矩阵(封闭性)。这个下三角矩阵只与系数矩阵有关。因此，当系数矩阵一定时，这个方法效率很高。
+让我们考虑每一次消元的等价操作：
 
-> 单位下三角矩阵乘与取逆都有封闭性。
+令 $m_{i1}=\frac{a_{i1}}{a_{11}}(a_{11}\ne 0)$，则有第一次消元等价于将原系数矩阵左乘矩阵 $L_1$:
 
 $$
-L_i =
+L_1 =
 \begin{pmatrix}
 1      &        &        &        & \\
--\ell_{i+1,i} & 1      &        &        & \\
+-m_{2,1} & 1      &        &        & \\
 \vdots & \vdots & \ddots &        & \\
--\ell_{n,i} &        &        & 1      &
-\end{pmatrix},
+-m_{n,1} &        &        & 1      &
+\end{pmatrix}
 $$
+
+依次类推，第 $i$ 次消元等价于左乘 $L_i$:
+$$
+L_i=
+\begin{pmatrix}
+1&&&&&\\
+&\ddots&&&&\\
+&&1&&&\\
+&&-m_{i+1,i}&1&&\\
+&&\vdots&&\ddots&\\
+&&-m_{n,i}&&&1
+\end{pmatrix}
+$$
+
+既然如此，我们可以把每一个消元操作对应的矩阵先相乘。这样，可以得到一个下三角矩阵。
+
+$$
+L=L_{n-1}L_{n-2}\ldots L_1
+$$
+> 单位下三角矩阵乘与取逆都有封闭性。
+
+这个下三角矩阵只与系数矩阵有关。因此，当系数矩阵一定时，这个方法效率很高。
+
+现在，让我们重新整理一下符号。忘掉上面的 $L$，改取
+$$
+L=L_1^{-1}L_2^{-2}\ldots L_{n-1}^{-1}
+$$
+则有
+$$
+A=LU,U\text{为高斯消元法后得到的系数矩阵}
+$$
+可以看到，我们把 $A$ 分解成了一个下三角矩阵 $L$ 和一个上三角矩阵 $U$ 的乘积。
+
+如果我们在度量上做限制，让 $L$ 为一个单位下三角矩阵，那么这样的分解就是唯一的。
 
 ### 特殊矩阵 Special Types of Matrices
 
-- 严格对角占优矩阵 Strictly Diagonally Dominant Matrix：每一行中，对角线元素绝对值严格最大。严格对角占优矩阵是非奇异 nonsingular 的。高斯消元法可以不需要置换行或列地算出稳定解。
+- 严格对角占优矩阵 Strictly Diagonally Dominant Matrix：每一行中，对角线元素绝对值严格最大。严格对角占优矩阵是非奇异 nonsingular 的。且执行高斯消元法时不需要置换行或列，其解在舍入误差上是稳定的。
 
-> 直觉上,严格对角占优矩阵类似于单位阵.
+> 直觉上，严格对角占优矩阵类似于单位阵。因此，它会有比较好的性质。
 
-- 正定矩阵 Positive Definite Matrix:  $\forall x\ne \vec{0}, x^{-1}Ax>0$ 且 $A$ 是对称 symmetric 的.
+- 正定矩阵 Positive Definite Matrix：对 $\forall x\ne \vec{0}, x^{-1}Ax>0$ 且 $A$ 是对称 symmetric 的.
 
   - 如果一个矩阵是正定的,那么它的逆也是正定的.
   - 正定矩阵的对角线元素严格大于 $0$.
 
-当给了矩阵的特殊性质,我们就可以针对性质给出特定的优化算法.
+当给了矩阵的特殊性质，我们就可以针对性质给出特定的优化算法。
+
+#### 正定矩阵的优化算法
+
+当 $A$ 是正定矩阵时，显然，它可以分解成 $B\Lambda B^T$ 的形式，其中 $B$ 为单位下三角矩阵， $\Lambda$ 为对角线元素均大于零的对角阵。另外，我们还有
+$$
+U=\Lambda\tilde{U}
+$$
+其中 $\Lambda$ 是以 $u_{ii}$ 为对角元素的对角阵，而 $\tilde{U}$ 则因此变成了一个单位上三角矩阵。注意到 $L$ 为一个单位下三角矩阵，则只能有 $L=\tilde{U}^{T}$
+
+又因为 $\Lambda$ 对角线元素均大于零，因此它可以被分解为 $\Lambda^{\frac{1}{2}}\Lambda^{\frac{1}{2}}$。那么，我们进行再整理，则有
+$$
+A=\tilde{L}\tilde{L}^{T},\tilde{L}=L\Lambda^{\frac{1}{2}}
+$$
+
+使用 **Choleski's Method**，可以快速地计算出 $\tilde{L}$，从而完成线性方程组的求解。
+
+![alt text](mdPaste/numericalAnalysis/image-4.png)
+
+#### 三对角矩阵的优化算法
+
+Thomas 算法：
+
+![alt text](mdPaste/numericalAnalysis/image-5.png)
+
+需要注意的是，一旦 $\exists\alpha_i =0$，则 Thomas 算法失效(但不意味着这个方程不可解)。
+
+> 当 $A$ 是三对角矩阵，且它是 diagonally dominant 的(注意没有要求严格)，且
+> $$
+> |b_1| >|c_1| >0,|b_n| > |a_n| >0, a_i\ne 0, c_i \ne 0
+> $$
+> 则 $A$ 非奇异，此时方程可用 Thomas 算法求解。
+>
+> 当 $A$ 是三对角矩阵且严格对角占优时，方程一定可用 Thomas 算法求解。
+>
+> 上述两种情况下，Thomas 算法是稳定的，因为所有的中间值会受主对角线元素的约束。
+>
+> Thomas 算法的时间复杂度为 $O(n)$。
 
 ### 矩阵代数中的迭代方法 Iterative Techniques in Matrix Algebra
 
@@ -531,3 +604,16 @@ $$
 - 收敛的快慢（误差量级）在不同范数下最多相差一个常数因子，不影响“收敛阶”的讨论。
 
 因此，在数值算法和迭代方法中，我们通常只选用一种范数来分析误差，而不必担心选哪一种范数会改变收敛性质。
+
+### Homework-1
+
+#### P397-T7
+
+> ![alt text](mdPaste/numericalAnalysis/image-6.png)
+
+#### Read the proofs on P401-402
+
+> ![alt text](mdPaste/numericalAnalysis/image-7.png)
+
+
+#### P412-T17
