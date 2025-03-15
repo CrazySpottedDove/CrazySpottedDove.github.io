@@ -615,5 +615,4 @@ $$
 
 > ![alt text](mdPaste/numericalAnalysis/image-7.png)
 
-
 #### P412-T17
