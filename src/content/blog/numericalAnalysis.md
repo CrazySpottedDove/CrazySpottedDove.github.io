@@ -528,7 +528,7 @@ $$
 
 ### 特殊矩阵 Special Types of Matrices
 
-- 严格对角占优矩阵 Strictly Diagonally Dominant Matrix：每一行中，对角线元素绝对值严格最大。严格对角占优矩阵是非奇异 nonsingular 的。且执行高斯消元法时不需要置换行或列，其解在舍入误差上是稳定的。
+- 严格对角占优矩阵 Strictly Diagonally Dominant Matrix：每一行中，对角线元素绝对值大于本行其它元素的绝对值之和。严格对角占优矩阵是非奇异 nonsingular 的。且执行高斯消元法时不需要置换行或列，其解在舍入误差上是稳定的。
 
 > 直觉上，严格对角占优矩阵类似于单位阵。因此，它会有比较好的性质。
 
@@ -578,20 +578,36 @@ Thomas 算法：
 
 ### 矩阵代数中的迭代方法 Iterative Techniques in Matrix Algebra
 
-我们把 $A\vec{x}=\vec{b}$ 转换成迭代形式  $\vec{x}=T\vec{x}+\vec{c}$.为了能够迭代,我们先需要进行数学上的定义.
+我们把 $A\vec{x}=\vec{b}$ 转换成迭代形式  $\vec{x}=T\vec{x}+\vec{c}$。为了能够迭代，我们先需要进行数学上的定义。
 
-我们定义向量的范数 norm.范数需要满足:
+#### 向量的范数
+
+我们定义向量的范数 norm。范数需要满足:
 $$
 \begin{aligned}
-\text{(1) 非负性：} \quad & \|x\| \ge 0 \quad \text{且} \quad \|x\|=0 \iff x=0, \\
-\text{(2) 齐次性：} \quad & \|\alpha x\| = |\alpha| \, \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
-\text{(3) 三角不等式：} \quad & \|x+y\| \le \|x\| + \|y\|, \quad \forall x,y.
+\text{(1) 非负性 positive definite：} \quad & \|x\| \ge 0 \quad \text{且} \quad \|x\|=0 \iff x=\mathbf{0}, \\
+\text{(2) 齐次性 homogeneous：} \quad & \|\alpha x\| = |\alpha| \, \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
+\text{(3) 三角不等式 triangle inequality：} \quad & \|x+y\| \le \|x\| + \|y\|, \quad \forall x,y.
 \end{aligned}
 $$
 
+> - $k$ 阶范数的定义：
+>
+> $$
+> \|\vec{x}\|_p=\left(\sum_{i=1}^n|x_i|^p\right)^{\frac{1}{p}}
+> $$
+>
+> - 无穷阶范数的定义：
+>
+> $$
+> \|\vec{x}\|_{\infty}=\max_{1\le i\le n}|x_i|
+> $$
+>
+> 欧几里得范数就是二阶范数。
+
 对于某一个范数定义,如果一个迭代序列 $\vec{x_k}$ 满足  $\|\vec{x_k}-\vec{x}\|$ 收敛于 $0$,则说 $\vec{x_k}$ 收敛到 $\vec{x}$.
 
-在有限维向量空间中，不同范数之间总是“等价”的。也就是说，对于任意两个范数 $\|\cdot\|_a$ 和 $\|\cdot\|_b$，存在正的常数 $c$ 和 $C$，使得对所有 $x$ 都有
+在有限维实向量空间中，不同范数之间总是“等价”的。也就是说，对于任意两个范数 $\|\cdot\|_a$ 和 $\|\cdot\|_b$，存在正的常数 $c$ 和 $C$，使得对所有 $x$ 都有
 
 $$
 c \, \|x\|_a \le \|x\|_b \le C \, \|x\|_a.
@@ -603,6 +619,43 @@ $$
 - 收敛的快慢（误差量级）在不同范数下最多相差一个常数因子，不影响“收敛阶”的讨论。
 
 因此，在数值算法和迭代方法中，我们通常只选用一种范数来分析误差，而不必担心选哪一种范数会改变收敛性质。
+
+#### 矩阵的范数
+
+一般而言，前面提到的性质对于范数已经足够了。然而，为了便于分析，我们往往要求矩阵的范数还满足如下条件：
+$$
+\text{一致性 consistent：}\|AB\|\le\|A\|\cdot\|B\|
+$$
+> 如果没有一致性，我们对简单的 $AB$ 的误差分析都会变得很复杂，因为没办法从 $\|A\Delta B\|$ 到 $\|A\|\|\Delta B\|$ 了。
+>
+
+下面也介绍常见的范数：
+
+- Fronenius 范数：
+
+$$
+\|A\|_F=\sqrt{\sum_{i=1}^m\sum_{j=1}^n a_{ij}^2}
+$$
+
+- $p$ 阶自然范数：
+
+$$
+\|A\|_p=\max_{\vec{x}\ne \vec{0}}\frac{\|A\vec{x}\|_p}{\|\vec{x}\|_p}=\max_{\|\vec{x}\|=1}\|A\vec{x}\|_p
+$$
+这个依赖于向量的定义似乎有些奇怪，但其实它表现了空间各个方向上矩阵算子最强的拉伸能力。
+
+常用的自然范数有：
+$$
+\begin{align*}
+    \|A\|_{\infty}&=\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|\\
+    \|A\|_{\infty}&=\max_{1\le j\le n}\sum_{i=1}^n|a_{ij}|\\
+    \|A\|_2&=\sqrt{\lambda_{\text{max}}(A^TA)}(\text{谱范数})
+\end{align*}
+$$
+
+> 无穷自然范数的证明：
+>
+> ![alt text](mdPaste/numericalAnalysis/image-9.png)
 
 ### Homework-1
 
@@ -704,4 +757,118 @@ $$
 
 > ![alt text](mdPaste/numericalAnalysis/image-7.png)
 
+(i) 考虑 $A\vec{x}=0$，则有 $\vec{x}^{T}A\vec{x}=0$。根据正定性，有 $\vec{x}=\vec{0}$。因此，$A\vec{x}=0$ 只存在零解，故矩阵满秩，行列式不为零，是可逆的。
+
+(ii) 这由正定性是显然的，我们只要取 $\vec{x_i}$ 的第 $i$ 位为 $1$，其它位为零，然后用 $\vec{x}^TA\vec{x}>0$ 的条件代入就可知， $A$ 的对角线元素必然严格大于零。
+
+(iii) 我们同样采用构造的方法。我们任意取 $i,j$，使得 $x_i=1,x_j=-1$，且 $\vec{x}$ 的其它位为 $0$。那么，有(采用爱因斯坦求和约定)：
+$$
+\vec{x}^TA\vec{x}=x_pA_{pq}x_q=A_{ii}+A_{jj}-2A_{ij}
+$$
+
+不妨设 $A_{ii}\ge A_{jj}$，则有
+$$
+2A_{ii}-2A_{ij}\ge A_{ii}+A_{jj}-2A_{ij}>0\Rightarrow A_{ii}>A_{ij}
+$$
+
+同理，我们把 $x_j$ 改成 $1$，就能得到 $A_{ii}>-A_{ij}$。
+
+综上，对于任意的 $j$，均存在 $i\ne j$ 使得 $A_{ii}>|A_{ij}|$，证毕。
+
+(iv) 令 $x_i=t,x_j=1,i\ne j$，其余位为 $0$，则有
+$$
+A_{ii}t^2+2A_{ij}t+A_{jj}>0
+$$
+
+左式作为一个一元二次方程，它的 $\Delta$ 应当小于零，即
+$$
+4a_{ij}^2-4a_{ii}a_{jj}<0
+$$
+化简即为所求。
+
 #### P412-T17
+
+>![alt text](mdPaste/numericalAnalysis/image-8.png)
+
+(a) 只要计算行列式为 $0$ 即可。
+$$
+|A|=-\alpha+2(2\alpha-\beta)=0\quad\Rightarrow \quad\forall 3\alpha = 2\beta\text{ 均可}
+$$
+
+(b)  $\forall\alpha >1,\beta < 2$ 即可
+
+(c)  $\forall\alpha;\beta=1$
+
+(d) 只需所有主子矩阵的行列式均为正。于是有：
+$$
+\begin{align*}
+    \alpha >0\\
+    2\alpha-\beta >0\\
+    3\alpha-2\beta>0
+\end{align*}
+$$
+
+得 $\beta < \frac{3}{2}\alpha \land \alpha>0$。
+
+#### Read the proof of Theorem 7.7 on p.423
+
+> 证明：对于任意 $\vec{x}\in R^n$，有
+> $$
+> \|x\|_{\infty}\le \|x\|_x\le\sqrt{n}\|x\|_{\infty}
+> $$
+
+不妨令 $x_t$ 是 $\vec{x}$ 的分量中绝对值最大的，则有
+$$
+\|x\|_{\infty}=|x_j|^2\le\sum_{i=1}^nx_i^2=\|x\|_2^2
+$$
+且也有
+$$
+\|x\|_2^2=\sum_{i=1}^nx_i^2\le nx_j^2
+$$
+
+综上开根即证。
+
+#### P429-T5(a)
+>
+> ![alt text](mdPaste/numericalAnalysis/image-10.png)
+$$
+\begin{align*}
+\mathbf{x}-\tilde{\mathbf{x}}&\approx 1\times 10^{-4}(8.57,-6.67)^T\\
+\|\mathbf{x}-\tilde{\mathbf{x}}\|&=8.57\times 10^{-4}\\
+A\tilde{\mathbf{x}}-\mathbf{b}&\approx (-0.00020,-0.00012)^T\\
+\|A\tilde{\mathbf{x}}-\mathbf{b}\|&=2.0\times 10^{-4}
+\end{align*}
+$$
+
+#### P429-T7
+>
+> Show by example that $\|\cdot\|$ defined by  $\|A\|=\max_{1\le i,j\le n}|a_{ij}|$ doesn't define a matrix norm.
+
+其实这里非负性，齐次性和三角不等式都是满足的，只能考虑一致性了。
+
+令 $A=\begin{pmatrix}
+    1&1\\
+    1&1
+\end{pmatrix}$，则有 $A^2=\begin{pmatrix}
+    2&2\\2&2
+\end{pmatrix}$，不满足 $\|A^2\|\le\|A\|^2$。
+
+#### P430-T13
+>
+> Prove that if $\|\cdot\|$ is a vector norm on  $\R^n$, then $\|A\|=\max_{\|\mathbf{x}\|=1}\|A\mathbf{x}\|$ is a matrix norm.
+
+非负性和齐次性显然。
+
+对于三角不等式，设 $\mathbf{x}=\mathbf{x_i}$ 令 $\|A\mathbf{x}\|$ 取最大， $\mathbf{x}=\mathbf{x_j}$ 令 $\|B\mathbf{x}\|$ 取最大， $\mathbf{x}=\mathbf{x_k}$ 令 $\|(A+B)\mathbf{x}\|$ 取最大，有
+$$
+\|A+B\|=\|(A+B)\mathbf{x_k}\|\le \|A\mathbf{x_k}\|+\|B\mathbf{x_k}\|\le\|A\mathbf{x_i}\|+\|B\mathbf{x_j}\|=\|A\|+\|B\|
+$$
+
+对于一致性，有
+$$
+\forall \|\mathbf{x}\|=1,\|AB\mathbf{x}\|=\|A(B\mathbf{x})\|\le\|A\|\|B\mathbf{x}\|\le\|A\|\|B\|
+$$
+即
+$$
+\|AB\|\le\|A\|\|B\|
+$$
