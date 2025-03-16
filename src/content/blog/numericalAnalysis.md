@@ -7,6 +7,10 @@ tags: ["numerical analysis", "note"]
 category: "课程笔记"
 ---
 
+$$
+
+$$
+
 ## Introduction
 
 使用计算机计算和现实计算有一个显著差别：计算机计算的精度是有限制的。我们有不同的
