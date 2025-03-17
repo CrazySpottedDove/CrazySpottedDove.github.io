@@ -574,6 +574,8 @@ Thomas 算法：
 > 上述两种情况下，Thomas 算法是稳定的，因为所有的中间值会受主对角线元素的约束。
 >
 > Thomas 算法的时间复杂度为 $O(n)$。
+>
+> 该算法的具体实现见作业题。
 
 ### 矩阵代数中的迭代方法 Iterative Techniques in Matrix Algebra
 
@@ -679,7 +681,7 @@ $$
 
 对于递归(2)，有：
 $$
-\sum_{j=1}^{i}l_{kj}u_{ji}=a_{ki}\quad\Rightarrow\quad l_{ki}=\frac{a_{ki}-\sum_{j=1}^{i-1}l_{kj}u_{ji}}{u_{ki}},\quad i< k\le n
+\sum_{j=1}^{i}l_{kj}u_{ji}=a_{ki}\quad\Rightarrow\quad l_{ki}=\frac{a_{ki}-\sum_{j=1}^{i-1}l_{kj}u_{ji}}{u_{ii}},\quad i< k\le n
 $$
 这里引入了 $i(n-i)$ 次乘除法与 $(i-1)(n-i)$ 次加减法。
 
@@ -688,7 +690,7 @@ $$
 乘除法数为
 $$
 \begin{align*}
-    \sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)&=\sum_{i=1}^{n}-\frac{2}{3}((i+1)^3-i^3)+(n+2)((i+1)^2-i^2)-(2n+\frac{7}{3})((i+1)-i)\\
+    \sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)&=\sum_{i=1}^{n}-\frac{2}{3}\Delta (i^3)+(n+2)\Delta (i^2)-(2n+\frac{7}{3})\Delta (i)\\
     &=\frac{1}{3}n^3-\frac{1}{3}n
 \end{align*}
 $$
@@ -751,6 +753,35 @@ $$
 $$
 
 这个小题主要体现多次求解同个系数矩阵的线性方程组时 $LU$ 分解法的高效性。
+
+> Thomas 算法具体实现：
+>
+> 套用上面的 $LU$ 分解方法(虽然不是 ppt 中的 Crout 分解)，可以发现 $LU$ 分解的递归公式变得相当简单：
+> $$
+> \begin{align*}
+>     u_{ii}&=a_{ii}-l_{ii-1}a_{i-1i}\\
+>     u_{ii+1}&=a_{ii+1}\\
+>     l_{ii}&=1\\
+>     l_{i+1i}&=\frac{a_{i+1i}}{u_{ii}}
+> \end{align*}
+> $$
+>
+> 之后，我们再分别求解 $\vec{y},\vec{x}$ 的递推式，有：
+> $$
+> \begin{align*}
+>     y_{i+1}&=b_{i+1}-\frac{a_{i+1i}}{u_{ii}}y_i\\
+>     x_{i-1}&=\frac{y_{i-1}-a_{i-1i}x_i}{u_{i-1i-1}}
+> \end{align*}
+> $$
+>
+> 注意到 $l$ 和 $u$ 的互相转换非常简单。因此，如果我们激进一些，完全可以只维护一个一维数组。我们记 $t_i=u_{ii}$，则有：
+> $$
+> \begin{align*}
+> t_{i+1}&=a_{i+1i+1}-\frac{a_{i+1i}a_{ii+1}}{t_i}\\
+> y_{i+1}&=b_{i+1}-\frac{a_{i+1i}}{t_i}y_i\\
+> x_{i-1}&=\frac{y_{i-1}-a_{i-1i}x_i}{t_{i-1}}
+> \end{align*}
+> $$
 
 #### Read the proofs on P401-402
 
