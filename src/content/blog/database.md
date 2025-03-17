@@ -641,7 +641,7 @@ $$
 \begin{align*}
     &\Pi_{\text{customer\_name, branch\_name}}(\text{depositor}\bowtie\text{account})\\
     \div&\Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
-\END{align*}
+\end{align*}
 $$
 
 首先，我们可以分别写出
