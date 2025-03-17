@@ -1191,6 +1191,8 @@ END;
 - 视图不创建实际数据，因此创建视图不需要资源授权。
 - 视图的创建者只继承他对构成视图的基础表上已有的权限。
 
+#### 权限图
+
 为了直观地展示权限情况，我们可以使用权限图 authorization graph:
 
 ![alt text](mdPaste/database/image.png)
@@ -1201,3 +1203,90 @@ END;
 
 - 所有路径都应该以 DBA 为起点。因此，不允许出现循环授权，因为这样会出现回避了 DBA 的循环路径。
 - 当一个用户失去了权限，它赋予给其它用户的权限也随之失效。
+
+#### `grant` 语句
+
+在 `SQL` 中，可以选择的权限如下：
+
+- `select`：允许对表进行读有关操作
+- `insert`：允许插入行
+- `update`：允许使用 `update` 语句来更新
+- `delete`：允许删除行
+- `references`：允许在创建表时声明外键
+- `all privileges`：提供全部权限
+
+`GRANT` 指令格式如下：
+
+```sql
+GRANT some_privileges on some_table_or_view to some_users;
+-- some_users 也可以被设置成 public，这样会把权限赋给所有用户
+```
+
+使用 `grant` 命令的用户必须已经拥有对应表格或视图的权限。如果希望被赋予权限的用户也拥有把权限传递给别的用户的权限，可以在命令的最后面加上 `with grant option`
+
+```sql
+grant SELECT on branch to user1 with grant option;
+```
+
+#### `role`
+
+我们可能希望规定一些权限的范式，比如说高级员工，外包员工，分别拥有对应的权限。使用 `role` 可以实现创建一类用户拥有特定权限的用户，以便权限管理。
+
+就像用户一样，我们可以用 `grant` 为 `role` 赋予权限。通过将 `role` 赋值给用户的方式，就可以让用户的权限和 `role` 的一致。
+
+```sql
+create role student;
+create role teacher;
+grant all privileges on grade to teacher;
+grant SELECT on grade to student;
+grant student to student_a;
+-- 如果你想的话，可以把一个 role grant 给另一个 role。
+-- grant student to teacher;
+```
+
+#### `revoke` 语句
+
+`revoke` 语句可以用来撤回权限。
+
+```sql
+revoke some_privileges on some_table_or_view
+from some_users [restrict | cascade]
+-- for example
+revoke select on grade from student_a cascade;
+```
+
+其中，撤回一个用户的权限时，有可能引起其下游的权限也被撤回，`cascade` 关键词就用于触发这些撤回。如果不希望撤回下游权限，想把操作范围限制起来，就使用 `restrict`。如果级联的撤回是被要求的，那么使用 `restrict` 时会失败。
+
+当 `revoke` 中的 `some_users` 被设置成 `public` 时，所有先前因此默认获得了对应权限的用户会失去这些权限，而通过 `grant` 语句明确被赋予权限的用户不会失去这些权限。
+
+如果一个用户同时被多个用户授权，那么其中一个用户对他撤回权限，在效果上可能并不能让他失去对某些表格或视图的权限。
+
+#### 局限
+
+`sql` 不支持对某行的授权。比如说，无法限制用户只能查询成绩表中自己的成绩。这种限制往往通过应用程序代码来实现。
+
+#### 审计日志 Audit Trails
+
+审计日志是对“谁干了什么”的记录日志。
+
+- 针对用户审计
+
+  ![alt text](mdPaste/database/image-1.png)
+- 针对对象审计
+
+  ![alt text](mdPaste/database/image-2.png)
+
+审计结果只对管理员可见。
+
+### Embedded SQL
+
+SQL 本身在计算、资源管理等方面存在一些局限，不适合单独完成所有编程任务。为了弥补这些不足，SQL 标准定义了将 SQL 嵌入到多种编程语言中的机制。
+
+我们可以在诸如 Pascal、PL/I、Fortran、C、Cobol 等宿主语言中嵌入 SQL 查询或语句。通过这种方式，可以利用宿主语言进行更复杂的计算和资源管理。其中，SQL 负责数据操作，而宿主语言则处理逻辑控制、流程和复杂计算。
+
+嵌入式 SQL 语句通常由特殊的标识符告诉预处理器，这部分代码需要交由数据库处理。例如，在大多数语言中使用的格式如下：
+
+```sql
+-- 依具体语言而定
+EXEC SQL <embedded SQL statement> END_EXEC
+```
