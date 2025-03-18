@@ -475,3 +475,118 @@ $$
 - 写围绕 write around(常用于写穿策略)：直接把数据块写入主存，不存到缓存。
 
 ![alt text](mdPaste/compArch/image-20.png)
+
+### 存储系统的表现评估
+
+#### CPU (Execution) time
+
+$$
+\text{CPU time}=(\text{CPU clock cycles}+\text{Memory stall cycles}\times \text{Clock cycle time})
+$$
+其中
+$$
+\text{Memory stall cycles}=\text{IC}\times \text{MemAccess refs per instructions}\times \text{Miss Rate}\times\text{Miss Penalty}
+$$
+
+其实也就是正常执行的时间加上 miss penalty。
+
+直接用总的时钟周期算似乎比较奇怪。如果用 CPI 来计算，则有：
+$$
+\text{CPU time}=\text{IC}\times (\text{CPI}_{\text{Execution}}+\text{MemAccess Rate}\times \text{Miss Rate}\times\text{Miss Penalty})
+$$
+
+#### Average Memory Access Time
+
+$$
+\begin{align*}
+\text{Average Memory Access Time}&=\frac{\text{Whole accesses time}}{\text{All memory accesses in program}}\\
+&=\text{Hit time}+(\text{MissRate}\times\text{Miss Penalty})
+\end{align*}
+$$
+
+> 我们把 cache 分为 Instruction cache 和 data cache。这相较于使用一个 unified cache 需要更多的硬件，但是性能更好。
+>
+> 如果 data memory 和 instruction memory 的 miss rate 或 miss penalty 不同，那么后式应该写成它们的加权和。
+
+这样，CPU time 也可以写成
+$$
+\text{CPU time}=\text{IC}\times \left(\text{ALUOps Rate}\times \text{CPI}_{\text{ALUOps}}+\text{MemAccess Rate}\times \text{AMAT}\right)\times \text{Cycle Time}
+$$
+
+#### Improve Methods
+
+通过 AMAT 的表达式，我们可以找到四个提升性能的切入点：
+
+- 减少 miss penalty：利用多级缓存，合并写操作到写缓冲区
+- 减少 miss rate：用更大的 block size，更大的 cache，更高的 associativity，进行分支预测和编译阶段优化
+- 减少 hit time：用小而简单的缓存，减少地址转译时间
+- 通过并行减少 miss penalty 和 miss rate
+
+### Virtual Memory
+
+在书写程序时，为了方便，我们常常把存储看成连续的。如果需要实现这一点，就需要更大的物理内存。虚拟内存机制通过建立一个虚拟地址到物理地址的映射，允许把编程中连续的内存地址变成实际的非连续的内存地址，从而提高了内存使用率，也减小了对内存大小的需求。
+
+同时，虚拟内存的机制也将程序使用的实际内存隔离起来，从而提高了安全性。
+
+虚拟内存有两种主要实现方式，分别是
+
+- 分页虚拟内存(paged virtual memory)
+- 分段虚拟内存(segmented virtual memory)。
+
+主要的区别在于，paged virtual memory 将虚拟地址空间划分成固定大小的块 page，而 segmented virtual memory 将虚拟地址空间划分成允许不同大小的段。
+
+| 特性 | 分页虚拟内存 (Paged Virtual Memory) | 分段虚拟内存 (Segmented Virtual Memory) |
+| --- | --- | --- |
+| 每个地址的单词数 | 一个 | 两个（段号和偏移量） |
+| 程序员可见性 | 对应用程序程序员不可见 | 可能对应用程序程序员可见 |
+| 替换块的难度 | 简单（所有块大小相同） | 困难（必须找到连续的、可变大小的内存块） |
+| 内存使用效率 | 内部碎片（页内未使用部分） | 外部碎片（未使用的内存片段） |
+| 磁盘访问高效 | 是（调整页大小以平衡访问时间和传输时间） | 不一定（小段可能只传输几个字节） |
+
+接下来，我们考虑虚拟内存的四大问题。
+
+#### Where can a block be placed in main memory
+
+访问磁盘的效率太低，导致 miss penalty 非常巨大，因此我们尽可能地减小 miss rate，采用全相联的策略。
+
+#### How is a block found if it is in main memory
+
+以 paged virtual memory 为例，维护一个页表(page table)
+
+![alt text](mdPaste/compArch/image-21.png)
+
+我们把虚拟地址 virtual address 分成 virtual page number 和 page offset。通过 virtual page number 在 page table 中索引出 physical address，然后结合 page offset 在主存中找到需要的数据。
+
+> page table 也储存在主存中
+
+使用 page table 后，每当我们需要访问一个物理地址，我们就首先需要从 page table 中获得物理地址，然后再访问它。这样比直接访问多了一次操作，会导致效率下降。因此，我们在这里也引入 cache，以提升效率。
+
+**Translation lookaside buffer(TLB)** 是一个特殊的缓存，用于加快地址转译。
+
+TLB 并不一定采用完全组相联的策略。它接受 virtual page number 拆成 tag 位和 index 位，并把物理地址的一部分(总物理地址除去 page offset)作为 data。
+
+![alt text](mdPaste/compArch/image-22.png)
+
+#### Which block should be replaced on a virtual memory miss
+
+替换最迟使用的 block(LRU 策略)。
+
+我们可以使用一个 use/reference bit 来记录 page 是否被访问过。通过让操作系统定期清除这些位，可以知道一段时间内被访问过的 page。
+
+#### What happens on a write
+
+使用写回策略，因为硬盘太慢。
+
+使用一个 dirty bit 来记录对 page 是否发生了写。
+
+在页的大小上存在取舍，对比如下：
+
+| 特性 | 大页的优点 | 小页的优点 |
+| --- | --- | --- |
+| 页表大小 | 页表更小，内存（或其他资源）用于内存映射的开销更少 | 节省存储空间，当虚拟内存的连续区域大小不是页大小的整数倍时，小页大小可以减少浪费的存储空间 |
+| 缓存性能 | 更大的缓存，缓存命中更快 | - |
+| 传输效率 | 将较大的页从辅助存储传输到主存比传输较小的页更高效 | - |
+| TLB 未命中 | 映射更多内存，减少 TLB 未命中的次数 | - |
+
+> 现代的微处理器支持多种页大小，主要是因为较大的页大小减少了 TLB 项的数量，从而减少了 TLB 未命中的次数。对于某些程序，TLB 未命中对 CPI 的影响与缓存未命中一样显著。
+

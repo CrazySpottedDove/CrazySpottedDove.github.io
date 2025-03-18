@@ -6,6 +6,7 @@ updatedDate: 2025-02-10
 tags: ["archlinux","arch","wsl2"]
 category: "瞎折腾"
 ---
+
 ## informant
 
 informant 是一个用于查看arch资讯的命令
@@ -86,7 +87,7 @@ sudo wget -O /usr/share/i18n/locales/zh_CN https://sourceware.org/git/\?p\=glibc
 ## 查看空间占用
 
 ```bash
- du -h --max-depth=1
+du -h --max-depth=1
 ```
 
 <!-- ## 解决wslg字体太小问题
@@ -113,7 +114,8 @@ export PATH="${PATH}:/home/username/<...>"
 
 ## 卸载okular后发现wps无法打开
 
-wps 打开需要依赖 phonon-qt6-vlc 。由于卸载 okular 时选择的 -Rs 将它当作其它软件不需要的依赖，将它删去了，就会导致 wps 无法启动。运行：
+wps 打开需要依赖 phonon-qt6-vlc 。由于卸载 okular 时选择的 -Rs
+将它当作其它软件不需要的依赖，将它删去了，就会导致 wps 无法启动。运行：
 
 ```bash
 sudo pacman -S phonon-qt6-vlc
@@ -311,10 +313,10 @@ sudo pacman -S fcitx fcitx-libpinyin
 来获取经典的输入法 fctix 以及它的中文拼音拓展。在`.zshrc`中，需要加入：
 
 ```bash
- # 配置输入法
- 140   │ export GTK_IM_MODULE=fcitx
- 141   │ export QT_IM_MODULE=fcitx
- 142   │ export XMODIFIERS=@im=fcitx
+# 配置输入法
+140   │ export GTK_IM_MODULE=fcitx
+141   │ export QT_IM_MODULE=fcitx
+142   │ export XMODIFIERS=@im=fcitx
 ```
 
 来实现输入法的环境变量配置。
@@ -352,7 +354,11 @@ fcitx-init
 
 第一种方案是，暂时选择使用 chafa 来预览像素化的图片，这对于 pdf 文件惨不忍睹。
 
-新的解决方案是，选择使用 wezterm 终端代替 windows terminal 终端，并使用 ssh 的方式连接 wsl， 而非直接打开 wsl，这样可以避免 ConPTY 带来的问题。
+新的解决方案是，选择使用 wezterm 终端代替 windows terminal 终端，并使用 ssh
+的方式连接 wsl， 而非直接打开 wsl，这样可以避免 ConPTY 带来的问题。
+
+> 最新的 windows terminal 版本已经可以支持 yazi
+> 的图片预览功能了。因此，可以不使用 wezterm。
 
 在 wsl 内：
 
@@ -387,7 +393,11 @@ wezterm ssh dove@127.0.0.1
 
 即可完成登录。
 
-然而，ssh 与 直接 wsl 打开在一些方面有所不同。一是对 DISPLAY 变量并没有直接设置，二是不再包含 windows 中的环境变量。不过，由于`quickcode.sh`脚本，之前的远程登录服务器被保留，因此 vscode 中依旧可以使用 windows 中的环境变量。目前发现需要做的就是添加对 DISPLAY 变量(gui应用)的配置和 PULSE_SERVER 变量(mpv)的配置：
+然而，ssh 与 直接 wsl 打开在一些方面有所不同。一是对 DISPLAY
+变量并没有直接设置，二是不再包含 windows
+中的环境变量。不过，由于`quickcode.sh`脚本，之前的远程登录服务器被保留，因此
+vscode 中依旧可以使用 windows 中的环境变量。目前发现需要做的就是添加对 DISPLAY
+变量(gui应用)的配置和 PULSE_SERVER 变量(mpv)的配置：
 
 ```bash
 # ~/.zprofile
@@ -561,13 +571,17 @@ Defaults env_keep += "http_proxy https_proxy no_proxy"
 
 ## 网络与 docker 网络
 
-见 [wsl 原生 docker 网络配置](https://crazyspotteddove.github.io/blog/dockernetwork/)
+见
+[wsl 原生 docker 网络配置](https://crazyspotteddove.github.io/blog/dockernetwork/)
 
 ## 锁定使用旧版本软件
 
-yazi 在某一次更新后，在 `wezterm` 中使用会有明显延迟并报错。更新的版本中，预览也无法正常工作了。因此，需要锁定它的版本。
+yazi 在某一次更新后，在 `wezterm`
+中使用会有明显延迟并报错。更新的版本中，预览也无法正常工作了。因此，需要锁定它的版本。
 
-首先，访问 [Arch Linux Archive](https://archive.archlinux.org/packages)。在其中找到需要的包，然后复制你需要的版本的 url。
+首先，访问
+[Arch Linux Archive](https://archive.archlinux.org/packages)。在其中找到需要的包，然后复制你需要的版本的
+url。
 
 然后，在 `/etc/pacman.conf` 中，设置 `IgnorePkg`:
 
