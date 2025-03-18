@@ -431,7 +431,7 @@ $$
 
 四大问题基本都在计算机组成课中学习过，这里只做简单回顾。
 
-- **Block placement**: 怎么在缓存里放数据？
+- **Block placement**: 怎么在缓存里放主存里的数据？
   - 完全相联、组相联、直接映射
 
 >相连度越高，cache 空间的利用率越高，块冲突率越低。大多数缓存的相连度 $n\le 4$。
@@ -444,7 +444,7 @@ $$
 >
 > ![alt text](mdPaste/compArch/image-19.png)
 
-- **Block replacement**: 怎么在缓存里替换数据？
+- **Block replacement**: 怎么通过缓存替换主存里的数据？
   - 随机、最近最少使用（LRU）、先进先出（FIFO）
 
 > - 随机替换 Random replacement：硬件实现容易
