@@ -210,44 +210,10 @@ select * from students;
 
 舍长拥有了查询 `student_view` 的权限，但是并不会因此获得对原表格的访问权限。
 
-
-
-```sql
--- 使用 test_user 登录后查询视图
-SELECT * FROM SecurityControl.EmployeeView;
-
-#### 步骤 3.4 回收视图权限
-
-使用 REVOKE 命令回收 test_user 对视图的查询权限。
-
-```sql
--- 回收 SELECT 权限
-REVOKE SLCT ON SecurityControl.EmployeeView FROM 'test_user'@'localhost';
-```
-
-切换到 test_user 用户，尝试再次查询视图，验证权限是否被回收。
-
----
-
 ## 实验总结
 
 通过本实验，我们完成了以下任务：
 
 1. 创建表并验证表生成者的默认权限。
 2. 使用 GRANT 和 REVOKE 命令对其他用户进行授权和权限回收，验证权限控制的效果。
-3. 通过视图的方式限制数据访问范围，并授予和回收查询权限，验证视图在权限控制中的作用。
-
----
-
-## 注意事项
-
-1. 在实验结束后，请清理数据库和用户，以免影响后续使用。
-2. 删除用户和数据库的命令如下：
-
-```sql
--- 删除用户
-DROP USER 'test_user'@'localhost';
-
--- 删除数据库
-DROP DATABASE SecurityControl;
-```
+3. 通过视图的方式限制数据访问范围，并授予查询权限，比较账号对原表格和视图的权限差异，验证视图在权限控制中的作用。
