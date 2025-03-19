@@ -577,87 +577,6 @@ Thomas 算法：
 >
 > 该算法的具体实现见作业题。
 
-### 矩阵代数中的迭代方法 Iterative Techniques in Matrix Algebra
-
-我们把 $A\vec{x}=\vec{b}$ 转换成迭代形式  $\vec{x}=T\vec{x}+\vec{c}$。为了能够迭代，我们先需要进行数学上的定义。
-
-#### 向量的范数
-
-我们定义向量的范数 norm。范数需要满足:
-$$
-\begin{aligned}
-\text{(1) 非负性 positive definite：} \quad & \|x\| \ge 0 \quad \text{且} \quad \|x\|=0 \iff x=\mathbf{0}, \\
-\text{(2) 齐次性 homogeneous：} \quad & \|\alpha x\| = |\alpha| \, \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
-\text{(3) 三角不等式 triangle inequality：} \quad & \|x+y\| \le \|x\| + \|y\|, \quad \forall x,y.
-\end{aligned}
-$$
-
-> - $k$ 阶范数的定义：
->
-> $$
-> \|\vec{x}\|_p=\left(\sum_{i=1}^n|x_i|^p\right)^{\frac{1}{p}}
-> $$
->
-> - 无穷阶范数的定义：
->
-> $$
-> \|\vec{x}\|_{\infty}=\max_{1\le i\le n}|x_i|
-> $$
->
-> 欧几里得范数就是二阶范数。
-
-对于某一个范数定义,如果一个迭代序列 $\vec{x_k}$ 满足  $\|\vec{x_k}-\vec{x}\|$ 收敛于 $0$,则说 $\vec{x_k}$ 收敛到 $\vec{x}$.
-
-在有限维实向量空间中，不同范数之间总是“等价”的。也就是说，对于任意两个范数 $\|\cdot\|_a$ 和 $\|\cdot\|_b$，存在正的常数 $c$ 和 $C$，使得对所有 $x$ 都有
-
-$$
-c \, \|x\|_a \le \|x\|_b \le C \, \|x\|_a.
-$$
-
-这说明：
-
-- 如果一个迭代序列在范数 $\|\cdot\|_a$ 下收敛，那么在任意其他范数 $\|\cdot\|_b$ 下也收敛；
-- 收敛的快慢（误差量级）在不同范数下最多相差一个常数因子，不影响“收敛阶”的讨论。
-
-因此，在数值算法和迭代方法中，我们通常只选用一种范数来分析误差，而不必担心选哪一种范数会改变收敛性质。
-
-#### 矩阵的范数
-
-一般而言，前面提到的性质对于范数已经足够了。然而，为了便于分析，我们往往要求矩阵的范数还满足如下条件：
-$$
-\text{一致性 consistent：}\|AB\|\le\|A\|\cdot\|B\|
-$$
-> 如果没有一致性，我们对简单的 $AB$ 的误差分析都会变得很复杂，因为没办法从 $\|A\Delta B\|$ 到 $\|A\|\|\Delta B\|$ 了。
->
-
-下面也介绍常见的范数：
-
-- Fronenius 范数：
-
-$$
-\|A\|_F=\sqrt{\sum_{i=1}^m\sum_{j=1}^n a_{ij}^2}
-$$
-
-- $p$ 阶自然范数：
-
-$$
-\|A\|_p=\max_{\vec{x}\ne \vec{0}}\frac{\|A\vec{x}\|_p}{\|\vec{x}\|_p}=\max_{\|\vec{x}\|=1}\|A\vec{x}\|_p
-$$
-这个依赖于向量的定义似乎有些奇怪，但其实它表现了空间各个方向上矩阵算子最强的拉伸能力。
-
-常用的自然范数有：
-$$
-\begin{align*}
-    \|A\|_{\infty}&=\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|\\
-    \|A\|_{\infty}&=\max_{1\le j\le n}\sum_{i=1}^n|a_{ij}|\\
-    \|A\|_2&=\sqrt{\lambda_{\text{max}}(A^TA)}(\text{谱范数})
-\end{align*}
-$$
-
-> 无穷自然范数的证明：
->
-> ![alt text](mdPaste/numericalAnalysis/image-9.png)
-
 ### Homework-1
 
 #### P397-T7
@@ -839,6 +758,126 @@ $$
 $$
 
 得 $\beta < \frac{3}{2}\alpha \land \alpha>0$。
+
+## 矩阵代数中的迭代方法 Iterative Techniques in Matrix Algebra
+
+我们把 $A\vec{x}=\vec{b}$ 转换成迭代形式  $\vec{x}=T\vec{x}+\vec{c}$。为了能够迭代，我们先需要进行数学上的定义。
+
+### 向量的范数
+
+我们定义向量的范数 norm。范数需要满足:
+$$
+\begin{aligned}
+\text{(1) 非负性 positive definite：} \quad & \|x\| \ge 0 \quad \text{且} \quad \|x\|=0 \iff x=\mathbf{0}, \\
+\text{(2) 齐次性 homogeneous：} \quad & \|\alpha x\| = |\alpha| \, \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
+\text{(3) 三角不等式 triangle inequality：} \quad & \|x+y\| \le \|x\| + \|y\|, \quad \forall x,y.
+\end{aligned}
+$$
+
+> - $k$ 阶范数的定义：
+>
+> $$
+> \|\vec{x}\|_p=\left(\sum_{i=1}^n|x_i|^p\right)^{\frac{1}{p}}
+> $$
+>
+> - 无穷阶范数的定义：
+>
+> $$
+> \|\vec{x}\|_{\infty}=\max_{1\le i\le n}|x_i|
+> $$
+>
+> 欧几里得范数就是二阶范数。
+
+对于某一个范数定义,如果一个迭代序列 $\vec{x_k}$ 满足  $\|\vec{x_k}-\vec{x}\|$ 收敛于 $0$,则说 $\vec{x_k}$ 收敛到 $\vec{x}$.
+
+在有限维实向量空间中，不同范数之间总是“等价”的。也就是说，对于任意两个范数 $\|\cdot\|_a$ 和 $\|\cdot\|_b$，存在正的常数 $c$ 和 $C$，使得对所有 $x$ 都有
+
+$$
+c \, \|x\|_a \le \|x\|_b \le C \, \|x\|_a.
+$$
+
+这说明：
+
+- 如果一个迭代序列在范数 $\|\cdot\|_a$ 下收敛，那么在任意其他范数 $\|\cdot\|_b$ 下也收敛；
+- 收敛的快慢（误差量级）在不同范数下最多相差一个常数因子，不影响“收敛阶”的讨论。
+
+因此，在数值算法和迭代方法中，我们通常只选用一种范数来分析误差，而不必担心选哪一种范数会改变收敛性质。
+
+### 矩阵的范数
+
+一般而言，前面提到的性质对于范数已经足够了。然而，为了便于分析，我们往往要求矩阵的范数还满足如下条件：
+$$
+\text{一致性 consistent：}\|AB\|\le\|A\|\cdot\|B\|
+$$
+> 如果没有一致性，我们对简单的 $AB$ 的误差分析都会变得很复杂，因为没办法从 $\|A\Delta B\|$ 到 $\|A\|\|\Delta B\|$ 了。
+>
+
+下面也介绍常见的范数：
+
+- Fronenius 范数：
+
+$$
+\|A\|_F=\sqrt{\sum_{i=1}^m\sum_{j=1}^n a_{ij}^2}
+$$
+
+- $p$ 阶自然范数：
+
+$$
+\|A\|_p=\max_{\vec{x}\ne \vec{0}}\frac{\|A\vec{x}\|_p}{\|\vec{x}\|_p}=\max_{\|\vec{x}\|=1}\|A\vec{x}\|_p
+$$
+这个依赖于向量的定义似乎有些奇怪，但其实它表现了空间各个方向上矩阵算子最强的拉伸能力。
+
+常用的自然范数有：
+$$
+\begin{align*}
+    \|A\|_{\infty}&=\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|\\
+    \|A\|_{\infty}&=\max_{1\le j\le n}\sum_{i=1}^n|a_{ij}|\\
+    \|A\|_2&=\sqrt{\lambda_{\text{max}}(A^TA)}(\text{谱范数})
+\end{align*}
+$$
+
+> 无穷自然范数的证明：
+>
+> ![alt text](mdPaste/numericalAnalysis/image-9.png)
+>
+
+### 特征值与特征向量 Eigenvalues and Eigenvectors
+
+#### 谱半径 Spectral Radius
+
+对于矩阵 $A$ ，其特征值可能是复数。因此，我们利用复数的幅值来刻画它们，其中最大的幅值也就是谱半径 $\rho(A) $ 。
+
+对于一个 $n$ 阶矩阵，对于任意的自然范数，有 $\rho (A)\le \left\|A\right\|$。
+
+$$
+\forall\text{ eigenvalue }\lambda, |\lambda|\cdot \left\|\mathbf{x}\right\|=\left\|\lambda \mathbf{x}\right\|
+$$
+
+#### 雅可比迭代法 Jacobi Iterative Method
+
+把一个矩阵 $A$ 分成对角阵 $D$ 与上三角阵 $-U$ 和下三角阵 $-L$ 的和，则有
+$$
+A \mathbf{x}= \mathbf{b}\iff D \mathbf{x}=(L+U) \mathbf{x}+ \mathbf{b}
+$$
+
+> 在直觉上，对于将 $A$ 分裂，然后一部分放到方程右边构造的迭代法，扔到方程右边的部分越多，收敛得就越快。
+>
+> 这通过极限思想容易想通，把 $A$ 拆成 $A$ 和 $0$ 后，一次迭代就收敛了。
+
+这就出现了一个迭代式(假设 $D$ 可逆)
+$$
+\mathbf{x}=D^{-1}(L+U) \mathbf{x}+ D^{-1}\mathbf{b}
+$$
+
+雅可比迭代法的思路是构造一个便于求解的迭代式(系数矩阵只是个对角阵)，以提高迭代效率。
+
+在每一次迭代的过程中，我们可以直接利用本次迭代算出来的可能更精确的分量值，这可以让我们只需要维护一个向量。
+
+#### 高斯-赛德尔迭代法 Gauss-Seidel Iterative Method
+
+另一种迭代思路是解一个系数矩阵为下三角矩阵的
+
+### Homework
 
 #### Read the proof of Theorem 7.7 on p.423
 
