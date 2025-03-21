@@ -845,37 +845,170 @@ $$
 
 #### 谱半径 Spectral Radius
 
-对于矩阵 $A$ ，其特征值可能是复数。因此，我们利用复数的幅值来刻画它们，其中最大的幅值也就是谱半径 $\rho(A) $ 。
+对于矩阵 $A$ ，其特征值可能是复数。因此，我们利用复数的幅值来刻画它们，其中最大的幅值也就是谱半径 $\rho(A)$ 。
 
-对于一个 $n$ 阶矩阵，对于任意的自然范数，有 $\rho (A)\le \left\|A\right\|$。
+> 对于一个 $n$ 阶矩阵，对于任意的自然范数，有 $\rho (A)\le \left\|A\right\|$
+>
+> Prove:
+> $$
+> \forall\text{ eigenvalue }\lambda, |\lambda|\cdot \left\|\mathbf{x}\right\|=\left\|\lambda \mathbf{x}\right\|=\left\|A \mathbf{x}\right\|\le \left\|A\right\|\cdot \left\|\mathbf{x}\right\|
+> $$
 
-$$
-\forall\text{ eigenvalue }\lambda, |\lambda|\cdot \left\|\mathbf{x}\right\|=\left\|\lambda \mathbf{x}\right\|
-$$
+如果一个 $n$ 阶矩阵满足对于任何 $i,j=1,2,\ldots,n$，有 $\lim_{k\to\infty}(A^k)_{ij}=0$，则说这个矩阵是收敛的。
 
 #### 雅可比迭代法 Jacobi Iterative Method
 
-把一个矩阵 $A$ 分成对角阵 $D$ 与上三角阵 $-U$ 和下三角阵 $-L$ 的和，则有
+雅可比迭代法的思路是构造一个便于求解的迭代式(系数矩阵只是个对角阵)，以提高迭代效率。
+
+我们把一个矩阵 $A$ 分成对角阵 $D$ 与上三角阵 $-U$ 和下三角阵 $-L$ 的和，则有
 $$
 A \mathbf{x}= \mathbf{b}\iff D \mathbf{x}=(L+U) \mathbf{x}+ \mathbf{b}
 $$
 
-> 在直觉上，对于将 $A$ 分裂，然后一部分放到方程右边构造的迭代法，扔到方程右边的部分越多，收敛得就越快。
->
-> 这通过极限思想容易想通，把 $A$ 拆成 $A$ 和 $0$ 后，一次迭代就收敛了。
-
-这就出现了一个迭代式(假设 $D$ 可逆)
+这就出现了一个可迭代式(假设 $D$ 可逆)
 $$
 \mathbf{x}=D^{-1}(L+U) \mathbf{x}+ D^{-1}\mathbf{b}
 $$
 
-雅可比迭代法的思路是构造一个便于求解的迭代式(系数矩阵只是个对角阵)，以提高迭代效率。
+我们定义雅可比迭代法的系数 $T_j=D^{-1}(L+U),\mathbf{c_j}=D^{-1}b$，则有迭代式
+$$
+\mathbf{x}^{(k)}=T_j\mathbf{x}^{(k-1)}+\mathbf{c_j}
+$$
 
-在每一次迭代的过程中，我们可以直接利用本次迭代算出来的可能更精确的分量值，这可以让我们只需要维护一个向量。
+> 具体算法：
+>
+> 首先，我们合适地交换行或列，使得对于 $i=1,\ldots,n$， $a_{ii}\ne 0$。
+>
+> 然后，根据迭代式，每一次迭代，我们从 $i=1$ 直到 $n$，计算
+> $$
+> x_i^{(k+1)}=\frac{b_i-\sum_{j\ne i \& j=1}^{n}a_{ij}x_j^{(k)}}{a_{ii}}
+> $$
+>
+> 在这里，我们需要使用两个向量来维护 $\mathbf{x}^{(k)},\mathbf{x}^{(k+1)}$。当不使用并行优化时，这么做显得有些浪费。一个想法是，我们始终只维护一个向量 $\mathbf{x}$ ，此时，在计算 $x_i$ 时，是使用了新的 $1\ldots i-1$ 个分量和其它旧的分量。这也就引出了高斯-赛德尔迭代法。
 
 #### 高斯-赛德尔迭代法 Gauss-Seidel Iterative Method
 
-另一种迭代思路是解一个系数矩阵为下三角矩阵的
+> 在直觉上，对于将 $A$ 分裂，然后一部分放到方程右边构造的迭代法，扔到方程右边的部分越多，收敛得就越快。
+>
+> 这通过极限思想容易想通，把 $A$ 拆成 $A$ 和 $0$ 后，一次迭代就收敛了。
+>
+> 当然，我们还需要保证迭代式易于求解的问题，因此一些拥有优良性质的矩阵就适合被留下来，把剩余部分扔到迭代右式里。
+
+Gauss-Seidel Iterative Method 的思路就是解一个系数矩阵为下三角矩阵的迭代式。我们做如下拆分：
+$$
+(D-L)\mathbf{x}=U \mathbf{x}+\mathbf{b}\iff \mathbf{x}=(D-L)^{-1}U \mathbf{x}+(D-L)^{-1}\mathbf{b}
+$$
+
+类似地，我们定义 $T_g=(D-L)^{-1}U,\mathbf{c_g}=(D-L)^{-1}\mathbf{b}$，则有迭代式
+$$
+\mathbf{x}^{(k)}=T_g\mathbf{x}^{(k-1)}+\mathbf{c_g}
+$$
+
+在具体实现上，很巧的是，这恰恰是我们在尝试对雅可比迭代法的空间占用上做优化的结果。
+
+对于不同的问题，Jacobi 和 Gauss-Seidel 迭代法有不同的表现。有时前者好用后者不好用，反之的情况也会存在。但至少让我们关注一下收敛性的问题吧。
+
+### 迭代方法的收敛性
+
+首先介绍如下定理：
+
+> 对于矩阵 $A$，下面五个命题等价：
+>
+> 1. $A$ 是收敛的。
+> 2. 对于某个自然范数，有 $\lim_{n\to\infty}\left\|A\right\|=0$
+> 3. 对于任意自然范数，有 $\lim_{n\to\infty}\left\|A\right\|=0$
+> 4. $\rho (A)<1$
+> 5. 对于任意的 $\mathbf{x}$，有 $\lim_{n\to\infty}A^n \mathbf{x}=\mathbf{0}$
+
+拥有如上定理之后，我们可以得出一个结论：
+
+> 对于任意的迭代式
+> $$
+> \mathbf{x}^{(k)}=T\mathbf{x}^{(k-1)}+\mathbf{c}
+> $$
+> 只要满足 $\rho (T)<1$，迭代式就必然收敛到解
+> $$
+> \mathbf{x}=T \mathbf{x}+\mathbf{c}
+> $$
+> Proof:
+>
+> 我们将迭代式展开，则有
+> $$
+> \mathbf{x}^{(k)}=T^k \mathbf{x}^{(0)}+(T^{k-1}+\ldots+T+I)\mathbf{c}
+> $$
+> 由于 $\rho(T)<1$，有对于任意的 $\mathbf{x}$， $\lim_{n\to\infty}T^n \mathbf{x}=\mathbf{0}$。因此，当我们取 $k$ 无限大时，就有 $T^k \mathbf{x}^0\to \mathbf{0}$。
+>
+> 于是，我们有
+> $$
+> \lim_{k\to\infty}\mathbf{x}^{(k)}=(I-T)^{-1}\mathbf{c}
+> $$
+> 而这恰好就是 $\mathbf{x}=T \mathbf{x}+\mathbf{c}$ 的解。
+
+回忆前文，我们知道，对于任意的自然范数 $\left\|\cdot\right\|$，有  $\rho (T)\le \left\|T\right\|$。这说明， $\left\|T\right\|<1$ 是比 $\rho (T)<1$ 更强的条件。当满足这个更强的条件时，有如下结论：
+
+> 迭代式
+> $$
+> \mathbf{x}^{(k)}=T\mathbf{x}^{(k-1)}+\mathbf{c}\quad(\text{given }\forall \text{ natural norm}\left\|T\right\|<1)
+> $$
+> 收敛，且其中间解与收敛终点的误差控制在：
+> $$
+> \begin{align}
+    > \left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|&\le \left\|T\right\|^k \left\|\mathbf{x}-\mathbf{x}^{(0)}\right\|\\
+    > \left\|\mathbf{x} -\mathbf{x}^{(k)}\right\|&\le \frac{\left\|T\right\|^k}{1-\left\|T\right\|}\left\|\mathbf{x}^{(1)}-\mathbf{x}^{(0)}\right\|
+> \end{align}
+> $$
+
+对于一个严格对角占优的矩阵 $A$，不管迭代起点如何选取，Jacobi 和 Gauss-Seidel 法都会得到收敛到唯一解的迭代序列。
+
+### Relaxation Methods
+
+回忆第一个 research topic 中我最终对不动点迭代的方法，可以发现一个特殊的视角：
+
+> 我们可以把不动点迭代写成
+> $$
+> \mathbf{x}^{(k+1)}=\mathbf{x}^{(k)}+ \mathbf{\Delta }^{(k+1)}
+> $$
+> 其中 $\mathbf{\Delta }^{(k+1)}$ 是一个有关于 $\mathbf{x}^{(k)}$ 的函数，且当 $\mathbf{x}^{(k)}$ 为不动点时取值为 $\mathbf{0}$。这个函数事实上表现了每一步迭代的步长。
+
+接着这个视角，我们可以把 Gauss-Seidel 迭代法写成如下的形式：
+$$
+x_i^{(k+1)}=x_i^{(k)}+\frac{b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}-\sum_{j\ge i}a_{ij}x_j^{(k)}}{a_{ii}}
+$$
+特殊地，我们记
+$$
+r_i^{(k+1)}=b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}-\sum_{j\ge i}a_{ij}x_j^{(k)}
+$$
+并称之为残差 residual。
+
+这样，就有
+$$
+x_i^{(k+1)}=x_i^{(k)}+\frac{r_i^{(k+1)}}{a_{ii}}
+$$
+
+回忆一下我们上面提到的视角，我们很容易想到一件事，这个迭代的步长也许可以加一些系数来调整。这也就是所谓的 relaxation method：
+$$
+x_i^{(k+1)}=x_i^{(k)}+\omega \frac{r_i^{(k+1)}}{a_{ii}}
+$$
+
+根据 $\omega$ 的范围不同，我们把 relaxation method 分为
+
+- $0<\omega <1$ Under-Relaxation Methods
+- $\omega =1$ Gauss-Seidel Methods
+- $\omega >1$ Successive Over-Relaxation Methods
+
+经过化简，我们可以得出 relaxation method 的一个不太简洁的矩阵表示：
+$$
+\begin{align*}
+    \mathbf{x}^{(k+1)}&=(D-\omega L)^{-1}[(1-\omega )D+\omega U]\mathbf{x}^{(k)}+(D-\omega L)^{-1}\omega \mathbf{b}\\
+    &=T_{\omega }\mathbf{x}^{(k)}+\mathbf{c}_\omega
+\end{align*}
+$$
+
+下面不加证明地给出几个定理：
+
+![alt text](mdPaste/numericalAnalysis/image-11.png)
+
+对于不同的方程，我们可以通过调整 $\omega $，使得谱半径达到最小，此时收敛速度最快。
 
 ### Homework
 
@@ -941,3 +1074,101 @@ $$
 $$
 \|AB\|\le\|A\|\|B\|
 $$
+
+#### P436-T3
+
+> $$
+> \begin{align*}
+>     a.&\begin{pmatrix}
+> 2 & -1 \\
+> -1 & 2
+> \end{pmatrix}&b.&\begin{pmatrix}
+> 0 & 1 \\
+> 1 & 1
+> \end{pmatrix}\\
+> c.&\begin{pmatrix}
+> 0 & \frac{1}{2} \\
+> \frac{1}{2} & 0
+> \end{pmatrix}&d.&\begin{pmatrix}
+> 1 & 1 \\
+> -2 & -2
+> \end{pmatrix}\\
+> e.&\begin{pmatrix}
+> 2 & 1 & 0 \\
+> 1 & 2 & 0 \\
+> 0 & 0 & 3
+> \end{pmatrix}&f.&\begin{pmatrix}
+> -1 & 2 & 0 \\
+> 0 & 3 & 4 \\
+> 0 & 0 & 7
+> \end{pmatrix}\\
+> g.&\begin{pmatrix}
+> 2 & 1 & 1 \\
+> 2 & 3 & 2 \\
+> 1 & 1 & 2
+> \end{pmatrix}&h.&\begin{pmatrix}
+> 3 & 2 & -1 \\
+> 1 & -2 & 3 \\
+> 2 & 0 & 4
+> \end{pmatrix}
+> \end{align*}
+> $$
+> 这些矩阵中，哪些是收敛的？
+
+本题应该就是考察谱半径的求解，也就是特征值的求解。
+
+只以 (d),(h) 为例。
+
+(d):
+$$
+\det\begin{pmatrix}
+    1-\lambda &1\\
+    -2&-2-\lambda
+\end{pmatrix}=\lambda ^2+\lambda =0
+$$
+解得 $\lambda _1=0,\lambda _2=-1$，故谱半径为 $1$，不收敛。
+
+(h):
+$$
+\det\begin{pmatrix}
+    3-\lambda &2&-1\\
+    1&-2-\lambda &3\\
+    2&0&4-\lambda
+\end{pmatrix}=-\lambda ^3+5 \lambda ^2+2 \lambda -24=0
+$$
+解得 $\lambda _1=3,\lambda _2=4, \lambda _3=-2$，故谱半径为 $4$，不收敛。
+
+#### p453-T13
+
+> 证明 Kahan 定理：
+>
+> 如果 $a_{ii}\ne 0,i=1,2,\ldots,n$，则有 $\rho (T_\omega )\ge| \omega -1|$
+
+Proof:
+$$
+T_\omega =(D-\omega L)^{-1}[(1-\omega )D+\omega U]
+$$
+首先，让我们回忆一下线性代数的内容：
+
+对于 $n$ 阶矩阵 $A$，有它的特征多项式 $\det(\lambda E-A)$ 等于
+$$
+\lambda ^n+b_1 \lambda ^{n-1}+\ldots+b_{n-1} \lambda +b_n,\text{ where } b_k=(-1)^kS_k
+$$
+其中 $S_k$ 为 $A$ 的 $k$ 阶主子式。
+
+由这个定理，可以得到两个重要推论：
+$$
+\begin{align*}
+    \sum_{i=1}^{n}\lambda _i&=\sum_{i=1}^{n}a_{ii}\\
+    \prod_{i=1}^n \lambda _i&=\det(A)
+\end{align*}
+$$
+而我们需要使用的是第二个。
+
+我们可以注意到， $(D-\omega L)^{-1}$ 是一个下三角矩阵， $[(1-\omega )D+\omega U]$ 是一个上三角矩阵，而它们的行列式是非常好计算的，即为对角线元素的乘积。
+
+对于 $(D-\omega L)^{-1}$，其对角线元素为 $\frac{1}{a_{ii}}$；对于 $[(1-\omega )D+\omega U]$，其对角线元素为 $\frac{1-\omega }{a_{ii}}$。于是，我们有
+$$
+\det(T_\omega )=(1-\omega )^n
+$$
+根据平均原则，特征值最大的模至少要为 $|1-\omega|$，得证。
