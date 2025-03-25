@@ -1291,7 +1291,7 @@ SQL 本身在计算、资源管理等方面存在一些局限，不适合单独�
 EXEC SQL <embedded SQL statement> END_EXEC
 ```
 
-## Entity-Relationship Model
+## 实体-关系模型 Entity-Relationship Model
 
 ### 实体集 Entity Sets
 
@@ -1478,6 +1478,12 @@ E-R 图的种类多样。
 
 > 映射基数限定了一个实体在参与关联时，与另一端实体可能关联的最大数目；而全参与、部分参与则反映了参与关联的下限（0 次或至少 1 次）。
 
+在 E-R 图中，映射基数还可以通过在关系线上标注数字来表示。一个比较好的理解方式是，上面标注的数字代表了一个实体可以参与关系的数量范围。
+
+![alt text](mdPaste/database/image-13.png)
+
+以上图为例， `1..1` 表示每个 `loan` 实体最少且最多参与 1 个 `borrower` 关系， `0..*` 则表示每个 `customer` 实体可参与任意个 `borrower` 关系。综合一下，就是 1 个 `customer` 可以拥有多个 `loan`。
+
 #### 非二元关系的二元化表示
 
 一些看似非二元的关系可能更适合用二元关系来表示。例如：
@@ -1635,3 +1641,11 @@ E-R 图的种类多样。
 - 直接转化所有的低等级实体集，并把高等级实体集的属性也加进来，使用高等级实体集的主键。如果 Specialization 是完全的，那么就没有必要在高等级表中存储数据。此时，它作为一个视图来工作。
 
   这样做的坏处是，可能带来大量的数据冗余。
+
+### E-R 图符号汇总
+
+![alt text](mdPaste/database/image-14.png)
+
+![alt text](mdPaste/database/image-15.png)
+
+## Relational Database Design
