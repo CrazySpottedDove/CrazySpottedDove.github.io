@@ -635,3 +635,28 @@ TLB 并不一定采用完全组相联的策略。它接受 virtual page number �
 ## 指令级并行 ILP
 
 ### 动态调度 Dynamic Scheduling
+
+众所周知的，在静态流水线中，我们会在 `ID` 阶段检查冒险。如果有冒险，就不会发射，直接一直等着，直到没有冒险.
+
+在动态流水线中，我们把 `ID` 阶段分成 `IS` (Issue) 阶段和 `RO` (Read Operands) 阶段。
+
+- `IS` 阶段进行指令译码，并检查结构冒险。
+- `RO` 阶段读取操作数，且只有在没有数据冒险时才会执行。
+
+我们可以看到， `IS` 阶段是顺序执行的，即 in-order issue；而 `RO` 阶段是乱序执行的，即 out-of-order execution。
+
+看一个具体的例子：
+
+```risv
+div   f0 , f2 , f4         //浮点除法
+add  f10 , f0 , f8         //浮点加法
+sub  f12 , f8 , f14        //浮点减法
+```
+
+这里的  `add` 由于对 `div` 有数据依赖，因此在静态流水线中会阻塞。然而， `sub` 其实不依赖 `div` 和 `add`。在动态调度后，我们就可以实现让 `sub` 先行执行了。
+
+我们介绍两种实现动态调度的算法：
+
+#### Scoreboard algorithm
+
+#### Tormasulo's Approach
