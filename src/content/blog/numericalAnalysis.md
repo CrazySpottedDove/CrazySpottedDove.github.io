@@ -1172,3 +1172,22 @@ $$
 \det(T_\omega )=(1-\omega )^n
 $$
 根据平均原则，特征值最大的模至少要为 $|1-\omega|$，得证。
+
+## Error Bounds and Iterative Refinement
+
+对于一个方程 $A(\mathbf{x}+\delta \mathbf{x})=\mathbf{b}+\delta \mathbf{b}$，有相对误差范围
+$$
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \left\|A\right\|\cdot \left\|A^{-1}\right\|\cdot \frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|}
+$$
+
+$\left\|A\right\|\cdot \left\|A^{-1}\right\|$ 表现了相对误差的系数，被记为 $K(A)$。
+
+> 考虑给矩阵 $A$ 乘以一个非零系数 $\lambda$，可以发现相对误差是不变的。这说明，如果一个方法解 $A\mathbf{x}=\mathbf{b}$ 正常，那么它解 $\lambda A \frac{\mathbf{x}}{\lambda }=\mathbf{b}$ 也是可行的，这体现了求解算法的不变性。
+
+## Approximating Eigenvalues
+
+### Power method
+
+设 $A$ 为 $n\times n$ 的矩阵，且满足特征值 $\left|\lambda _1\right|>\left|\lambda _2\right|\ge \left|\lambda _3\right|\ldots\ge \left|\lambda _n\right|\ge 0$。此时，有 $n$ 个线性无关的特征向量 $\mathbf{x}_i,i=1\ldots n$ 。
+
+我们考虑把任意的向量 $\mathbf{x}$ 用上述的特征向量分解，并不断地用 $A$ 去乘 $\mathbf{x}$。最终， $\mathbf{x}$ 会趋向于 $|\lambda _{max}|^{k}\alpha \mathbf{x}_{max}$，其中 $\alpha \mathbf{x}_{max}$ 为 $\mathbf{x}$ 在最大特征值对应的特征向量上的分量。
