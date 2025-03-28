@@ -1180,9 +1180,37 @@ $$
 \frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \left\|A\right\|\cdot \left\|A^{-1}\right\|\cdot \frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|}
 $$
 
-$\left\|A\right\|\cdot \left\|A^{-1}\right\|$ 表现了相对误差的系数，被记为 $K(A)$。
+$\left\|A\right\|\cdot \left\|A^{-1}\right\|$ 表现了相对误差的放大系数，被记为 $K(A)$，即条件数 condition number。可以看出，我们希望 $K(A)$ 越小越好。
 
 > 考虑给矩阵 $A$ 乘以一个非零系数 $\lambda$，可以发现相对误差是不变的。这说明，如果一个方法解 $A\mathbf{x}=\mathbf{b}$ 正常，那么它解 $\lambda A \frac{\mathbf{x}}{\lambda }=\mathbf{b}$ 也是可行的，这体现了求解算法的不变性。
+>
+> 对于 $K(A)$，有如下结论成立：
+
+- 如果 $A$ 是对称的，那么 $K(A)_2=\frac{\max \left|\lambda \right|}{\min \left|\lambda \right|}$。在几何上理解，我们考虑一个三维空间，对称的 $A$ 把一个球映射成一个椭球， $K(A)_2$ 也就是长轴与短轴的比值。因此， $K(A)_2$ 刻画的是这个椭球的扁平程度。
+- 对于任意的自然范数 $\left\|\cdot\right\|_p$，有 $K(A)_p\ge 1$
+- $K(\lambda A)=K(A)$，考虑乘以一个缩放倍数不改变几何图形的形状。
+- 对于正交矩阵 $A(A^{-1}=A^T)$，有 $K(A)_2=1$。
+
+对于一样的方程，我们假设 $\mathbf{b}$ 是准确的，而 $A$ 拥有误差 $\delta A$，则有
+
+$$
+(A+\delta A)(\mathbf{x}+\delta \mathbf{x})=\mathbf{b}
+$$
+此时有结论
+$$
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \frac{K(A)\frac{\left\|\delta A\right\|}{\left\|A\right\|}}{1-K(A)\frac{\left\|\delta  A\right\|}{\left\|A\right\|}}
+$$
+
+更进一步地，当 $A$ 和 $\mathbf{b}$ 均存在误差时，如果我们限制  $\left\|\delta A\right\|<\frac{1}{\left\|A^{-1}\right\|}$，则有
+$$
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \frac{K(A)}{1-K(A)\frac{\left\|\delta A\right\|}{\left\|A\right\|}}\left( \frac{\left\|\delta A\right\|}{\left\|A\right\|}+\frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|} \right)
+$$
+
+若对于某个自然范数，矩阵 $B$ 满足 $\left\|B\right\|<1$，则有 $I\pm B$ 非奇异，且
+
+$$
+\left\|(I\pm B)^{-1}\right\|\le \frac{1}{1-\left\|B\right\|}
+$$
 
 ## Approximating Eigenvalues
 
