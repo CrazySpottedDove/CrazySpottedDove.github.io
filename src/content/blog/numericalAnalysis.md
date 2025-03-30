@@ -333,7 +333,7 @@ $$
 > 对于一个一阶收敛的迭代序列，有
 >
 > $$
-> \frac{p_{n+1}-p}{p_{n}-p}\approx \frac{p_{n+2}-p}{p_{n+1}-p_n}
+> \frac{p_{n+1}-p}{p_{n}-p}\approx \frac{p_{n+2}-p}{p_{n+1}-p}
 > $$
 >
 > 据此，我们可以解出 $p$ 的一个近似解
@@ -1175,6 +1175,8 @@ $$
 
 ## Error Bounds and Iterative Refinement
 
+### Condition Number 条件数
+
 对于一个方程 $A(\mathbf{x}+\delta \mathbf{x})=\mathbf{b}+\delta \mathbf{b}$，有相对误差范围
 $$
 \frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \left\|A\right\|\cdot \left\|A^{-1}\right\|\cdot \frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|}
@@ -1207,16 +1209,146 @@ $$
 \frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \frac{K(A)}{1-K(A)\frac{\left\|\delta A\right\|}{\left\|A\right\|}}\left( \frac{\left\|\delta A\right\|}{\left\|A\right\|}+\frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|} \right)
 $$
 
+### 数值秩
+
+在明确误差存在，且可以估计误差的基础上，我们可以引入方程**数值可解**的概念。
+
+在数学上，我们可以通过行列式是否为 $0$ 来判断矩阵是否满秩。如果不满秩，说明矩阵是退化的，也就没有唯一解。
+
+而在数值分析中，我们有数值秩的概念。当数值求解出行列式的绝对值小于某个范围时，我们就认为这个矩阵在数值秩意义上是不满秩的，因而是不可解的。这里的不可解体现在 $K(A)$ 非常大，因此误差极大，数值解不可信(考虑 $\left|A\right|=\lambda _1 \lambda _2\ldots \lambda _n$， $\left|A\right|\approx 0$ 时， $\lambda _{a\text{max}}$ 极有可能非常接近 $0$，从而导致 $K(A)$ 非常大)。
+
+### Iterative Refinement
+
+在线性方程组的迭代求解中，我们同样引入残差向量的概念：
+
+对于迭代过程中的某个 $\mathbf{x}^{(k)}$，有其残差为
+$$
+\mathbf{r}^{(k)}=\mathbf{b}-A \mathbf{x}^{(k)}
+$$
+
+类似于 $\mathbf{b}$ 存在误差时对解的误差的估计，对于任意的自然范数，我们有
+$$
+\frac{\mathbf{x}-\mathbf{x}^{(k)}}{\left\|x\right\|}\le K(A)\frac{\left\|\mathbf{r}^{(k)}\right\|}{\left\|\mathbf{b}\right\|}
+$$
+这也等价于
+$$
+\left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|\le \left\|\mathbf{r}^{(k)}\right\|\cdot \left\|A^{-1}\right\|
+$$
+
+据此，我们只需要控制 $\left\|\mathbf{r}^{(k)}\right\|\cdot \left\|A^{-1}\right\|$ 收敛即可。
+
+设 $\mathbf{d}^{(k)}=A^{-1} \mathbf{r}^{(k)}$，由于矩阵求逆需要计算较多，因此我们使用求解线性方程组 $A \mathbf{d}^{(k)}=\mathbf{r}^{(k)}$ 的方式求解 $\mathbf{d}^{(k)}$。我们可以构造下面的迭代步骤：
+
+- 求解 $A \mathbf{x}^{(k)}=\mathbf{b}$
+- 计算 $\mathbf{r}^{(k)}=\mathbf{b}-A \mathbf{x}^{(k)}$
+- 求解 $A \mathbf{d}^{(k)}=\mathbf{r}^{(k)}$ 得到 $\mathbf{d}^{(k)}$
+- 取 $\mathbf{x}^{(k+1)}=\mathbf{x}^{(k)}$
+
+然而，这个方法在实际实践中比较少使用，主要的原因是一些情况下它不会收敛。
+
+### 补充
+
 若对于某个自然范数，矩阵 $B$ 满足 $\left\|B\right\|<1$，则有 $I\pm B$ 非奇异，且
 
 $$
 \left\|(I\pm B)^{-1}\right\|\le \frac{1}{1-\left\|B\right\|}
 $$
 
+### Homework-week7-1
+
+> ![alt text](mdPaste/numericalAnalysis/image-12.png)
+
+首先，回忆二阶矩阵的求逆公式：
+
+对于二阶矩阵 $A=\begin{pmatrix}
+    a&b\\c&d
+\end{pmatrix}$，其逆为
+$$
+A^{-1}=\frac{\begin{pmatrix}
+    d&-b\\-c&a
+\end{pmatrix}}{\left|A\right|}
+$$
+
+于是易解。
+
+对于更高阶的矩阵，回想一下伴随矩阵 $A^*$，它满足 $a^*_{ij}$ 为 $a_{ji}$ 的代数余子式。另一种表达，则是伴随矩阵为原矩阵的代数余子式矩阵的转置。对于矩阵的逆，有
+$$
+A^{-1}=\frac{A^*}{\left|A\right|}
+$$
+
+> ![alt text](mdPaste/numericalAnalysis/image-13.png)
+
+回忆希尔伯特矩阵 $H$ 的定义：
+
+$$
+h_{ij}=\frac{1}{i+j-1}
+$$
+
+因此，三阶希尔伯特矩阵为
+$$
+\begin{pmatrix}
+    1&\frac{1}{2}&\frac{1}{3}\\[1ex]
+    \frac{1}{2}&\frac{1}{3}&\frac{1}{4}\\[1ex]
+    \frac{1}{3}&\frac{1}{4}&\frac{1}{5}
+\end{pmatrix}
+$$
+
+后面易解。
+
+这题的用意是比较两次取逆后的数值解和原本的希尔伯特矩阵之间的误差。希尔伯特矩阵的条件数是随着矩阵维度的增加迅速增大的，它是数值分析中一个典型的病态矩阵。
+
 ## Approximating Eigenvalues
+
+在本章中，我们讨论如何求解一个矩阵的主特征值 dominant eigenvalue，即拥有最大绝对值的特征值。
 
 ### Power method
 
 设 $A$ 为 $n\times n$ 的矩阵，且满足特征值 $\left|\lambda _1\right|>\left|\lambda _2\right|\ge \left|\lambda _3\right|\ldots\ge \left|\lambda _n\right|\ge 0$。此时，有 $n$ 个线性无关的特征向量 $\mathbf{x}_i,i=1\ldots n$ 。
 
-我们考虑把任意的向量 $\mathbf{x}$ 用上述的特征向量分解，并不断地用 $A$ 去乘 $\mathbf{x}$。最终， $\mathbf{x}$ 会趋向于 $|\lambda _{max}|^{k}\alpha \mathbf{x}_{max}$，其中 $\alpha \mathbf{x}_{max}$ 为 $\mathbf{x}$ 在最大特征值对应的特征向量上的分量。
+我们考虑把任意的向量 $\mathbf{x}$ 用上述的特征向量分解，并不断地用 $A$ 去乘 $\mathbf{x}$。最终， $A^k\mathbf{x}$ 会趋向于 $\lambda _{1}^{k}\alpha \mathbf{x}_{1}$，其中 $\alpha \mathbf{x}_{1}$ 为 $\mathbf{x}$ 在 $\mathbf{x}_1$ 上的分量（考虑 $|\lambda _1|$ 严格大于 $|\lambda _2|$，因此其它分量会等比收敛）。
+
+在有了 $A^k \mathbf{x}\to \lambda _1^k \alpha \mathbf{x}_1$ 的认识的基础上，我们也很容易想到，用
+$$
+\lambda _1\approx \frac{\left\|\mathbf{x}^{(k+1)}\right\|}{\left\|\mathbf{x^{(k)}}\right\|},\mathbf{x}^{(k)}=A^{(k)} \mathbf{x}
+$$
+的方式来估计 $\lambda _1$，并通过每次迭代中估计值的变化量来决定是否停止迭代。
+
+当然，这样的方法存在问题，那就是你无法保证计算的稳定性。考虑 $\left|\lambda _1\right|<1$ 的情况，随着迭代的进行， $\|\mathbf{x}^{(k)}\|$ 会逐渐趋于零，导致计算误差增大。因此，一个朴素的想法是，让每一次迭代后都做一次标准化，保证 $\|\mathbf{x}^{(k)}\|$ 在一个合适的范围。
+
+### Normalization
+
+在每一次迭代过程中，我们保证 $\left\|\mathbf{x}^{(k)}\right\|=1$。我们只需这么操作：
+
+- 令标准化后的 $\mathbf{u}^{(k)}$ 为 $\mathbf{x}^{(k)}$ 除以其无穷范数后的结果
+- 令迭代式为 $\mathbf{x}^{(k+1)}=A \mathbf{u}^{(k)}$
+
+联系迭代中 $\mathbf{x}^{(k)}$ 会逐渐靠近 $\mathbf{x}_1$ 的方向的性质，我们也可以发现， $\lambda _1$ 的估计也就是 $\mathbf{x}^{(k)}$ 的无穷范数。
+
+> - 在迭代过程中，需要注意 $\mathbf{x}^{(0)}$ 的选取。如果恰好选中了特征值 $0$ 的特征向量，那么就应该重新选取 $\mathbf{x}^{(0)}$
+> - 该迭代法也适用于 $\lambda _1=\lambda _2\ldots=\lambda_i$ 的情况，但是不适用于 $\lambda _1=-\lambda _2$ 的情况。
+> - 如果 $\mathbf{x}^{(0)}$ 完全没有 $\mathbf{x} _1$ 方向上的分量，那么求得的就不是 $\lambda _1$，而是对应的特征向量上分量不为零的、绝对值最大的特征值。
+> - 该方法的收敛速度由 $\left|\frac{\lambda _2}{\lambda 1}\right|$ 决定，是线性收敛的，因此可以使用 Aitken's  $\Delta ^2$ Acceleration，其中的迭代序列需要取 $\mathbf{x}^{(k)}$ 的无穷范数
+
+### Inverse Power Method
+
+在 **Normalization** 的讨论中，我们提到， **Power Method** 的收敛速度由 $\left|\frac{\lambda _2}{\lambda _1}\right|$ 决定。那么，一个自然的想法，就是让这个比值尽可能的小。
+
+如果我们考虑使用对 $\lambda _i$ 所在的一维坐标系平移来实现这一点，最大限度地提升 $\left|\frac{\lambda _1}{\lambda _2}\right|$ 的办法是，让新的坐标原点为旧系中的 $\frac{\lambda _2+\lambda _n}{2}$，即构造一个新的矩阵，使得所有的特征值都减去 $p=\frac{\lambda _2+\lambda _n}{2}$。
+
+这种新的矩阵可以简单地通过 $B=A-pI$ 来构造。此时，有
+$$
+\left|\frac{\lambda _1-p}{\lambda _2-p}\right|>\left|\frac{\lambda _1}{\lambda _2}\right|
+$$
+即收敛加速。
+
+这时，我们需要求解 $\lambda _n$。考虑对 $A^{-1}$ 做迭代，那么我们将解出其 dominant eigenvalue 为 $\frac{1}{\lambda _n}$。
+
+需要注意的是，由于计算矩阵的逆较为麻烦，我们实际上在每一次迭代中用
+$$
+A \mathbf{x'}^{(k+1)}=\mathbf{x'}^{(k)}
+$$
+的方式解出 $\mathbf{x'}^{(k+1)}$。
+
+> 你可能发现了，其实我们只要提升收敛速度就好， $p$ 的取值只要有道理就好了。因此，我们也可以选择求解一些虽然不能最大限度提升收敛速度，但是求解上比较方便的 $p$，并据此提升收敛速度。
+>
+> 另外，取 $p=\frac{\lambda _2+\lambda _n}{2}$ 时，迭代并不能无限地加速。随着迭代速度越来越快，可以发现，求解线性方程组时对应的条件数也越来越大，这两者存在着相互的制约。
