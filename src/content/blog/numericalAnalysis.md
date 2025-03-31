@@ -1321,13 +1321,12 @@ $$
 
 - 令标准化后的 $\mathbf{u}^{(k)}$ 为 $\mathbf{x}^{(k)}$ 除以其无穷范数后的结果
 - 令迭代式为 $\mathbf{x}^{(k+1)}=A \mathbf{u}^{(k)}$
-
-联系迭代中 $\mathbf{x}^{(k)}$ 会逐渐靠近 $\mathbf{x}_1$ 的方向的性质，我们也可以发现， $\lambda _1$ 的估计也就是 $\mathbf{x}^{(k)}$ 的无穷范数。
+- 记 dominant index $i^{(k)}$ 为  $\mathbf{x}^{(k)}$ 中决定无穷范数的分量对应的 index，则第 $k+1$ 次迭代时， $\lambda _1$ 的估计为 $\mathbf{x}^{(k+1)}$ 的第 $i^{(k)}$ 位。这是因为，在第 $k$ 次迭代中，我们把 $\mathbf{x}^{(k)}$ 的第 $i^{(k)}$ 个分量标准化为了 $1$，它在下一次迭代中的变化就体现了 $\lambda _1$ 的伸缩效果。
 
 > - 在迭代过程中，需要注意 $\mathbf{x}^{(0)}$ 的选取。如果恰好选中了特征值 $0$ 的特征向量，那么就应该重新选取 $\mathbf{x}^{(0)}$
 > - 该迭代法也适用于 $\lambda _1=\lambda _2\ldots=\lambda_i$ 的情况，但是不适用于 $\lambda _1=-\lambda _2$ 的情况。
 > - 如果 $\mathbf{x}^{(0)}$ 完全没有 $\mathbf{x} _1$ 方向上的分量，那么求得的就不是 $\lambda _1$，而是对应的特征向量上分量不为零的、绝对值最大的特征值。
-> - 该方法的收敛速度由 $\left|\frac{\lambda _2}{\lambda 1}\right|$ 决定，是线性收敛的，因此可以使用 Aitken's  $\Delta ^2$ Acceleration，其中的迭代序列需要取 $\mathbf{x}^{(k)}$ 的无穷范数
+> - 该方法的收敛速度由 $\left|\frac{\lambda _2}{\lambda 1}\right|$ 决定，是线性收敛的，因此可以使用 Aitken's  $\Delta ^2$ Acceleration，其中的迭代序列需要取  $\mathbf{x}^{(k)}[i^{(k-1)}]$。
 
 ### Inverse Power Method
 
