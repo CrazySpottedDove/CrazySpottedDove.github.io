@@ -1671,7 +1671,7 @@ E-R 图的种类多样。
 - 对于复合属性，可以把它展平成多个简单属性
 - 对于多值属性，可以把多值变成多条记录或者建立一个新的表。
 
-对第一范式的硬性要求有如下考量：
+对第一范式的硬性要求有如下考量(一张表中列过多时，可能导致数据的冗余和增删改的异常)：
 
 - 简化数据的存储
 - 减少数据的冗余
@@ -1693,10 +1693,125 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-16.png)
 
-以此表为例，`branch-name`、`branch-city` 和 `assets` 的数据在每个贷款记录中重复。而且，若一个 branch 没有 loan，那就会引入 `null`，处理上较为麻烦。
+以此表为例，`branch-name`、`branch-city` 和 `assets` 的数据在每个贷款记录中重复。当我们只是想要修改一个分行的 `assets` 时，我们居然需要遍历所有贷款记录并进行修改，这是很糟糕的事情。
 
-一种优化方法是把表格进行分解(decomposition)。如上表，就可以把它分解成 `Branch_schema(branch-name, branch-city, assets)` 和 `Loan_info_schema(branch-name, customer-name, loan-number, amount)`。
+而且，在新添加一个 branch 时，它没有 loan，这导致了问题。直觉上，我们会给 `customer-name` 和 `loan-number` 赋 `null`，可是它们是键，这并不合理。因此，我们要在有了贷款记录后再加进这个表，这在逻辑上一点都不符合直觉，所谓**新增异常**。
 
-我们用*无损连接分解*来描述一个好的分解，即：
+同样地，当一个分行只有一条贷款记录时，我们想要删除它，就会把这个分行也从这个表中删去，这就是**删除异常**。
 
-关系被分解成多个子关系后，可以通过自然连接无损重构原关系。既不会丢失信息，也不会引入冗余数据。
+在上面的讨论中，我们看到，当彼此之间相关性没那么强的信息都被放在一张表中，就会导致一系列问题。因此，一个自然的思路是把相关性不强的信息分开。对应的操作，也就是把表格分解(decomposition)。
+
+如上表，就可以把它分解成 `Branch_schema(branch-name, branch-city, assets)` 和 `Loan_info_schema(branch-name, customer-name, loan-number, amount)`。
+
+我们用**无损连接分解**(Lossless-join decomposition)来描述一个好的分解，即：
+
+> 关系被分解成多个子关系后，可以通过自然连接无损重构原关系。既不会丢失信息，也不会引入冗余数据。
+
+在数学上，即：
+
+> 对于原表 $R$ 的任意属性 $r$，有
+> $$
+> r=\Pi_{R_1}(r)\bowtie\Pi_{R_2}(r)
+> $$
+
+### 函数依赖 Functional Dependency
+
+假设表 $R$ 有属性 $\alpha$ 和 $\beta$。我们记 $\alpha \to \beta$，若对于表中的任意行 $t_1,t_2$，只要 $t_1[\alpha ]=t_2[\alpha ]$，就有 $t_1[\beta ]=t_2[\beta ]$。
+
+在语言上，我们称 $\alpha \to \beta$ 为 $\beta$ 函数依赖于(functionally dependent on) $\alpha$，或 $\alpha$ 函数决定(functionally determines)  $\beta$。
+
+> 这相似于映射中单射的关系
+
+接下来，我们拓展函数依赖的定义。当对于表 $R$ 中任意的属性，只要一组属性 $K$ 的值确定，它们就都被确定，那就说 $K \to R$。可以发现， $K$ 是 $R$ 的 superkey，当且仅当 $K \to R$。
+
+显然，对于 $A$ 的任意子集 $B$，都有 $A\to B$。
+
+首先，我们给出基本的定律。
+
+- 自反律 reflexivity：若 $B\subseteq A$，则 $A\to B$
+- 增补律 augmentation：若 $A\to B$，则 $CA\to CB$。这里符号 $CA$ 表示把 $C$ 中所有属性和 $A$ 中所有属性合起来，形成一个新的集合。显然，这样会有 $CA\to B$。
+- 传递律 transitivity：若 $A\to B,B\to C$，则 $A\to C$。
+
+我们把多个函数依赖关系放在一个集合 $F$ 中，称为一个函数依赖集。对于所有可以通过上面的定律推导出来的函数依赖关系，我们也把它们收集起来，记作 $F^+$，称为 $F$ 的闭包。
+
+![alt text](mdPaste/database/image-17.png)
+
+根据基本定律，可以推导出一些有用的定律：
+
+- 合并律 Union：$(A\to B\land A\to C)\Rightarrow (A\to BC)$
+- 分解律 Decomposition： $(A\to BC)\Rightarrow (A\to B\land A\to C)$
+- 伪传递律 Pseudotransitivity： $(A\to B\land CB\to D)\Rightarrow(CA\to D)$
+
+对于参与函数依赖集 $F$ 中某些函数关系的属性组成的集合 $a$，我们定义 $a^+$ 为在 $F$ 下由 $a$ 中属性所直接和间接函数决定的属性的集合。
+
+这个定义给了我们寻找表的 superkey 提供了一定帮助：
+
+当表 $R$ 满足函数依赖集 $F$，且 $a^+$ 包含 $R$，那么 $a$ 是 $R$ 的 superkey。
+
+我们可以将函数依赖集图形化：
+
+![alt text](mdPaste/database/image-18.png)
+
+首先，我们选取没有被指向的属性，在上图中即 $A,G$。然后，我们再检查是否需要添加新的属性来保证可以走通图中的全部属性。
+
+![alt text](mdPaste/database/image-19.png)
+
+如上图，首先选取 $C$，然后发现添加 $A$ 或 $B$ 都可行，因此这个表的 candidate key 为 $AC$ 或 $BC$。
+
+### 正则覆盖 Canonical Cover
+
+正则覆盖的定义源自最小化依赖关系描述的需求：
+
+> $F$ 的正则覆盖 $F_c$ 为满足 $F^+=F_c^+$ 的最小集合。
+
+这里的最小，意味着，每一个函数依赖中，左边和右边都应该是最精简的，且函数依赖的总数也应当是最少的。
+
+### Decomposition
+
+#### 无损连接
+
+首先，我们考虑分解要是一个无损连接分解：
+
+> 对于表 $R_1,R_2$，当且仅当 $\left\{ R_1\cap R_2 \right\}\to R_1$ 或 $\left\{ R_1\cap R_2 \right\}\to R_2$，且 $R=R_1\cup R_2$，有 $R_1,R_2$ 是 $R$ 的无损分解。
+
+简单来说，就是分解后两张表的公有属性是其中至少一张表的键。
+
+#### 依赖保持
+
+分解的另一个要求则是依赖保持，即分解后，子表中的所有依赖关系集的并和原表的依赖关系集应该等价：
+$$
+(F_1\cup F_2 \cup \ldots \cup F_n)^+=F^+
+$$
+
+一个典型的错误例子如下：
+
+![alt text](mdPaste/database/image-20.png)
+
+可以发现，这样的分解导致了 $B\to C$ 的丢失，因此是不满足依赖保持的。
+
+### BC 范式 Boyce-Codd Normal Form(BCNF)
+
+我们说一个表 $R$ 满足 BCNF，若这张表中拥有的所有函数依赖关系，要么是平凡的，要么左侧是表的 superkey。
+
+![alt text](mdPaste/database/image-21.png)
+
+如下表就不满足 BCNF，因为 $B$ 不是键， $B\to C$ 也不平凡。
+
+![alt text](mdPaste/database/image-22.png)
+
+#### BCNF 分解
+BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依赖关系 $\alpha\to \beta$，如果 $\alpha$ 不是键，那就进行一次分解 $(\alpha ,\beta )\cup(R - \beta )$，然后把新的表放进递归序列。递归结束，即完成分解。
+
+这样分解后，所有的子表都满足 BCNF，且分解是无损连接分解。
+
+需要注意的是，BCNF 分解并不一定能够保持函数依赖关系。因此，**无损连接、BCNF、依赖保持**不能总是全部满足。
+
+### 第三范式(3NF)
+
+我们说一个表 $R$ 满足 3NF，若这张表中拥有的所有函数依赖关系，要么是平凡的，要么左侧是表的 superkey，要么右侧与左侧的差集是 superkey。
+
+![alt text](mdPaste/database/image-23.png)
+
+第三范式是一个约束较弱的范式，它允许冗余的出现，但是保持了依赖关系。也正因此，总存在一个满足无损连接、依赖保持的 3NF 分解。
+
+#### 3NF 分解
