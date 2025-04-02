@@ -481,7 +481,7 @@ $$
 #### CPU (Execution) time
 
 $$
-\text{CPU time}=(\text{CPU clock cycles}+\text{Memory stall cycles}\times \text{Clock cycle time})
+\text{CPU time}=(\text{CPU clock cycles}+\text{Memory stall cycles})\times \text{Clock cycle time}
 $$
 其中
 $$
@@ -492,7 +492,7 @@ $$
 
 直接用总的时钟周期算似乎比较奇怪。如果用 CPI 来计算，则有：
 $$
-\text{CPU time}=\text{IC}\times (\text{CPI}_{\text{Execution}}+\text{MemAccess Rate}\times \text{Miss Rate}\times\text{Miss Penalty})
+\text{CPU time}=\text{IC}\times (\text{CPI}_{\text{Execution}}+\text{MemAccess Rate}\times \text{Miss Rate}\times\text{Miss Penalty})\times \text{Clock cycle time}
 $$
 
 #### Average Memory Access Time
@@ -512,6 +512,8 @@ $$
 $$
 \text{CPU time}=\text{IC}\times \left(\text{ALUOps Rate}\times \text{CPI}_{\text{ALUOps}}+\text{MemAccess Rate}\times \text{AMAT}\right)\times \text{Cycle Time}
 $$
+
+另一个好的思路则是先计算正常工作时的时间，然后再加上 miss 造成的损失时间。
 
 #### Improve Methods
 
@@ -631,6 +633,45 @@ TLB 并不一定采用完全组相联的策略。它接受 virtual page number �
   程序只有持有相应的“密钥”才能解锁对数据的访问
 
   为使密钥/能力机制有效，硬件和操作系统必须能够在进程之间显式传递这些密钥，同时防止进程自行伪造
+
+## 减小缓存 miss Penalty
+
+### 减小 miss penalty
+
+#### 多级缓存
+
+- 一级缓存较小且足够快，可以匹配快速 CPU 的时钟周期，从而减少缓存命中时的访问时间。
+
+- 二级缓存较大，能够捕获许多原本需要访问主存的内存请求。它通过减少访问主存的次数，降低了一级缓存未命中导致的后续惩罚。
+
+在计算多级缓存的表现时，我们用次级缓存的 hit time 加上 miss rate * miss penalty 来计算本级缓存的 miss penalty。
+
+此外，我们还有 local miss rate 和 global miss rate 的概念。
+
+- local miss rate 指每级缓存本身的 miss rate
+- global miss rate 指从一级缓存直到本级缓存所有的 miss rate 的乘积。
+
+在拥有了这样的定义的情况下，以二级缓存为例，我们可以这样计算总的惩罚:
+
+$$
+\text{miss rate}_{\text{L1 global}}\times \text{Hit time}_{\text{L2}}+\text{miss rate}_{\text{L2 global}}\times \text{miss penalty}_{\text{L2}}
+$$
+
+#### 关键词优先(Critical Word First)和早启动(Early Restart)
+
+在缓存未命中时，不必等待整个数据块加载完成后再让 CPU 继续执行，可以通过以下两种策略优化：
+
+- **关键词优先（Critical Word First）**：优先从内存中请求丢失的关键字（missed word），并在关键字到达后立即发送给 CPU，让 CPU 继续执行，同时继续加载数据块的其余部分。这种方法也被称为 **wrapped fetch** 或 **requested word first**。
+
+- **早启动（Early Restart）**：在数据块中请求的关键字到达后，立即将其发送给 CPU，让 CPU 继续执行，而不等待整个数据块加载完成。
+
+这些策略通常在较大的数据块中更有用。由于空间局部性的存在，程序往往会访问数据块中的下一个连续字，因此早启动的收益可能不明显。
+
+### 减小 miss Rate
+
+### 通过并行
+
+### 减小 hit time
 
 ## 指令级并行 ILP
 
