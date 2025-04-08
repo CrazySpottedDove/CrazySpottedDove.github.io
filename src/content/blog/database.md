@@ -148,7 +148,7 @@ SQL = DDL + DML + DCL
 
 > 例如， 对于表 $r(A,B),s(B,C)$，有
 > $$
-> r \JOIN s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
+> r \Join s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
 > $$
 >
 > theta 连接:先做笛卡尔积，然后做条件为 $\theta$ 的选择.
@@ -1474,7 +1474,7 @@ E-R 图的种类多样。
 - **部分参与 (Partial Participation)**
   表示某些实体可能在该关系集中完全没有任何关联。
 
-  *例如：在 borrower 关系集中，customer 的参与是部分参与，即并非每个客户都有贷款记录。*
+  *例如：在 borrower 关系集中，customer 的参与是部分参与，即并非每个客户都有贷款记录。
 
 > 映射基数限定了一个实体在参与关联时，与另一端实体可能关联的最大数目；而全参与、部分参与则反映了参与关联的下限（0 次或至少 1 次）。
 
@@ -1800,6 +1800,7 @@ $$
 ![alt text](mdPaste/database/image-22.png)
 
 #### BCNF 分解
+
 BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依赖关系 $\alpha\to \beta$，如果 $\alpha$ 不是键，那就进行一次分解 $(\alpha ,\beta )\cup(R - \beta )$，然后把新的表放进递归序列。递归结束，即完成分解。
 
 这样分解后，所有的子表都满足 BCNF，且分解是无损连接分解。
@@ -1808,10 +1809,57 @@ BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依�
 
 ### 第三范式(3NF)
 
-我们说一个表 $R$ 满足 3NF，若这张表中拥有的所有函数依赖关系，要么是平凡的，要么左侧是表的 superkey，要么右侧与左侧的差集是 superkey。
+我们说一个表 $R$ 满足 3NF，若这张表中拥有的所有函数依赖关系，要么是平凡的，要么左侧是表的 superkey，要么右侧与左侧的差集中的每一个属性都是某个 candidate key 的一部分（称之为**主属性**）。这里的 candidate key 可以是不相同的。
 
 ![alt text](mdPaste/database/image-23.png)
 
 第三范式是一个约束较弱的范式，它允许冗余的出现，但是保持了依赖关系。也正因此，总存在一个满足无损连接、依赖保持的 3NF 分解。
 
+考虑
+
+$$
+\begin{align*}
+    R&=(J, K, L)\\
+    F&=\left\{ JK\to L, L\to K \right\}
+\end{align*}
+$$
+
+此时，由于 $L$ 不是 superkey，所以 $R$ 不满足 BCNF。但是，由于 $K$ 是主属性，所以 $R$ 满足 3NF。
+
+如果尝试 BCNF 分解，会获得 $(JL)$ 和 $(LK)$，此时依赖关系 $JK\to L$ 丢失。
+
+3NF 可能带来冗余问题，如 $R$，当我们尝试添加一组 $(l,k)$ 时（为了便于理解，假设 $J$ 代表学生， $K$ 代表课程， $L$ 代表老师， $(l,k)$ 即老师开了一门课）， $j$ 的值就可能为 `null`。
+
 #### 3NF 分解
+
+假设原有的函数依赖关系为 $F$，我们先找到它的正则覆盖 $F_c$。
+
+对于 $F_c$ 中的全部函数依赖关系 $\alpha \to \beta$，只要没有已有的表已经包含了它，我们都独立建表。
+
+最后，如果没有一张已有的表中包含完整的 candidate key，就单独建表存放 candidate key。
+
+![alt text](mdPaste/database/image-24.png)
+
+### 多值依赖 Multivalued Dependencies
+
+有的表虽然符合 BCNF，但是它又好像没有什么好的性质。比如说，考虑一张表 `classes(course, teacher, book)`，用来表示一个老师开了某个课，然后课程需要某些教材。可以发现，这张表中没有函数依赖关系，因此满足 BCNF。
+
+然而，观察这张表可能的实例，会发现数据冗余非常严重：
+
+![alt text](mdPaste/database/image-25.png)
+
+因此，它应当还有合适的分解。可是，依据什么分解呢？
+
+——我们定义多值依赖(Multivalued Dependencies) 来指导这样的分解。
+
+我们定义  $b$ 多值依赖于 $a$，即 $a\to\to b$，若对于任意行，如果它们的 $a,b$ 相同，则其余的属性不会相同。
+
+对于一张表 $R$， 如果 $a \subseteq b$ 或者 $a\cup b = R$，那么 $a\to\to b$ 是平凡的。
+
+### 第四范式(4NF)
+
+如果一个表中，对于任意的多值依赖函数关系 $a\to\to b$，要么 $a\to\to b$ 是平凡的，要么 $a$ 是一个 superkey，那么就说这个表符合第四范式。
+
+第四范式是比 BC 范式更为严格的范式。只要一个表符合 4NF，那它一定符合 BCNF。
+
+所谓范式只是一个理论。在实践应用中，不一定所有的关系都要符合什么范式。在一些情况下，反而可以尝试通过反规范化来提升性能。
