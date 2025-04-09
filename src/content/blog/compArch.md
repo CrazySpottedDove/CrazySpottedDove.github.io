@@ -667,11 +667,373 @@ $$
 
 这些策略通常在较大的数据块中更有用。由于空间局部性的存在，程序往往会访问数据块中的下一个连续字，因此早启动的收益可能不明显。
 
+> 假设缓存块大小为 64 字节，CPU 每个时钟周期可以发送两个 load 指令，L2 缓存的访问特性如下：
+>
+> - 获取关键字（critical 8 bytes）需要 11 个时钟周期。
+> - 获取剩余的每 8 字节需要额外的 2 个时钟周期。
+>
+> 1. **使用 Critical Word First 策略：**
+>    - 获取关键字需要 11 个时钟周期。
+>    - 剩余的 7 个 8 字节需要 $(8-1) \times 2 = 14$ 个时钟周期。
+>    - 总时间为 $11 + 14 = 25$ 个时钟周期。
+>
+> 2. **不使用 Critical Word First 策略：**
+>    - 加载整个缓存块需要 $11 + (8-1) \times 2 = 25$ 个时钟周期。
+>    - 之后，CPU 需要额外的 $8 / 2 = 4$ 个时钟周期来发出加载指令。
+>    - 总时间为 $25 + 4 = 29$ 个时钟周期。
+
+#### Giving Priority to Read Misses over Writes
+
+我们可以通过添加 write buffer 的方式延迟 write。
+
+考虑我们发生了 read miss，且要替换的 block 是 dirty 的。未添加 write buffer 前，我们需要等待 write 结束，然后再执行 read。有了 write buffer 后，我们可以只是复制这部分数据到 write buffer，然后就执行 read，让 write buffer 处理写的事情。这可以减小等待的时间。
+
+> 不过，在之后 read 的时候，我们需要检测 read 的数据是不是还在 write buffer 中。
+>
+> 考虑这样一个情形：
+>
+> ![alt text](mdPaste/compArch/image-23.png)
+>
+> R3 把数据写到 cache 的 M[512] 中，随即 R1 读 M[1024] 发生 read miss，并且替换掉了 cache 中存放 M[512] 的 block。这时，会触发写操作，尝试通过 write buffer 把 M[512] 写到主存中。然而，紧接着又尝试把 M[512] 加载到 R2 中。如果 write buffer 的写操作还没有结束，就会发生 R3 和 R2 中数据不统一的问题，即发生一个 read-after-write date hazard。
+
+#### Merging write buffer
+
+为了加快 write buffer 的效率，我们使用 multiword write 来代替 one word write。我们为 buffer 添加多个 entry，每当需要 write 时，就把要写的地址分摊到每一个 entry，同时执行写入。
+
+![alt text](mdPaste/compArch/image-24.png)
+
+#### Victim Caches
+
+Victim Cache 是一种小型的全相联缓存，通常用于存储主缓存中最近被替换的缓存块。
+
+- 当主缓存发生未命中时，Victim Cache 会被检查，看是否包含所需的数据块。
+- 如果找到所需数据块，则 Victim Cache 和主缓存中的块进行交换（swap）。
+- 如果 Victim Cache 中找到所需数据块，则无需访问下一层存储（如主存），从而减少访问延迟。
+
+这种技术和直接映射技术配合较好。直接映射技术的 hit time 是最少的，但是 miss rate 比较大。通过添加一个 victim cache，可以大大减小 miss penalty，从而提升表现。
+
 ### 减小 miss Rate
+
+在考虑如何减小 miss rate 前，我们先考虑一下 miss 的来源。
+
+- Compulsory：第一次访问一个 block 中的某些数据，它必然不在 cache 中，需要把整个 block 读过来，这被叫做 cold start miss 或者 first reference miss。
+- Capacity：cache 的空间有限，新的 block 代替了老的 block，那样老的 block 再需要访问时就会有 miss，所谓 capacity miss。这其实就是在全相联缓存中大多数的 miss。
+- Conflict：不同的 block 映射到同一个组并发生替换，被替换的 block 再被访问就会有 miss，这被叫做 collision miss 或 interference miss。这其实就是在直接映射和部分组相联缓存中大多数的 miss。
+
+#### 提升 block size
+
+根据空间局部性，提升 block size 有利于将接下来可能要访问的数据也一次性加载到 cache 中，从而减少 cold start miss。不过，这么做会加大 miss penalty，且当 block size 过大时，entry 的数量过少，collision miss 会增加。
+
+#### 用更大的 cache
+
+简单地使用更大的 cache 可以降低 miss rate，但是会提升 hit time，并引入更大的硬件开销。
+
+#### 提高组相联度
+
+组相联度越高，collision miss rate 越低。但是，提升组相联度会提升 hit time(miss penalty 无影响)，从而提升 clock cycle time。
+
+#### Way Prediction and Pseudo-Associative Cache
+
+Way Prediction 和 Pseudo-Associative Cache 是相对组相联缓存的另一种缓存策略。
+
+Way Prediction Cache 中同样有多个 way，但是在寻找目标块时并不会同时检查所有的路径。它通过保留一个预测位的方式，预测下一次访问时目标块所在的 way。因此，如果预测正确， hit time 就和直接映射缓存相同。预测错误时，则尝试访问其它路径，并更新预测位。
+
+Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块时也不会同时检查所有的路径。它采用一种分时访问的方式，先访问某个路径，然后访问其它路径。如果第一次访问就能命中的情况较多，它就能保持住和直接映射缓存相近的 hit time。
+
+因此，这两种策略在保有与直接映射相近的 hit time 的前提下，通过类似提高组相连度的方式减少了 collision miss，从而降低 miss rate。
+
+#### 编译器优化 Compiler optimizations
+
+编译器优化是一种通过重新组织代码来减少缓存未命中率的技术。这些优化不需要硬件更改，完全依赖于编译器对指令和数据的重新排序。以下是一些常见的优化技术：
+
+##### **指令优化**
+
+1. **重新排列过程（Reorder Procedures in Memory）**：
+   - 将程序中的过程或函数重新排列在内存中，以减少冲突未命中（Conflict Misses）。
+   - 通过分析程序的访问模式，将经常一起使用的代码放在相邻的内存位置。
+
+2. **使用分析工具（Profiling for Conflicts）**：
+   - 使用性能分析工具检测缓存冲突。
+   - 根据分析结果调整代码布局，减少冲突。
+
+##### **数据优化**
+
+1. **合并数组（Merging Arrays）**：
+   - 将多个独立的数组合并为一个复合元素的数组。
+   - 通过减少访问不同数组时的跨度，改善空间局部性（Spatial Locality）。
+   - **示例**：
+
+     ```c
+     // 原始代码
+     int x[100], y[100];
+     for (int i = 0; i < 100; i++) {
+         process(x[i], y[i]);
+     }
+
+     // 优化后
+     struct { int x, y; } data[100];
+     for (int i = 0; i < 100; i++) {
+         process(data[i].x, data[i].y);
+     }
+     ```
+
+2. **循环交换（Loop Interchange）**：
+   - 改变嵌套循环的顺序，使数据按存储顺序访问，从而改善空间局部性。
+   - **示例**：
+
+     ```c
+     // 原始代码
+     for (int i = 0; i < N; i++) {
+         for (int j = 0; j < M; j++) {
+             process(A[j][i]);
+         }
+     }
+
+     // 优化后
+     for (int j = 0; j < M; j++) {
+         for (int i = 0; i < N; i++) {
+             process(A[j][i]);
+         }
+     }
+     ```
+
+3. **循环融合（Loop Fusion）**：
+   - 将两个独立的循环合并为一个循环，以减少循环开销并改善局部性。
+   - **示例**：
+
+     ```c
+     // 原始代码
+     for (int i = 0; i < N; i++) {
+         process1(A[i]);
+     }
+     for (int i = 0; i < N; i++) {
+         process2(A[i]);
+     }
+
+     // 优化后
+     for (int i = 0; i < N; i++) {
+         process1(A[i]);
+         process2(A[i]);
+     }
+     ```
+
+4. **分块（Blocking）**：
+   - 将数据划分为较小的块，并在每个块内重复访问数据，从而改善时间局部性（Temporal Locality）。
+   - **示例**：
+
+     ```c
+     // 原始代码
+     for (int i = 0; i < N; i++) {
+         for (int j = 0; j < M; j++) {
+             process(A[i][j]);
+         }
+     }
+
+     // 优化后
+     for (int ii = 0; ii < N; ii += B) {
+         for (int jj = 0; jj < M; jj += B) {
+             for (int i = ii; i < ii + B; i++) {
+                 for (int j = jj; j < jj + B; j++) {
+                     process(A[i][j]);
+                 }
+             }
+         }
+     }
+     ```
+
+    这里的 B 称之为 blocking factor。
 
 ### 通过并行
 
+#### 非阻塞缓存 Nonblocking Cache
+
+非阻塞缓存允许在出现 read miss 的情况下继续处理别的命中的请求，通过将命中和非命中处理并行化的方式减小了 miss penalty。
+
+更复杂的非阻塞缓存允许同时处理多个未命中请求，进一步降低 miss penalty
+
+#### 硬件预取 Hardware Prefetching of Instructions and data
+
+硬件预取器会根据程序的访问模式预测未来可能需要的数据或指令，并将其从内存加载到缓存中。
+
+当 CPU 需要这些数据时，它们已经在缓存中，从而避免了 cold start miss。
+
+为了避免预取的数据覆盖缓存中已有的有用数据，许多缓存会将预取的数据存储在一个特殊的缓冲区中，直到它们被实际需要。
+
+#### Compiler-controlled prefetch
+
+通过编译器优化，将一些预取指令插入程序中，使得一些数据可以在实际被需要前先被准备好。
+
+##### 预取的两种类型
+
+1. **绑定预取（Binding Prefetch）**：
+   - 直接将数据加载到寄存器中。
+   - 必须确保地址和寄存器是正确的。
+   - 如果地址或寄存器错误，可能会导致程序行为异常。
+
+2. **非绑定预取（Non-Binding Prefetch）**：
+   - 将数据加载到缓存中，而不是直接加载到寄存器。
+   - 允许地址预测错误，错误的预取不会影响程序的正确性。
+   - 可能会导致缓存污染（覆盖有用的数据块）。
+
+##### 预取的成本与收益
+
+- **成本**：
+  - 发出预取指令需要时间。
+  - 如果预取的数据未被使用，可能浪费内存带宽和缓存空间。
+  - 绑定预取需要更高的准确性，增加了硬件复杂性。
+
+- **收益**：
+  - 减少缓存未命中（Misses），尤其是强制未命中（Compulsory Misses）。
+  - 提高程序性能，特别是在具有良好访问模式的程序中。
+
+> 这里附一道例题
+>
+> 1. **缓存配置**：
+>    - 缓存大小：8 KB
+>    - 块大小：16 字节
+   >
+   > - 缓存策略：直接映射（Direct-Mapped Cache），写回（Write-Back），写分配（Write-Allocate）
+>
+> 2. **数组信息**：
+   >
+   > - 数组 `a`：3 行 100 列，每个元素 8 字节，总大小为 `3 × 100 × 8 = 2400` 字节。
+   > - 数组 `b`：101 行 3 列，每个元素 8 字节，总大小为 `101 × 3 × 8 = 2424` 字节。
+>   - 两个数组在程序开始时都不在缓存中。
+>
+> 3. **代码片段**：
+>
+>    ```c
+>    for (i = 0; i < 3; i++) {
+>        for (j = 0; j < 100; j++) {
+>            a[i][j] = b[j][0] × b[j+1][0];
+>        }
+>    }
+>    ```
+>
+> 尝试计算 cache miss 的数量。
+>
+> `a` 并没有重复访问的情况。每一个 block 16B，可以放两个元素，因此偶数索引时 miss，奇数索引时 hit。于是， `a[i][j]` 共有 $150$ 次 miss。
+>
+> 对于 `b`，它享受不到空间局部性，每一个访问都需要一次 miss，因此共 $101$ 次 miss。
+>
+> 综上，共 251 次 miss。
+>
+> 一种预取方案如下：
+>
+> ```c
+> for (j = 0; j < 100; j += 1) {
+>     prefetch(b[j+7][0]);  // 提前预取 b[j+7][0]
+>     prefetch(a[0][j+7]);  // 提前预取 a[0][j+7]
+>     a[0][j] = b[j][0] * b[j+1][0];
+> }
+>
+> for (i = 1; i < 3; i += 1) {
+>     for (j = 0; j < 100; j += 1) {
+>         prefetch(a[i][j+7]);  // 提前预取 a[i][j+7]
+>         a[i][j] = b[j][0] * b[j+1][0];
+>     }
+> }
+> ```
+>
+> 这里 `a` 的 miss 降到 12 次， `b` 的 miss 降到 7 次，一共 19 次。
+>
+> 假设原来的代码中，每个 loop 不发生 miss 的情况下需要 7 个 clock cycle，使用 prefetch 后，第一个循环每个 loop 需要 9 个 clock cycle，第二个循环每个 loop 需要 8 个 clock cycle。每次 miss 则需要 100 个 clock cycle。做一个非常不严谨的假设：所有预取在需要使用它们的时候就已经完成了。
+>
+> 则原来需要  $3\times 100\times 7 + 251 \times 100 = 27200$ 个 cycle，现在需要 $100\times 9+200\times 8 + 19\times 100=4400$ 个 cycle。
+
 ### 减小 hit time
+
+#### 用小而简单的缓存
+
+- 使用小的、采用直接映射策略的缓存
+- 硬件要求越少，通路越短，hit time 越短
+- 在 CPU 和 缓存间做适配也可以减少 hit time
+
+#### 减少地址转译开销
+
+在现代计算机中，CPU 使用虚拟地址（Virtual Address）来访问内存，而实际的物理地址（Physical Address）需要通过地址转换（Address Translation）来获得。地址转换通常由页表（Page Table）和 TLB（Translation Lookaside Buffer）完成。
+
+然而，地址转换可能会增加缓存访问的延迟，特别是在缓存命中时。如果缓存能够直接使用虚拟地址进行索引，可以避免地址转换，从而减少命中时间（Hit Time）。
+
+##### 虚拟缓存（Virtual Cache）与物理缓存（Physical Cache）
+
+1. **虚拟缓存（Virtual Cache）**：
+   - 使用虚拟地址进行索引。
+   - 在缓存命中时，不需要进行虚拟地址到物理地址的转换。
+   - **优点**：
+     - 减少命中时间（Hit Time），因为省去了地址转换的步骤。
+   - **缺点**：
+     - 可能会出现别名问题（Alias Problem），即多个虚拟地址映射到同一个物理地址。
+
+2. **物理缓存（Physical Cache）**：
+   - 使用物理地址进行索引。
+   - 在缓存访问前，必须完成地址转换。
+   - **优点**：
+     - 避免了别名问题。
+   - **缺点**：
+     - 地址转换增加了命中时间。
+
+##### **并行地址转换与缓存访问**
+
+为了减少地址转换带来的延迟，可以将地址转换与缓存访问并行化：
+
+1. 在缓存访问的同时，进行虚拟地址到物理地址的转换。
+2. 如果缓存命中且索引正确，则无需等待地址转换完成。
+3. 如果缓存未命中或索引错误，则需要等待地址转换完成后再进行下一步操作。
+
+##### **避免地址转换的优化**
+
+1. **直接使用虚拟地址索引缓存**：
+   - 在缓存设计中，直接使用虚拟地址进行索引，避免地址转换。
+   - 适用于虚拟缓存（Virtual Cache）。
+
+2. **减少地址转换的开销**：
+   - 使用更快的 TLB（Translation Lookaside Buffer）来加速地址转换。
+   - 合并 TLB 和缓存的功能，减少访问延迟。
+
+#### 让 cache access 流水线化
+
+#### Trace Cache
+
+Trace Cache 是一种特殊的缓存设计，通过存储动态执行的指令序列（包括分支指令）来优化指令获取。与传统缓存不同，它利用程序的动态执行路径，而非静态的指令块。
+
+1. **动态指令序列**：
+   - 存储 CPU 动态执行的指令序列，而非内存中的静态指令块。
+   - 包括分支指令及其预测结果。
+
+2. **分支预测集成**：
+   - 将分支预测结果直接存储在缓存中。
+   - 在指令获取时验证分支预测的正确性。
+
+3. **提高指令获取效率**：
+   - 减少分支跳转带来的性能损失。
+   - 避免因分支跳转导致的缓存未命中。
+
+##### **工作原理**
+
+1. **动态跟踪指令**：
+   - 记录指令的动态执行路径，包括分支跳转。
+   - 存储为 Trace Cache 的缓存块。
+
+2. **指令获取**：
+   - 从 Trace Cache 加载动态指令序列。
+   - 如果未命中，则从内存加载。
+
+3. **分支验证**：
+   - 验证分支预测结果是否正确。
+   - 若预测错误，丢弃错误序列并重新加载。
+
+##### **优点**
+
+1. 减少分支跳转的开销。
+2. 提高指令获取带宽。
+3. 更好适应程序的动态执行路径。
+
+##### **缺点**
+
+1. 硬件复杂性增加。
+2. 存储效率较低，可能包含重复指令。
+3. 依赖分支预测的准确性。
 
 ## 指令级并行 ILP
 
