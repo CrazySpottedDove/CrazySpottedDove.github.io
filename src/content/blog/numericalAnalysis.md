@@ -1532,11 +1532,258 @@ $$
 
 当这个矩阵满秩时，事实上，对 $n+1$ 个取样点求解的 $n$ 阶多项式是唯一的(即通过每个取样点建立的基函数集能够构成这个 $n+1$ 维多项式线性空间的一组基)。于是，牛顿插值和拉格朗日插值的结果本质上是等价的，误差 $R(x)$ 也是等价的。
 
+#### 差分 Divied Differences
+
+我们介绍差分作为表述牛顿插值的一种形式。
+
+函数的一阶差分如下表示：
+$$
+f[x_i,x_j]=\frac{f(x_i)-f(x_j)}{x_i-x_j}(i\ne j ,x_i\ne x_j)
+$$
+
+且函数差分之间存在如下的递推关系：
+$$
+f[x_0,\ldots,x_{k+1}]=\frac{f[x_0,x_1,\ldots,x_k]-f[x_1,\ldots,x_k,x_{k+1}]}{x_0-x_{k+1}}
+$$
+
+经过推导，我们可以得到
+$$
+f[x_0,\ldots,x_k]=\sum_{i=0}^{k}\frac{f(x_i)}{\prod_{j=0,j\ne i}^{k}(x_i-x_j)}
+$$
+
+这事实上在说明一件事情，也就是 $f[x_0,\ldots,x_k]$ 的取值与 $x_0,\ldots,x_k$ 的顺序是没有关系的。也正因此，上面的递推式中，其实取任意两个点之间的差都是可以的。
+
+那么，我们就可以写出这样一个式子：
+$$
+f[x,x_0,\ldots,x_{k+1}]=\frac{f[x,x_0,\ldots,x_k]-f[x_0,\ldots,x_{k+1}]}{x-x_{k+1}}
+$$
+
+通过整理，可以得到
+$$
+f[x,x_0,\ldots,x_k]=f[x_0,\ldots,x_{k+1}]+f[x,x_0,\ldots,x_{k+1}](x-x_{k+1})
+$$
+
+把左侧看成一个函数，右边就可以看成添加一个取样点 $x_{k+1}$ 后对它的重新表示。这让我们联想到牛顿插值中不断添加取样点的过程。
+
+![alt text](mdPaste/numericalAnalysis/image-14.png)
+
+于是，对于一个函数 $f(x)$，我们总是可以把它表示成
+$$
+\begin{align*}
+    f(x)&=f(x_0)+f[x_0,x_1](x-x_0)+\ldots+f[x_0,\ldots,x_n](x-x_0)\ldots(x-x_{n-1})\\&+f[x,x_0,\ldots,x_n](x-x_0)\ldots(x-x_n)
+\end{align*}
+$$
+
+其中第一行也就是牛顿插值，第二行则是牛顿插值的残差。
+
+如果我们简记差分 $f[x_i,\ldots,x_j]$ 为 $D_{i,j}$，同样可以发现有已知 $D_{i,j},D_{i+1,j+1}$ 可求解 $D_{i,j+1}$ 的递推关系。因此，它的递推思路和 Neville's method 是一样的。
+
 ### Hermite Interpolation
 
 在过去的插值中，我们只是要求每一个取样点的函数值相同，而没有关注它们的导数。如果我们考虑让它们的 $n$ 阶导数也相同，那么就能够获得更多的条件，从而也获得一些插值。
 
-在拉格朗日插值的基函数中，我们希望它在对应取样点时为 $1$，其它取样点为 $0$。现在，因为我们还引入了导数相同的条件，我们同样也希望它要求导数相同的取样点处的导数为 $0$。
+Hermite 插值就是这样的插值中的一种特例——它要求一阶导也相同。
 
-### Cubic Spline Interpolation
+对于取样点 $x_0,\ldots,x_n$，我们要求 Hermite 插值 $H_{2n+1}(x)$ 满足 $H_{2n+1}(x_i)=y_i$
+和  $H'_{2n+1}(x_i)=y_i'$。
 
+我们将 Hermite 插值记作
+$$
+H_{2n+1}(x)=\sum_{i=1}^{n}y_ih_i(x)+\sum_{i=0}^{n}y_i'\hat{h}_i(x)
+$$
+
+因为系数解已经取了 $y_i$ 和 $y_i'$， 对于 $h_i(x)$，除了 $x_i$ 都是它的重根（因为那里的导数也要取零）。于是，有
+$$
+h_i(x)=(A_ix+B_i)L_{n,i}^2(x)
+$$
+
+通过代入条件 $h_i(x_i)=1,h_i'(x_i)=0$，可以解得
+$$
+h_i(x)=[1-2L_{n,i}'(x_i)(x-x_i)]L_{n,i}^2(x)
+$$
+
+通过类似的思路，可以解得
+$$
+\hat{h}_i(x)=(x-x_i)L_{n,i}^2(x)
+$$
+
+Hermite 插值对应的残差为
+$$
+R_n(x)=\frac{f^{2n+2}(\xi )}{(2n+2)!}\left[\prod_{i=0}^{n}(x-x_i)\right]^2
+$$
+
+这个形式也确实和拉格朗日插值的相似。
+
+### 立方样条插值 Cubic Spline Interpolation
+
+提升插值多项式的次数并不一定能保证得到一个更好的结果，因为高阶多项式存在着振荡的现象。
+
+![alt text](mdPaste/numericalAnalysis/image-15.png)
+
+为了减小振荡，我们可以选择分段插值，即把定义域分成数个区间，在每一个区间内用单独的插值函数来插值。只要区间分得够细，那么这么多个插值组合起来的插值函数就越接近原函数。
+
+然而，这么做可能有个问题：如果我们随意地取分段插值函数，那么每一个分段的点上，总的插值函数可能是不连续的。
+
+为了保证连续这一点，一个自然的思路是使相邻的两个分段插值函数在分界点上的导数相同。
+
+在现实世界中，往往需要一阶导的连续是不够的。考虑开火车，我们不仅希望速度（一阶导）是连续的，还希望加速度（二阶导）是连续的，否则力就会发生突变，那样就比较糟糕。因此，我们还要求分界点的二阶导同样相同。为了使这一点有意义，每一个分段插值都至少应该是个三阶多项式。
+
+#### Method of Bending Moment
+
+Method of Bending Moment 是用于求解 Cubic Spline Interpoloation 的一种方法。
+
+我们记以 $x_0,x_1,\ldots,x_n$ 为采样点的立方样条插值为 $S(x)$，且在 $[x_{j-1},x_j]$ 上的分段插值为 $S_j(x)$，区间长度 $x_j-x_{j-1}$ 为 $h_j$。然后，我们简记
+$$
+M_{j-1}=S_j''(x_{j-1}),M_j=S_j''(x_j)
+$$
+根据立方样条插值的条件，我们有
+$$
+S_j''(X_{j-1})'=S_{j-1}''(x_{j-1})
+$$
+可以发现左右两侧都会被简记成 $M_{j-1}$。因此，这个记法是合理的。
+
+在每一个分段 $[x_{j-1},x_j]$ 中，我们首先考虑 $S_j''(x)$，它对应着由 $(x_{j-1},M_{j-1})$ 与 $(x_j,M_j)$ 决定的线性插值。于是有
+$$
+S_j''(x)=M_{j-1}\frac{x_j-x}{h_j}+M_j \frac{x-x_{j-1}}{h_j}
+$$
+
+通过把它积分两次，我们可以得到两个含待定系数的方程：
+$$
+\begin{align*}
+    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+A_j\\
+    S_j(x)&=M_{j-1}\frac{(x_j-x)^3}{6h_j}+M_j \frac{(x-x_{j-1})^3}{6h_j}+A_jx+B_j
+\end{align*}
+$$
+
+如果我们希望通过 $M_j,M_{j-1}$ 表示出 $A_j,B_j$，那么结合
+$$
+\begin{align*}
+    S_j(x_{j-1})&=y_{j-1}\\
+    S_j(x_j)&=y_j
+\end{align*}
+$$
+两个条件，我们可以构造出二元一次方程组，并求解出
+$$
+\begin{align*}
+    A_j&=\frac{y_j-y_{j-1}}{h_j}-\frac{M_j-M_{j-1}}{6}h_j=f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
+    A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h^2\right)\frac{x-x_{j-1}}{h_j}
+\end{align*}
+$$
+然后，根据 $S'(x)$ 在 $x_j$ 处连续，我们有
+$$
+\begin{align*}
+    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
+    S_{j+1}'(x)&=-M_{j}\frac{(x_{j+1}-x)^2}{2h_{j+1}}+M_{j}\frac{(x-x_{j})^2}{2h_{j+1}}+f[x_{j},x_{j+1}]-\frac{M_{j+1}-M_{j}}{6}h_{j+1}
+\end{align*}
+$$
+且 $S_j'(x_j)=S_{j+1}'(x_j)$
+
+于是，我们可以构造出含三个未知数 $M_{j-1},M_j,M_{j+1}$ 的方程
+$$
+\mu _jM_{j-1}+2M_j+\lambda _jM_{j+1}=g_j
+$$
+其中
+$$
+\begin{align*}
+    \lambda _j&=\frac{h_{j+1}}{h_j+h_{j+1}}\\
+    \mu _j&=1-\lambda _j\\
+    g_j&=\frac{6}{h_j+h_{j+1}}\left( f[x_j,x_{j+1}]-f[x_{j-1},x_j] \right)
+\end{align*}
+$$
+且 $1\le j \le n-1$
+
+现在，我们有 $n+1$ 个未知数 $M_0,\ldots,M_n$，同时有 $n-1$ 个方程。我们还需要加上两个方程才能够求解这个线性方程组。这两个方程对应着 $x_0,x_n$ 上特殊的边界条件。
+
+#### Clamped boundary
+
+Clamped boundary 分别提供了两个边界的导数值 $y_0',y_n'$，并要求 $S_1'(x_0),S_n'(x_n)$ 对应相等。此时，我们定义一个无限接近于 $x_0$ 的取样点 $x_{-1}$，那么就有
+
+$$
+\begin{align*}
+    \lambda _0&=\frac{h_1}{h_0+h_1}=\frac{h_1}{h_1}=1\\
+    \mu _0&=1-1=0\\
+    g_0&=\frac{6}{h_0+h_1}\left( f[x_0,x_1]-f[x_{-1},x_0] \right)=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)
+\end{align*}
+$$
+
+于是有
+$$
+2M_0+M_1=g_0
+$$
+同理，我们也可以构造出
+$$
+\begin{align*}
+    \lambda _n&=0\\
+    \mu _n&=1\\
+    g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])\\
+    M_{n-1}+2M_n&=g_n
+\end{align*}
+$$
+
+#### Free boundary/Natural Spline
+
+我们也可以不对边界的导数值作约束，而是对边界的二阶导做约束。我们提供两个边界的二阶导 $y_0'',y_n''$，并要求 $S_1''(x_0),S_n''(x_n)$ 对应相等。
+
+这时，我们就直接多了两个方程
+$$
+\begin{align*}
+    M_0&=y_0''\\
+    M_n&=y_n''
+\end{align*}
+$$
+
+于是方程组也可解了。
+
+特殊地，当 $y_0''=y_n''=0$ 时，我们称这样的边界为 Free boundary，对应的插值为 Natural Spline。
+
+---
+
+上述的两种边界条件都对应着统一的形式
+
+$$
+\begin{pmatrix}
+2 & \lambda _0 & 0 & \cdots & 0 & 0 \\
+\mu_1 & 2 & \lambda_1 & \cdots & 0 & 0 \\
+0 & \mu_2 & 2 & \cdots & 0 & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & \cdots & 2 & \lambda_{n-1} \\
+0 & 0 & 0 & \cdots & \mu _n & 2
+\end{pmatrix}
+\begin{pmatrix}
+M_0 \\
+M_1 \\
+M_2 \\
+\vdots \\
+M_{n-1} \\
+M_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+g_0 \\
+g_1 \\
+g_2 \\
+\vdots \\
+g_{n-1} \\
+g_n
+\end{pmatrix}
+$$
+
+其中，对于 Clamped boundary，有
+$$
+\begin{align*}
+    \lambda _0&=1\\
+    \mu _n&=1\\
+    g_0&=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)\\
+    g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])
+\end{align*}
+$$
+
+对于约束二阶导的情况，有
+$$
+\begin{align*}
+    \lambda _0&=\mu _n=0\\
+    g_0&=2y_0''\\
+    g_n&=2y_n''
+\end{align*}
+$$
+或者可以直接解低两阶的方程组。
