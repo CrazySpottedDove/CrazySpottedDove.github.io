@@ -1666,7 +1666,7 @@ $$
 $$
 \begin{align*}
     A_j&=\frac{y_j-y_{j-1}}{h_j}-\frac{M_j-M_{j-1}}{6}h_j=f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
-    A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h^2\right)\frac{x-x_{j-1}}{h_j}
+    A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h_j^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h_j^2\right)\frac{x-x_{j-1}}{h_j}
 \end{align*}
 $$
 然后，根据 $S'(x)$ 在 $x_j$ 处连续，我们有
