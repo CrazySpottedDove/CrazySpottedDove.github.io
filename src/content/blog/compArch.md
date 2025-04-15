@@ -1035,6 +1035,115 @@ Trace Cache 是一种特殊的缓存设计，通过存储动态执行的指令�
 2. 存储效率较低，可能包含重复指令。
 3. 依赖分支预测的准确性。
 
+## Memory Technology
+
+我们通过 miss penalty 和 bandwidth 来衡量 memory 的性能。
+
+> 举一个简单的例子：
+>
+> 1. 一级缓存的物理宽度为 1 个字（word），因为大多数 CPU 访问的单位是一个字。
+> 2. 每个字的大小为 8 字节。
+> 3. 块大小为 4 个字。
+> 4. 时间开销：
+>    - 发送地址需要 4 个时钟周期。
+>    - 每个字的访问时间为 56 个时钟周期。
+>    - 发送一个字的数据需要 4 个时钟周期。
+>
+> 则 miss penalty 可以计算为
+> $$
+> 4\times (4+56+4)=256\text{clock cycles}
+> $$
+>
+> 带宽为
+> $$
+> \frac{4\times 8}{256}=\frac{1}{8}
+> $$
+
+### Main Memory and Organizations for Improving Performance
+
+#### Wider Main Memory
+
+根据阿姆达尔定律，memory capacity 的增长速度应该和 CPU 保持线性关系。
+
+主存的宽度指的是每次内存访问时能够传输的数据量。如果提升缓存与主存的宽度，就可以提升内存的带宽。
+
+> 1. 一级缓存的物理宽度为 1 个字（word），因为大多数 CPU 访问的单位是一个字。
+> 2. 每个字的大小为 8 字节。
+> 3. 块大小为 4 个字。
+> 4. 时间开销：
+>    - 发送地址需要 4 个时钟周期。
+>    - 每个字的访问时间为 56 个时钟周期。
+>    - 发送一个字的数据需要 4 个时钟周期。
+>
+> 则 miss penalty 可以计算为
+> $$
+> 4\times (4+56+4)=256\text{clock cycles}
+> $$
+>
+> 带宽为
+> $$
+> \frac{4\times 8}{256}=\frac{1}{8}
+> $$
+>
+> 如果我们把物理宽度增加到 2，则有 miss penalty 为（单体多字，可以同时传输多个字）
+> $$
+> 2\times(4+56+4)=128\text{clock cycles}
+> $$
+> 带宽为
+> $$
+> \frac{4\times 8}{128}=\frac{1}{4}
+> $$
+
+然而，加宽主存也会带来一些问题：
+
+- 需要更宽的总线传输数据，这可能会增加总线的复杂性和成本
+- 为了支持按字（word）访问，需要在关键路径上增加多路复用器，这可能会增加访问延迟。
+- 用户买的内存最小值会更大，可能带来资源浪费
+- Error Correction 更加复杂。
+
+![alt text](mdPaste/compArch/image-25.png)
+
+#### Simple Interleaved(交错) Memory
+
+![alt text](mdPaste/compArch/image-27.png)
+
+我们将内存分成多个 memory bank，并向它们发送地址，使得它们可以同时读取数据，从而提高内存带宽。这特别适用于顺序访问的写穿操作。
+
+> 并行处理了发送地址和访问
+
+![alt text](mdPaste/compArch/image-26.png)
+
+不同于加宽主存，交错存储的数据传输依旧是需要独立时间的，不能同时传输。
+
+> 因此，对于同样的例子，如果使用 4 个 banks，有 miss penalty 为
+> $$
+> 4+56+4\times 4=76
+> $$
+> bandwidth 为
+> $$
+> \frac{4\times 8}{76}=\frac{8}{19}
+> $$
+>
+> 简单的交错存储可能在实际运行时存在问题。比如说，连续访问的多个数据都在同一个 bank 里面。
+>
+> ![alt text](mdPaste/compArch/image-28.png)
+>
+> 由于有 128 个 bank，而每一列的大小为 512，所以每两个相邻的 i 访问时会访问到同一个 bank。这里通过修改执行顺序或者修改数组的大小都可以解决问题。
+
+### Memory Chips
+
+我们用 Access Time 和 Cycle Time 来衡量 Memory Chips 的性能。
+
+- Access Time：指读被请求到数据传输完毕的时间。
+- Cycle Time：两个对 memory 的请求之间最短的间隔。
+
+Cache 使用 SRAM，Main Memory 使用 DRAM。
+
+嵌入式计算机往往 memory 非常小，而且大多没有硬盘作为非易失性存储。两种解决这个问题的方法是：
+
+- ROM，出厂时就编程好了，无法修改内容
+- Flash Memory，允许修改，非易失，读的速度和 DRAM 基本相同，但是写的速度慢 10 到 100 倍
+
 ## 指令级并行 ILP
 
 ### 动态调度 Dynamic Scheduling
