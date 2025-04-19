@@ -1991,5 +1991,7 @@ $$
 $$
 其中
 $$
-B_k=\frac{(x \phi _{k-1},\phi _{k-1})}{(\phi _{k-1},\phi _{k-1})},C_k=\frac{(x \phi _{k-1},\phi _{k-2})}{(\phi _{k-2},\phi _{k-2})}
+B_k=\frac{(x \phi _{k-1},\phi _{k-1})}{(\phi _{k-1},\phi _{k-1})},C_k=\frac{(x \phi _{k-1},\phi _{k-2})}{( \phi _{k-2},\phi _{k-2})}
 $$
+
+注意点积隐含了 $\omega _i$。
