@@ -1805,26 +1805,191 @@ $$
 
 ### Discreate Least Squares Approximation
 
-我们限定 $P$ 的形式为一个多项式，并要求残差向量的二范数最小。为了计算方便，我们定义误差指标为
+在本节的开始，为了讨论方便，我们先限定 $P$ 的形式为一个多项式
+$$
+P(x)=a_0+a_1x+\ldots+a_nx^n
+$$
+并要求残差向量的二范数最小。为了计算方便，我们定义误差指标为
 $$
 E_2=\sum_{i=1}^{m}\left( P(x_i)-y_i \right)^2
 $$
 
-如果我们希望 $E_2$ 取到最小值，我们至少需要它对于 $a_i$ 的导数都为 $0$。
+可以看到， $E_2$ 是一个以 $\left\{ a_i \right\}$ 为自变量的多元函数。如果我们希望 $E_2$ 取到最小值，我们至少需要它对于 $a_i$ 的导数都为 $0$。
 
-<!-- 黄老师的矩阵视角 -->
+为了方便起见，我们用矩阵的语言描述这个问题。
 
-<!-- residual 和 y 的形式密切相关 -->
+记
+$$
+\mathbf{a}=\begin{pmatrix}
+    a_0\\ a_1\\ \vdots \\ a_n
+\end{pmatrix},
+\mathbf{x}=\begin{pmatrix}
+    1&\ldots &1\\
+    x_1&\ldots & x_m\\
+    \vdots&\vdots &\vdots \\
+    x_1^n&\ldots&x_m^n
+\end{pmatrix}
+$$
+那么，我们就有
+$$
+\mathbf{x}\mathbf{a}=\mathbf{p}=\begin{pmatrix}
+    P(x_1)\\ \vdots \\ P(x_m)
+\end{pmatrix}
+$$
+
+如果我们再记
+$$
+\mathbf{y}=\begin{pmatrix}
+    y_1\\ \vdots\\y_m
+\end{pmatrix}
+$$
+则有
+$$
+\begin{align*}
+    E_2&=\left\|\mathbf{x}\mathbf{a}-\mathbf{y}\right\|_2^2\\
+    &=\left( \mathbf{a}^T \mathbf{x}^T - \mathbf{y}^T \right)\left( \mathbf{x}\mathbf{a}-\mathbf{y} \right)\\
+    &=\mathbf{a}^T \mathbf{x}^T \mathbf{x}\mathbf{a}-2 \mathbf{a}^T \mathbf{x}^T \mathbf{y}+\mathbf{y}^T \mathbf{y}
+\end{align*}
+$$
+那么求导即有
+$$
+E_2'=2 \mathbf{x}^T \mathbf{x} \mathbf{a} - 2 \mathbf{x}^T \mathbf{y}
+$$
+
+因此，这个条件可以整理为
+$$
+\left( \mathbf{x}^T \mathbf{x} \right) \mathbf{a}=\mathbf{x}^T \mathbf{y}
+$$
+
+以上讨论中，我们要求用户指定的 $n\le m-1$，否则可能出现过拟合的现象。当恰好 $n=m-1$ 时， $P_n(x)$ 就是原函数的插值多项式， $E_2=0$。
+
+而实际上， $P(x)$ 的形式可以不是一个多项式。
+
+比如说，我们希望 $P(x)$ 的形式为 $P(x)=a e^{ax}$。此时，我们可以这么处理（简记 $P(x)=p$ ）：
+$$
+\begin{align*}
+    p&=be^{ax}\\
+    \Rightarrow \ln p &= \ln b + ax\\
+\end{align*}
+$$
+我们记
+$$
+P=\ln p, X=x, a_1=a, a_0 = \ln b
+$$
+那么上面就被化成了
+$$
+P=a_0+a_1 X
+$$
+的形式，就可以用之前的做法来解决了。
+
+> 然而，这么做实际上有一个问题：沿用之前的做法的话，意味着我们认为 residual 为
+> $$
+> \sum_{i=1}^{m}\left( x_i+a+\ln b-\ln y_i \right)^2
+> $$
+> 可在变换前，这个 residual 应当为
+> $$
+> \sum_{i=1}^{m}\left( be^{ax_i}-y_i \right)
+> $$
+> 这两者并不等价。当前者取最小时，并不意味着后者取到最小。
+
 ### Orthogonal Polynomials and Least Squares Approximation
 
 过去，我们强调多项式的形式为
 $$
 P(x)=a_0+a_1x^1+\ldots a_nx^n
 $$
-现在，我们定义一种广义多项式：
+而现在，我们强调多项式作为一个线性空间中的一个向量的属性，并借此来定义广义多项式。
 
-对于一组线性无关的函数 $\phi _0(x),\phi _1(x),\ldots \phi _n(x)$，它们的线性组合
+首先，我们定义多项式中线性无关的概念：
+
+对于一组函数 $\left\{ \phi _0(x), \phi _1(x),\ldots, \phi _n(x) \right\}$，如果在区间 $\left[a,b\right]$ 上，对于任意的 $x$，总有
 $$
-P(x)=a_0 \phi _0(x)+\ldots +a_n \phi (x_n)
+a_0\phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)=0\Leftrightarrow a_0=a_1=\ldots a_n=0
 $$
-被称为广义多项式。
+则说这组函数是线性无关的。
+
+显然地，如果 $\phi _i(x)$ 是一个 $i$ 阶多项式，那么  $\left\{ \phi _0(x), \phi _1(x),\ldots, \phi _n(x) \right\}$ 是线性无关的。
+
+对于任意一组线性无关的函数，我们可以认为它们构成了某个线性空间的一组基。而这些线性无关函数的线性组合，也就被定义为**广义多项式**。
+
+另外，关于之前的残差，我们也进行广义化。我们为残差的每一项添加权重 $\omega _i$，即
+$$
+E=\sum_{i=1}^{m} \omega _i\left(P(x_i)-y_i\right)^2
+$$
+
+如果我们突破采样点的限制，使用连续的形式，则可以使用权函数来定义残差。
+$$
+E=\int_{a}^{b}\omega (x) \left( P(x)-f(x) \right)^2
+$$
+
+回顾之前用线性代数语言描述的残差，我们会发现，在离散情况下考虑多项式近似时，若令
+$$
+\mathbf{\omega }=\begin{pmatrix}
+    \sqrt{\omega _1}&&&\\
+    &\sqrt{\omega _2}&&\\
+    &&\ddots&\\
+    &&& \sqrt{\omega _m}
+\end{pmatrix}
+$$
+则有
+$$
+E=\left\|\mathbf{\omega }\mathbf{x}\mathbf{a}-\mathbf{\omega }\mathbf{y}\right\|_2^2
+$$
+既然已经出现了范数和线性空间的表述，我们为何不定义点积？
+$$
+(f,g)=\left\{\begin{align*}
+    &\sum_{i=1}^{m} \omega _i f(x_i)g(x_i)\\
+    &\int_{a}^{b} \omega (x)f(x)g(x)\mathrm{d}x
+\end{align*}\right.
+$$
+自然地，当 $(f,g)=0$ 时，我们说 $f,g$ 正交。
+
+那么， $E=(P-y,P-y)$，我们想找的也就是使得这个内积最小的 $P$。
+
+现在，我们再考虑 $\omega_i =1$ 时广义多项式的近似。令 $P(x)=a_0 \phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)$，且对 $f$ 近似，则原先关于 $\left\{ a_i \right\}$ 导数为 $0$ 的条件转化为
+$$
+\begin{pmatrix}
+&&\\
+&b_{ij}=(\phi _i,\phi _j)&\\
+&&
+\end{pmatrix}
+\begin{pmatrix}
+    a_0\\
+    \vdots\\
+    a_n
+\end{pmatrix}
+=\begin{pmatrix}
+    (\phi _0,f)\\
+    \vdots\\
+    (\phi_n,f)
+\end{pmatrix}
+$$
+这看起来是个线性方程组。所谓最好的解线性方程组的方法就是不要解这个线性方程组，注意力惊人的我们注意到，当 $\left\{ \phi _i \right\}$ 是一个单位正交基时，我们可以直接得到
+$$
+\begin{pmatrix}
+    a_0\\
+    \vdots\\
+    a_n
+\end{pmatrix}
+=\begin{pmatrix}
+    (\phi _0,f)\\
+    \vdots\\
+    (\phi_n,f)
+\end{pmatrix}
+$$
+因此，求解合适的广义多项式近似的过程，也就变成了寻找合适的单位正交基的过程。而对于这个过程，我们有施密特正交化做指导。
+
+根据施密特正交化，我们可以导出这样一个结论：
+
+对于满足形式
+$$
+\phi _0(x)\equiv 1,\phi _1(x)=x-B_1
+$$
+的基，有递推关系
+$$
+\phi _k(x)=(x-B_k)\phi _{k-1}(x)-C_k \phi _{k-2}(x)
+$$
+其中
+$$
+B_k=\frac{(x \phi _{k-1},\phi _{k-1})}{(\phi _{k-1},\phi _{k-1})},C_k=\frac{(x \phi _{k-1},\phi _{k-2})}{(\phi _{k-2},\phi _{k-2})}
+$$
