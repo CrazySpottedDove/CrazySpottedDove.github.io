@@ -1995,3 +1995,7 @@ B_k=\frac{(x \phi _{k-1},\phi _{k-1})}{(\phi _{k-1},\phi _{k-1})},C_k=\frac{(x \
 $$
 
 注意点积隐含了 $\omega _i$。
+
+在编程上，算法为
+
+![alt text](mdPaste/numericalAnalysis/image-16.png)
