@@ -2273,4 +2273,94 @@ A=\frac{4T_{2n}-T_{n}}{3}
 $$
 于是，我们就可以通过这个式子作为一个 $A$ 的近似解。
 
-###
+### Richard
+
+### Adaptive Quadrature Method
+
+在分段积分的时候，我们注意到，对于不同部分的函数，取积分的误差是不一样的。因此，我们倾向于对积分误差可能大的部分取更细的划分。问题是，怎样算“大”？
+
+我们可以简单地利用误差的密度来选出“大”的部分。如果积分
+$$
+\int_{a}^{b}f(x)\mathrm{d}x
+$$
+的误差为 $\epsilon$，那么对于其中的一段长度为 $h$ 的区间，它可以分配到误差 $h \frac{\epsilon }{b-a}$。如果这一块实际的误差大于它，就说明它属于“大”的部分。这里的 $\frac{\epsilon }{b-a}$ 就称之为误差密度。
+
+此时，另一个问题就来了：这一块实际的误差又怎么评估？
+
+举辛普森法则为例吧，我们知道它的误差表达式为
+$$
+\frac{h^5}{90}f^{(4)}(\xi )
+$$
+
+它来自于
+$$
+\int_{a}^{b}f(x)\mathrm{d}x=S(a,b)-\frac{h^5}{90}f^{(4)}(\xi )
+$$
+
+如果我们再将这个区间二分，我们可以得到
+$$
+\int_{a}^{b}f(x)\mathrm{d}x=S \left( a,\frac{a+b}{2} \right) + S \left( \frac{a+b}{2},b \right) - \frac{1}{16}\frac{h^5}{90}f^{(4)}(\xi' )
+$$
+
+如果我们认为 $\xi \approx \xi '$，就可以得到
+$$
+\epsilon =\frac{1}{15}\left|S(a,b)-S \left( a,\frac{a+b}{2} \right) - S \left( \frac{a+b}{2},b \right)\right|
+$$
+
+在直觉上，如果我们先算一遍一个区间，再尝试缩小一些算，如果相差不大，就说明误差不会很大，反之，误差就可能比较大了。嗯，很符合直觉。
+
+这体现了一种后验的自适应：我们尝试再做一遍，获取额外的信息，从而进行评估。在完成这样的评估之后，我们不要浪费计算的
+$$
+S \left( a,\frac{a+b}{2} \right) + S \left( \frac{a+b}{2},b \right)
+$$
+
+使用
+$$
+\left|\int_{a}^{b}f(x)\mathrm{d}x-\left(S \left( a,\frac{a+b}{2} \right) + S \left( \frac{a+b}{2},b \right)\right)\right|< \epsilon
+$$
+
+> 那有没有什么先验的方法呢？一种思路是训练一个 AI，然后把表达式扔给 AI，让它估计一下什么区间分细一些比较合适。
+
+### Gaussian Quadrature
+
+类似于切比雪夫，高斯积分法是自己确定采样点的。
+
+> 我们的目标是：找到一个表达式
+> $$
+> \int_{a}^{b}\omega (x)f(x)\mathrm{d}x \approx \sum_{k=0}^{n}A_kf(x_k)
+> $$
+> 使得它取 $n+1$ 个采样点时，精度有 $2n+1$。
+
+<!-- foundamental solution -->
+
+首先，我们考虑这个问题的可解性。如果要求精度是 $2n+1$，那么就要解决多项式系数中 $2n+2$ 个自由度。同时，我们的
+$$
+\sum_{k=0}^{n}A_kf(x_k)
+$$
+中，除了 $A_k$ 能够提供自由度外，由 $x_k$ 决定的 $f(x_k)$ 也可以提供自由度，恰好也为 $2n+2$。
+
+<!-- 正交 -->
+
+## 微分方程 Differential Equations
+
+带初值条件的一阶常微分方程如下：
+$$
+\left\{
+    \begin{align*}
+        \frac{\mathrm{d}y}{\mathrm{d}x}&=f(t,y)\quad t\in[a,b]\\
+        y(a)&=\alpha
+    \end{align*}
+\right.
+$$
+
+一种理解是把第一个等式看成一个二维空间中的向量场。决定一个初始位置，就会有对应的运动轨迹。
+
+如果 IVP
+$$
+y'(t)=f(t,y),a\le t\le b, y(a)=\alpha
+$$
+满足：
+
+1. 存在唯一解 $y(t)$
+2. 
+那么这个问题被称作是良定义(well--posed problem)的。
