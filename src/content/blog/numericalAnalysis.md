@@ -2329,7 +2329,7 @@ $$
 > $$
 > \int_{a}^{b}\omega (x)f(x)\mathrm{d}x \approx \sum_{k=0}^{n}A_kf(x_k)
 > $$
-> 使得它取 $n+1$ 个采样点时，精度有 $2n+1$。
+> 使得它取 $n+1$ 个采样点时，精度有 $2n+1$，即对于 $f\in P^{2n+1}$，积分式的误差为 0 。
 
 <!-- foundamental solution -->
 
@@ -2339,6 +2339,110 @@ $$
 $$
 中，除了 $A_k$ 能够提供自由度外，由 $x_k$ 决定的 $f(x_k)$ 也可以提供自由度，恰好也为 $2n+2$。
 
+我们考虑
+$$
+f(x)=a_0x^0+a_1x^1+\ldots+a_{2n+1}x^{2n+1}
+$$
+
+此时，如果方程组
+$$
+\begin{align*}
+    \int_{a}^{b}\omega (x)\cdot x^0\mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^0\\
+    \int_{a}^{b}\omega (x)\cdot x^1 \mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^1\\
+    &\ldots\\
+    \int_{a}^{b}\omega(x)\cdot x^{2n+1} \mathrm{d}x&= \sum_{k=0}^{n}A_k\cdot x_k{}^{2n+1}
+\end{align*}
+$$
+
+有解，那么我们就找到了一组合适的 $\left\{ A_k \right\}$ 与 $\left\{ x_k \right\}$。
+
+然而，这个方程组是非线性的，看起来不是很好解。因此，我们引入如下的定义：
+
+- 对于某个点组 $\left\{ x_k \right\}$，如果存在某组 $\left\{ A_k \right\}$，使得上述 $2n+1$ 阶精度条件成立，那么点组 $\left\{ x_k \right\}$ 被称为高斯点。
+
+我们接下来证明， $\left\{ x_k \right\}$ 为高斯点，等价于对于任意的低于 $n$ 阶的多项式 $P_m$，有
+$$
+\int_{a}^{b}\omega (x)P_m(x)W(x)\mathrm{d}x=0
+$$
+其中
+$$
+W(x)=\prod_{k=0}^{n}(x-x_k)
+$$
+换而言之，以 $\omega (x)$ 作为权函数时， $P_m(x)$ 与 $W(x)$ 正交。
+
+> 首先，我们证明必要性。对于任意的 $P_m$，我们发现， $P_m(x)W(x)$ 这个整体恰好是一个次数不超过 $2n+1$ 的多项式。因此，根据高斯点的定义，我们有
+> $$
+> \int_{a}^{b}\omega (x)P_m(x)W(x)\mathrm{d}x=\sum_{k=0}^{n}A_kP_m(x_k)W(x_k)=0
+> $$
+> 即得 $P_m(x)$ 与 $W(x)$ 正交。
+>
+> 接着证明充分性：对于任意的 $Q\in P^{2n+1}$，我们可以利用多项式除法将它分解成
+> $$
+> Q=W(x)q(x)+r(x)
+> $$
+> 在等式两边乘上 $\omega (x)$ 并积分，我们得到
+> $$
+> \int_{a}^{b}\omega (x) Q(x) \mathrm{d}x= \int_{a}^{b}\omega (x)W(x)q(x)\mathrm{d}x+\int_{a}^{b}\omega (x)r(x)\mathrm{d}x=\int_{a}^{b}\omega (x)r(x)\mathrm{d}x
+> $$
+>
+> 在这里，我们注意到， $r(x)$ 的阶数不超过 $n$。因此，我们可以直接利用插值构造出一组合适的 $\left\{ A_k \right\}$，使得
+> $$
+> \int_{a}^{b}\omega (x)r(x)\mathrm{d}x = \sum_{k=0}^{n}A_kr(x_k)
+> $$
+> 注意到 $Q(x_k)=r(x_k)$ 此时，我们已经得到了
+> $$
+> \int_{a}^{b}\omega (x) Q(x) \mathrm{d}x=\sum_{k=0}^{n}A_kQ(x_k)
+> $$
+> 这已经与高斯点定义的形式吻合。同时，我们知道，拉格朗日插值系数只与取样点有关，因此 $\left\{ A_k \right\}$ 是确定的。于是，充分性得证。
+
+现在，我们发现，我们已经将问题的核心转移到如何寻找高斯点了。
+
+> 尝试用 $n=1$ 的高斯积分近似 $\int_{0}^{1}\sqrt{x}f(x)\mathrm{d}x$
+>
+> 我们随便选取线性无关的基 $1,x$，并要求它们都与
+> $$
+> \phi (x)=x^2+ax+b
+> $$
+> 正交。
+>
+> 于是，我们解方程组
+> $$
+> \begin{align*}
+>     \int_{0}^{1}\sqrt{x}(x^2+ax+b)\mathrm{d}x&=0\\
+>     \int_{0}^{1}\sqrt{x}(x^3+ax^2+bx)\mathrm{d}x&=0
+> \end{align*}
+> $$
+>
+> 解得 $a=-\frac{10}{9},b=\frac{5}{21}$。
+>
+> 此时，我们需要的 $W(x)=x^2-\frac{10}{9}x+\frac{5}{21}=(x-x_0)(x-x_1)$，于是可以解得 $x_0=0.8212,x_1=0.2899$。
+>
+> 然后，我们通过取 $f(x)=0,x$ 回代的方式，就可以解出 $A_0=0.3891,A_1=0.2776$。
+>
+> 在 PPT 中，并没有随便选取线性无关的基，而是要求了这是一组正交基，这应该是站在计算机计算的角度考虑问题了。
+
+很自然的，我们会萌生出首先解好一些常见的权函数对应的高斯积分形式。
+
+---
+勒让德多项式 Legendre Polynamials 是积分区间为 $[-1,1]$，且权函数取 $\omega (x)\equiv 1$ 时的高斯积分的 $W(x)$。
+
+勒让德多项式的形式如下：
+$$
+P_k(x)=\frac{1}{2^k k!}\frac{\mathrm{d}^k}{\mathrm{d}x^k}(x^2-1)^k
+$$
+且有
+$$
+(P_k,P_k)=\frac{2}{2k+1}
+$$
+我们可以使用递推式
+$$
+P_0=1,P_1=x,(k+1)P_{k+1}=(2k+1)xP_k-kP_{k-1}
+$$
+来快速地导出某个阶数的勒让德多项式。采用 $P_{n+1}$ 的根作为高斯点的高斯积分公式被称为 Gauss-Legendre quadrature formula。
+
+类似于之前对切比雪夫多项式的处理，当积分区间不为 $[-1,1]$ 时，可以通过定义域映射的方式处理，从而用勒让德多项式解决问题。
+
+事实上，切比雪夫多项式就是取 $\omega (x)=\frac{1}{\sqrt{1-x^2}}$ 时高斯积分的 $W(x)$。
 <!-- 正交 -->
 
 ## 微分方程 Differential Equations
@@ -2347,7 +2451,7 @@ $$
 $$
 \left\{
     \begin{align*}
-        \frac{\mathrm{d}y}{\mathrm{d}x}&=f(t,y)\quad t\in[a,b]\\
+        \frac{\mathrm{d}y}{\mathrm{d}t}&=f(t,y)\quad t\in[a,b]\\
         y(a)&=\alpha
     \end{align*}
 \right.
@@ -2355,12 +2459,64 @@ $$
 
 一种理解是把第一个等式看成一个二维空间中的向量场。决定一个初始位置，就会有对应的运动轨迹。
 
-如果 IVP
+我们的目标是，计算 $y(t)$ 在一系列网点(mesh points) 的近似。即：计算
 $$
-y'(t)=f(t,y),a\le t\le b, y(a)=\alpha
+\omega _i\approx y(t_i)=y_i,i=1,\ldots,n
 $$
-满足：
 
-1. 存在唯一解 $y(t)$
-2. 
+### Libschitz Condition
+
+为了引入对何种一阶常微分方程存在唯一解的说明，我们引入 Libschitz condition 的定义：
+
+如果在 $R^2$ 的子集 $D$ 内，存在一个常数 $L>0$ 使得对于任意点 $(t,y_1),(t,y_2)$，都有
+$$
+\left|f(t,y_1)-f(t,y_2)\right|\le L \left|y_1-y_2\right|
+$$
+那么我们就说 $f(t,y)$ 对于变量 $y$ 在 $D$ 上满足 Lipschitz condition，并称 $L$ 是 $f$ 的 Lipschitz constant。
+
+> 直观地说，在定义域 $D$ 内，函数 $f(t,y)$ 关于 $y$ 的偏导被限制在了一个范围内。（当然，这要求 $f$ 在 $D$ 上是连续的。）
+
+如果 $f(t,y)$ 在 $D$ 上连续，且 $f$ 满足 Lipschitz Condition，那么 IVP 问题
+$$
+y'(t)=f(t,y),\quad a\le t\le b,\quad y(a)=\alpha
+$$
+就拥有一个唯一解 $y(t)$。
+
+### 良定义 well-posed
+
+在 Libschitz Condition 的基础上，我们引入良定义的定义：
+
+IVP
+$$
+y'(t)=f(t,y),\quad a\le t\le b,\quad y(a)=\alpha
+$$
+是良定义的，若
+
+1. 这个问题存在唯一解
+2. 对于任意的 $\epsilon >0$，都存在正常数 $k(\epsilon )$ 使得对于任意满足
+
+$$
+\left|\epsilon _0\right|<\epsilon ,\quad \left|\delta (t)\right| < \epsilon \text{ with } t\in [a,b]
+$$
+的 $\epsilon _0 ,\quad \delta (t)$，都存在一个唯一的解 $z(t)$，使得
+$$
+z'(t)=f(t,z)+\delta (t),\quad  z(a)=\alpha +\epsilon _0 ,\quad \left|z(t)-y(t)\right|<k(\epsilon )\epsilon
+$$
 那么这个问题被称作是良定义(well--posed problem)的。
+
+> 乍一看，良定义的第二条性质似乎比较复杂。我们可以这样在几何上理解：
+>
+> - $\epsilon _0$ 是对初值条件的微小扰动
+> - $\delta (t)$ 是对 $f(t,y)$ 构成的向量场做了一个微小扰动。
+>
+> 只要这两个微小扰动的范围被 $\epsilon$ 控制住，那么解的轨迹的偏离 $\left|z(t)-y(t)\right|$ 就能够被控制在 $k(\epsilon )\epsilon$ 内。
+>
+> 因此，第二条性质实际表明了，在初始条件或方程发生微小的变化时，解的变化是可控的。
+
+可以证明，对于 $D$ 上连续的 $f(t,y)$ 和相应的 IVP
+$$
+y'(t)=f(t,y),\quad a\le t\le b,\quad y(a)=\alpha
+$$
+只要 $f$ 满足 Lipschitz Condition，那这个问题就是良定义的。
+
+
