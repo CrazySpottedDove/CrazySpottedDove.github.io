@@ -2417,7 +2417,7 @@ $$
 >
 > 此时，我们需要的 $W(x)=x^2-\frac{10}{9}x+\frac{5}{21}=(x-x_0)(x-x_1)$，于是可以解得 $x_0=0.8212,x_1=0.2899$。
 >
-> 然后，我们通过取 $f(x)=0,x$ 回代的方式，就可以解出 $A_0=0.3891,A_1=0.2776$。
+> 然后，我们通过取 $f(x)=1,x$ 回代的方式，就可以解出 $A_0=0.3891,A_1=0.2776$。
 >
 > 在 PPT 中，并没有随便选取线性无关的基，而是要求了这是一组正交基，这应该是站在计算机计算的角度考虑问题了。
 
@@ -2519,4 +2519,61 @@ y'(t)=f(t,y),\quad a\le t\le b,\quad y(a)=\alpha
 $$
 只要 $f$ 满足 Lipschitz Condition，那这个问题就是良定义的。
 
+### 欧拉法
 
+根据微分的定义，我们可以使用如下的近似：
+$$
+y'(t_0)\approx \frac{y(t_0+h)-y(t_0)}{h}
+$$
+
+如果我们取 $h=t_1-t_0$，那么就会有
+$$
+y(t_1)\approx y(t_0)+hy'(t_0)=\alpha +hf(t_0,\alpha )
+$$
+
+那么实际上，我们已经获得了一个递推关系：
+$$
+\omega _0 = \alpha ,\quad \omega _{i+1}=\omega _i+h f(t_i, \omega _i)
+$$
+
+这里，我们用 $\omega _i$ 表示了 $y(t_i)$ 的近似。Lipschitz Condition 保证了 $\omega _i$ 和 $y(t_i)$ 的误差不会过大。
+
+一个关于误差估计的定理是：
+$$
+\left|y_i-\omega _i\right|\le \frac{hM}{2L}\left( e^{L(t_i-t_0)}-1 \right)
+$$
+
+其中 $M$ 是 $\left|y''(t)\right|$ 的上界。二阶导的计算可以通过
+$$
+y''(t)=\frac{\mathrm{d}}{\mathrm{d}t}y'(t)=\frac{\mathrm{d}}{\mathrm{d}t}f(t,y(t))=\frac{\partial }{\partial t}f(t,y(t))+\frac{\partial }{\partial y}f(t,y(t))\cdot f(t,y(t))
+$$
+
+通过上面的误差估计公式，我们可以看到，当 $h$ 取的较小时，误差可能较小。然而，当我们注意到舍入误差时，就会发现， $h$ 取的过小同样会引入问题。
+
+### 高阶泰勒方法
+
+如果我们拥有截线斜率的表达式，显然对 $y$ 在不同位置的估计会更合适。
+
+我们假设存在这样的递推式:
+$$
+\omega _0=\alpha ,\quad \omega _{i+1}=\omega _i+h \phi (t,\omega _i)
+$$
+并且，在估计误差时，我们总是假设当前的点是精确的，只考虑求下一个点时带来的误差：
+$$
+\tau _{i+1}(h)=\frac{y_{i+1}-y_i-h\phi(t,y _i)}{h}=\frac{y_{i+1}-y_i}{h}-\phi (t_i,y_i)
+$$
+
+这样的误差忽略了全局求解带来的对当前点的误差影响，被称为 **Local Truncation Error**。
+
+### 其它欧拉方法
+
+#### 隐式欧拉法
+
+在欧拉法的迭代中，我们改用下一个点的导数来替换当前点的导数，于是就得到
+$$
+\omega _{i+1}=\omega _i+hf(t_{i+1},\omega _{i+1})
+$$
+
+这里我们无法直接得到 $\omega _{i+1}$ 的值，而是需要解上述的关于 $\omega _{i+1}$ 的方程。
+
+### Runge-Kutta 方法
