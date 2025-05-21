@@ -2717,7 +2717,7 @@ $$
 T^{(n)}(t_i, \omega _i)&=f(t_i, \omega _i)+\frac{h}{2}f'(t_i, \omega _i)+\ldots+\frac{h^{n-1}}{n!}f^{(n-1)}(t_i, \omega _i)
 \end{align*}
 $$
-可以看到，对于 $n$ 阶的高阶泰勒方法，它的 Local Truncation Error 为 $O(n)$。
+可以看到，对于 $n$ 阶的高阶泰勒方法，它的 Local Truncation Error 为 $O(h^n)$。
 
 ### 隐式欧拉法
 
@@ -2804,8 +2804,18 @@ $$
 \end{align*}\right.
 $$
 
-如上方程拥有无穷多组解，而通过如上方法获得的解法被称为二阶的 Runge-Kutta 方法。一个经典的选择是 $p=1 , \quad \lambda _1=\lambda _2=\frac{1}{2}$。
+如上方程拥有无穷多组解，而通过如上方法获得的解法被称为二阶的 Runge-Kutta 方法。
 
+* 一个经典的选择是 $p=1 , \quad \lambda _1=\lambda _2=\frac{1}{2}$。这个选择被称作 **Modified Euler's method** 或 **Heun's Method**。
+
+$$
+\omega _{i+1}=\omega _i+\frac{h}{2} \left[ f \left( t_i, \omega _i \right) + f \left( t_i+h, \omega _i+h f \left( t_i, \omega _i \right) \right)\right]
+$$
+* 另一个选择是 $p=\frac{1}{2}, \quad \lambda _1=0 , \quad \lambda _2=1$，这个选择被称作 **Midpoint Method**。
+
+$$
+\omega _{i+1}=\omega _i+hf \left( t_i+\frac{h}{2},\omega _i+\frac{h}{2} f \left( t_i,\omega _i \right) \right)
+$$
 而当我们继续拓展 $K$ 的数量，我们就会得到如下的方程组：
 
 ![alt text](mdPaste/numericalAnalysis/image-17.png)
@@ -2814,9 +2824,15 @@ $$
 $$
 \left\{\begin{align*}
 \omega _{i+1}&=\omega _i+\frac{h}{6}\left( K_1+2K_2+2K_3+K_4 \right)\\
-K_1&=f(t_i,\omega _i)\\
-K_2&=f(t+\frac{h}{2},\omega _i+\frac{h}{2}K_1)\\
-K_3&=f(t_i+\frac{h}{2},\omega _i+\frac{h}{2}K_2)\\
-K_4&=f(t_i+h,\omega _i+hK_3)
+K_1&=f(t_i, \omega _i)\\
+K_2&=f(t+\frac{h}{2}, \omega _i+\frac{h}{2}K_1)\\
+K_3&=f(t_i+\frac{h}{2}, \omega _i+\frac{h}{2}K_2)\\
+K_4&=f(t_i+h, \omega _i+hK_3)
 \end{align*}\right.
 $$
+
+Runge-Kutta 法的 LTE 阶数并不是线性增长的，它满足如下规律：
+
+![alt text](mdPaste/numericalAnalysis/image-18.png)
+
+由于这个方法对误差的估计基于泰勒展开，我们需要 $y$ 足够光滑。阶数越高，对光滑程度的要求也就越高。因此，类似于分段积分的思路，我们更倾向于在小步长内使用较低阶数的 Runge-Kutta，而非在大步长内使用较高阶数的 Runge-Kutta。
