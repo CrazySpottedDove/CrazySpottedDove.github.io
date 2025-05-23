@@ -2814,7 +2814,7 @@ $$
 * 另一个选择是 $p=\frac{1}{2}, \quad \lambda _1=0 , \quad \lambda _2=1$，这个选择被称作 **Midpoint Method**。
 
 $$
-\omega _{i+1}=\omega _i+hf \left( t_i+\frac{h}{2},\omega _i+\frac{h}{2} f \left( t_i,\omega _i \right) \right)
+\omega _{i+1}=\omega _i+hf \left( t_i+\frac{h}{2}, \omega _i+\frac{h}{2} f \left( t_i, \omega _i \right) \right)
 $$
 而当我们继续拓展 $K$ 的数量，我们就会得到如下的方程组：
 
@@ -2836,3 +2836,56 @@ Runge-Kutta 法的 LTE 阶数并不是线性增长的，它满足如下规律：
 ![alt text](mdPaste/numericalAnalysis/image-18.png)
 
 由于这个方法对误差的估计基于泰勒展开，我们需要 $y$ 足够光滑。阶数越高，对光滑程度的要求也就越高。因此，类似于分段积分的思路，我们更倾向于在小步长内使用较低阶数的 Runge-Kutta，而非在大步长内使用较高阶数的 Runge-Kutta。
+
+### 多步方法
+
+我们考虑使用之前更多个已得到结果的项来计算下一项。
+
+<!-- 积分视角 -->
+
+<!-- 泰勒展开视角 -->
+
+<!-- 要考） -->
+
+### 微分方程的高阶方程/系统
+
+$$
+\left\{
+\begin{align*}
+u_1'(t)&=f_1(t, u_1(t), \ldots, u_m(t))\\
+\ldots &=\ldots\\
+u_m'(t)&=f_m(t, u_m(t), \ldots, u_m(t))
+\end{align*}
+\right.
+$$
+
+$$
+\left\{
+\begin{align*}
+&y^{(m)}(t)=f(t, y, y', \ldots, y^{m-1})\\
+&y(a)=\alpha _1, \quad y'(a)=\alpha _2 , \ldots, \quad y^{(m-1)}(a)=\alpha _m
+\end{align*}
+\right.
+$$
+
+$m$ 阶就需要 $m$ 个初值。
+
+<!-- p323#5 -->
+<!-- 转化成系统，然后用向量的思路 -->
+
+### 稳定性
+
+考虑一个单步的微分方程，我们称是一致(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
+$$
+\lim_{h\to 0}\max_{1\le i\le n}\left|\tau _i(h)\right|=0
+$$
+
+更进一步地，如果我们直接要求
+$$
+\lim_{h\to 0}\max_{1\le i\le n}\left|y_i-\omega _i\right|=0
+$$
+那我们称这个微分方程是收敛(Convergent)的。
+
+如果一个 ODE 的初值条件受到一个小的扰动，它的全部的近似结果受到的扰动也较小，那么它对应的求解方法是稳定(stable)的。
+
+精确的算法未必是好的算法。局部高精度方法不一定全局精度高。
