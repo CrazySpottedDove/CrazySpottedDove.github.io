@@ -2928,7 +2928,7 @@ $$
 > f_{i-1}&=&&&y_i'&&-hy_i''&&+\frac{1}{2} h^2y_i'''&&-\frac{1}{6}h^3 y_i''''&&+O(h^4)\\
 > f_{i-2}&=&&&y_i'&&-2hy_i''&&+2h^2y_i'''&&-\frac{4}{3}h^3y_i''''&&+O(h^4)\\
 > f_{i-3}&=&&&y_i'&&-3hy_i''&&+\frac{9}{2}h^2y_i'''&&-\frac{9}{2}h^3y_i''''&&+O(h^4)\\
-> y(t_{i+1})&=&y_i&&+hy_i'&&+\frac{1}{2}h^2y_i''&&+\frac{1}{6}h^3y_i'''&&+\frac{1}{24}y_i''''&&+O(h^5)
+> y_{i+1}&=&y_i&&+hy_i'&&+\frac{1}{2}h^2y_i''&&+\frac{1}{6}h^3y_i'''&&+\frac{1}{24}y_i''''&&+O(h^5)
 > \end{align*}
 > $$
 > 我们通过 $y_i, y_i', y_i'', y_i''', y_i''''$ 前的系数，可以构造出 5 个等式，而未知数 $a_0, a_1, a_2, b_0, b_1, b_2, b_3$ 则有 7 个。因此，这个方程的解并不唯一。
@@ -3022,53 +3022,55 @@ u_2\\ \vdots \\ u_m\\ f(t, u_1(t), \ldots, u_m(t))
 $$
 <!-- p323#5 -->
 <!-- 转化成系统，然后用向量的思路 -->
-例题：使用 modified Euler's method 求解下面的问题，其中 $h=0.1$:
-$$
-\begin{align*}
-y''&=2y'-y+te^t-1.5t+1 , \quad 0\le t\le 0.2\\
-y(0)&=0 , \quad y'(0)=-0.5
-\end{align*}
-$$
-为了方便，这里只给出 t=0.1 的解：
 
-我们列出
-$$
-\vec{y}=\begin{pmatrix}
-u_1\\ u_2
-\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
-u_2\\ 2u_2-u_1+te^t-1.5t+1
-\end{pmatrix}
-$$
-于是，就有
-$$
-\begin{align*}
-\vec{K_1}&=\vec{f}\left(0, \begin{pmatrix}
-0\\-0.5
-\end{pmatrix}\right)=\begin{pmatrix}
--0.5\\ 0
-\end{pmatrix}\\
-\vec{K_2}&=\vec{f}\left( 0.1, \begin{pmatrix}
-0\\-0.5
-\end{pmatrix}+0.1 \begin{pmatrix}
--0.5\\0
-\end{pmatrix} \right)=\begin{pmatrix}
--0.5\\ 0.1e^{0.1}-0.1
-\end{pmatrix}
-\end{align*}
-$$
-那么
-$$
-\vec{y}(0.1)=\begin{pmatrix}
--0.5\\0
-\end{pmatrix}+0.1 \times\frac{1}{2} \left[\begin{pmatrix}
--0.5\\0
-\end{pmatrix}+\begin{pmatrix}
--0.5\\ 0.1e^{0.1}-0.1
-\end{pmatrix}\right]=\begin{pmatrix}
--0.55\\0.005-0.005e^{0.1}
-\end{pmatrix}
-$$
-整体思路是类似的，只不过是计算向量化了。
+> 例题：使用 modified Euler's method 求解下面的问题，其中 $h=0.1$:
+> $$
+> \begin{align*}
+> y''&=2y'-y+te^t-1.5t+1 , \quad 0\le t\le 0.2\\
+> y(0)&=0 , \quad y'(0)=-0.5
+> \end{align*}
+> $$
+> 为了方便，这里只给出 t=0.1 的解：
+>
+> 我们列出
+> $$
+> \vec{y}=\begin{pmatrix}
+> u_1\\ u_2
+> \end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
+> u_2\\ 2u_2-u_1+te^t-1.5t+1
+> \end{pmatrix}
+> $$
+> 于是，就有
+> $$
+> \begin{align*}
+> \vec{K_1}&=\vec{f}\left(0, \begin{pmatrix}
+> 0\\-0.5
+> \end{pmatrix}\right)=\begin{pmatrix}
+> -0.5\\ 0
+> \end{pmatrix}\\
+> \vec{K_2}&=\vec{f}\left( 0.1, \begin{pmatrix}
+> 0\\-0.5
+> \end{pmatrix}+0.1 \begin{pmatrix}
+> -0.5\\0
+> \end{pmatrix} \right)=\begin{pmatrix}
+> -0.5\\ 0.1e^{0.1}-0.1
+> \end{pmatrix}
+> \end{align*}
+> $$
+> 那么
+> $$
+> \vec{y}(0.1)=\begin{pmatrix}
+> -0.5\\0
+> \end{pmatrix}+0.1 \times\frac{1}{2} \left[\begin{pmatrix}
+> -0.5\\0
+> \end{pmatrix}+\begin{pmatrix}
+> -0.5\\ 0.1e^{0.1}-0.1
+> \end{pmatrix}\right]=\begin{pmatrix}
+> -0.55\\0.005-0.005e^{0.1}
+> \end{pmatrix}
+> $$
+> 整体思路是类似的，只不过是计算向量化了。
+
 ### 稳定性
 
 考虑一个单步的微分方程，我们称是一致(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
