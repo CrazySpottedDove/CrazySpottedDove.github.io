@@ -2755,7 +2755,7 @@ $$
 $$
 这样，我们也就得到了递推式
 $$
-\omega _{i+2}=\omega _{i}+2hf(t_i, \omega _{i+1})
+\omega _{i+2}=\omega _{i}+2hf(t_{i+1}, \omega _{i+1})
 $$
 
 当我们取 $\omega _{i}=y_i , \quad \omega _{i+1}=y_{i+1}$ 时，可以求得 LTE 为 $O(h^2)$。
@@ -2839,26 +2839,157 @@ Runge-Kutta 法的 LTE 阶数并不是线性增长的，它满足如下规律：
 
 ### 多步方法
 
-我们考虑使用之前更多个已得到结果的项来计算下一项。
+我们考虑使用之前更多个已得到结果的项来计算下一项。用数学表达式来表示，也就是把递推式变成
+$$
+\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega _{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+$$
+其中 $f_i=f(t_i, \omega _i)$。当 $b_0=0$ 时，这是一个显式方法，否则为一个隐式方法。
 
-<!-- 积分视角 -->
+在计算 LTE ($\tau(h)$) 时，我们假设之前的计算结果都是准确的，于是有
+$$
+\tau _{i+1}(h)=\frac{y_{i+1}-(a_0y_i+\ldots+a_{m-1}y_{i+1-m})}{h}-\left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+$$
 
-<!-- 泰勒展开视角 -->
+#### 积分思路
 
+在讨论显式方法时，如果我们选择利用 $(t_i, f _i), (t_{i-1}, f _{i-1}), \ldots, (t_{i+1-m}, f _{i+1-m})$ 这 $m$ 个点做一个牛顿插值，就可以得到插值多项式 $P_{m-1}$ 和余项 $R_{m-1}$。那么，下一个点的 $y$ 就可以通过积分的方法来近似表示：
+$$
+\begin{align*}
+&\int_{t_i}^{t_{i+1}}f(t, y(t))\mathrm{d}t = h \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s + h \int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s\\
+&\Rightarrow \begin{align*}
+\omega _{i+1}&=\omega _i+h \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s\\
+\tau _{i+1}(h)&=\int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s
+\end{align*}
+\end{align*}
+$$
+其中 $s \in [0, 1]$。
+
+> 举个例子，如果我们尝试得到一个显式的两步方法，那么我们可以先对 $(t_i, f_i), (t_{i-1}, f_{i-1})$ 取牛顿插值，即
+> $$
+> P_1(t_i+sh)=f_i+s(f_i-f_{i-1}), \quad t_i-t_{i-1}=h
+> $$
+> 那么，通过积分，我们可以得到 $\omega _{i+1}$ 的近似表达式
+> $$
+> \omega _{i+1}=\omega _i+h \int_{0}^{1}P_1(t_i+sh)\mathrm{d}s=\omega _i+h \left( \frac{3}{2}f_i-\frac{1}{2}f_{i-1} \right)
+> $$
+> 而 LTE 则可以表示为（下面的转化中使用了中值定理）
+> $$
+> \tau _{i+1}=\int_{0}^{1}R_1(t_i+sh)\mathrm{d}s=\int_{0}^{1}\frac{\mathrm{d}^2f \left( \xi _i, y(\xi _i) \right)}{\mathrm{d}t^2}\frac{s(s+1)h^2}{2}\mathrm{d}s=\frac{5}{12}h^2 y'''(\xi _i')
+> $$
+> 这个方法被称为 **Adams-Bashforth two-step explicit method**。
+
+可以注意到，其实通过交换积分顺序的方式， $\omega _{i+1}-\omega _i$ 可以被表示成 $f_{i+1}, f _i, f _{i-1}, \ldots, f _{i+1-m}$ 的线性组合，且它们的系数可以被提前计算出来。下面的表展示了使用显式方法(取 $f_{i+1}$ 的系数为 0)时的一些系数：
+
+![alt text](mdPaste/numericalAnalysis/image-19.png)
+
+其中 $\tau _{i+1}=A_mh^my^{(m+1)}(\xi _i)$。
+
+一个常用的方法为 **Adams-Bashforth Four-Step Explicit Method**，即
+$$
+\omega _{i+1}=\omega _i+\frac{h}{24}\left( 55f_i-59f_{i-1}+37f_{i-2}-9f_{i-3} \right)
+$$
+
+当我们使用隐式方法时，则需要改为对 $(t_{i+1}, f_{i+1}), (t_i, f_i), \ldots, (t_{i+1-m}, f_{i+1-m})$ 这 $m+1$ 个点做插值。类似地，我们可以得出这样一张系数表：
+
+![alt text](mdPaste/numericalAnalysis/image-20.png)
+
+其中 $\tau _{i+1}=B_mh^{m+1}y^{m+2}(\xi _i)$。
+
+**Adams-Moulton Three-Step Implicit Method** 为
+$$
+\omega _{i+1}=\omega _i+\frac{h}{24}(9f_{i+1}+19f_i-5f_{i-1}+f_{i-2})
+$$
+
+类似于之前将显式方法和隐式方法结合的思路，我们也可以通过线性组合显示方法和隐式方法的解，使得 LTE 的阶数往上升一阶。一个使用多步方法的流程是，首先用 Runge-Kutta 法计算前  $m$ 个点，然后，首先使用显式方法预测第 $m+1$ 个点，再用隐式方法去 refine 这个结果。之后，每一个新的点的计算都在前面的基础上往下做。
+
+#### 泰勒展开思路
+
+再放一遍表达式：
+$$
+\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega _{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+$$
+
+我们可以依旧采用泰勒展开的思路，对 $y_{i-1}, \ldots, y_{i+1-m}$ 与 $f_{i+1}, f_{i-1}, \ldots, f_{i+1-m}$ 全部关于 $t_i$ 进行泰勒展开，然后利用待定系数法求解一组合适的 $\left\{ a_k \right\}, \left\{ b_k \right\}$。
 <!-- 要考） -->
+
+> 以求解拥有形式
+> $$
+> \omega _{i+1}=a_0 \omega _i+a_1 \omega _{i-1}+ a_2 \omega _{i-2}+h \left( b_0f_i+b_1f_{i-1}+b_2f_{i-2}+b_3f_{i-3} \right)
+> $$
+> 的递推式为例：
+>
+> 我们进行一系列泰勒展开，有：
+> $$
+> \begin{align*}
+> y_i&=& y_i&&&&&&&&&&\\
+> y_{i-1}&=& y_i&&-hy_i'&&+\frac{1}{2}h^2y_i''&&-\frac{1}{6}h^3y_i'''&&+\frac{1}{24}y_i''''&&+O(h^5)\\
+> y_{i-2}&=&y_i&&-2hy_i'&&+2h^2y_i''&&-\frac{4}{3}h^3y_i'''&&+\frac{2}{3}h^4y_i''''&&+O(h^5)\\
+> f_{i}&=&&&y_i'&&&&&&&&\\
+> f_{i-1}&=&&&y_i'&&-hy_i''&&+\frac{1}{2} h^2y_i'''&&-\frac{1}{6}h^3 y_i''''&&+O(h^4)\\
+> f_{i-2}&=&&&y_i'&&-2hy_i''&&+2h^2y_i'''&&-\frac{4}{3}h^3y_i''''&&+O(h^4)\\
+> f_{i-3}&=&&&y_i'&&-3hy_i''&&+\frac{9}{2}h^2y_i'''&&-\frac{9}{2}h^3y_i''''&&+O(h^4)\\
+> y(t_{i+1})&=&y_i&&+hy_i'&&+\frac{1}{2}h^2y_i''&&+\frac{1}{6}h^3y_i'''&&+\frac{1}{24}y_i''''&&+O(h^5)
+> \end{align*}
+> $$
+> 我们通过 $y_i, y_i', y_i'', y_i''', y_i''''$ 前的系数，可以构造出 5 个等式，而未知数 $a_0, a_1, a_2, b_0, b_1, b_2, b_3$ 则有 7 个。因此，这个方程的解并不唯一。
+>
+> *  $a_1=a_2=0$ 时，为 Adams-Bashforth explicit method
+> *  $a_1=a_2=0$，且将 $f_{i-1}$ 展开式替换成 $f_{i+1}$ 展开式时，为 Adams-Moulton implicit method
+> * 把 $f_{i-3}$ 展开式替换成 $y_{i-3}$ 展开式时，我们可以得到另一族解，其中包括 explicit Milne's method
+> $$
+> \omega _{i+1}=\omega _{i-3}+\frac{4h}{3}(2f_i-f_{i-1}+2f_{i-2})
+> $$
+> 其 LTE 为 $\frac{14}{45}h^4y^{(5)}(\xi _i), \quad\xi _i\in(t_{i-3}, t_{i+1})$
+> *  $a_1=1, a_2=0$ 时，得到 Simpson implicit method
+> $$
+> \omega _{i+1}=\omega _{i-1}+\frac{h}{3}(f_{i+1}+4f_i+f_{i-1})
+> $$
+> 其 LTE 为 $-\frac{h^4}{90}y^{(5)}(\xi _i), \quad \xi \in(t_{i-1}, t_{i+1})$
+>
+> 这样的解怎么都列不完，重要的是掌握方法。
 
 ### 微分方程的高阶方程/系统
 
+#### 一阶微分方程的 m 阶系统
+
+以下是一个一阶微分方程的 $m$ 阶系统：
 $$
 \left\{
 \begin{align*}
 u_1'(t)&=f_1(t, u_1(t), \ldots, u_m(t))\\
 \ldots &=\ldots\\
-u_m'(t)&=f_m(t, u_m(t), \ldots, u_m(t))
+u_m'(t)&=f_m(t, u_1(t), \ldots, u_m(t))\\
+u_1(a)&=\alpha _1\\
+\ldots &=\ldots\\
+u_m(a)&=\alpha _m
+\end{align*}
+\right.
+$$
+如果我们使用向量的形式写这些等式，就可以把它们转化成我们熟悉的形式：
+
+记
+$$
+\vec{y}=\begin{pmatrix}u_1\\ \vdots\\ u_m\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
+f_1\\ \vdots \\ f_m
+\end{pmatrix}, \quad \vec{\alpha }=\begin{pmatrix}
+\alpha _1\\ \vdots\\ \alpha _m
+\end{pmatrix}
+$$
+则有
+$$
+\left\{
+\begin{align*}
+\vec{y}'(t)&=\vec{f}(t, \vec{y})\\
+\vec{y}(a)&=\vec{\alpha }
 \end{align*}
 \right.
 $$
 
+形式上的熟悉带来求解上的熟悉。
+
+#### 高阶微分方程
+
+以下是一个 $m$ 阶的微分方程：
 $$
 \left\{
 \begin{align*}
@@ -2868,11 +2999,76 @@ $$
 \right.
 $$
 
-$m$ 阶就需要 $m$ 个初值。
+> $m$ 阶就需要 $m$ 个初值。
 
+我们可以通过变量替换的方式，将求解 $m$ 阶微分方程的问题转化为求解一阶微分方程的 $m$ 阶系统：
+
+取 $u_k(t)=y^{(k-1)}(t)$，则有
+$$
+\left\{
+\begin{align*}
+\vec{y}'(t)&=\vec{f}(t, \vec{y})\\
+\vec{y}(a)&=\vec{\alpha }
+\end{align*}
+\right.
+$$
+其中
+$$
+\vec{y}=\begin{pmatrix}u_1\\ \vdots\\ u_{m-1}\\ u_m\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
+u_2\\ \vdots \\ u_m\\ f(t, u_1(t), \ldots, u_m(t))
+\end{pmatrix}, \quad \vec{\alpha }=\begin{pmatrix}
+\alpha _1\\ \vdots\\ \alpha _{m-1}\\ \alpha _m
+\end{pmatrix}
+$$
 <!-- p323#5 -->
 <!-- 转化成系统，然后用向量的思路 -->
+例题：使用 modified Euler's method 求解下面的问题，其中 $h=0.1$:
+$$
+\begin{align*}
+y''&=2y'-y+te^t-1.5t+1 , \quad 0\le t\le 0.2\\
+y(0)&=0 , \quad y'(0)=-0.5
+\end{align*}
+$$
+为了方便，这里只给出 t=0.1 的解：
 
+我们列出
+$$
+\vec{y}=\begin{pmatrix}
+u_1\\ u_2
+\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
+u_2\\ 2u_2-u_1+te^t-1.5t+1
+\end{pmatrix}
+$$
+于是，就有
+$$
+\begin{align*}
+\vec{K_1}&=\vec{f}\left(0, \begin{pmatrix}
+0\\-0.5
+\end{pmatrix}\right)=\begin{pmatrix}
+-0.5\\ 0
+\end{pmatrix}\\
+\vec{K_2}&=\vec{f}\left( 0.1, \begin{pmatrix}
+0\\-0.5
+\end{pmatrix}+0.1 \begin{pmatrix}
+-0.5\\0
+\end{pmatrix} \right)=\begin{pmatrix}
+-0.5\\ 0.1e^{0.1}-0.1
+\end{pmatrix}
+\end{align*}
+$$
+那么
+$$
+\vec{y}(0.1)=\begin{pmatrix}
+-0.5\\0
+\end{pmatrix}+0.1 \times\frac{1}{2} \left[\begin{pmatrix}
+-0.5\\0
+\end{pmatrix}+\begin{pmatrix}
+-0.5\\ 0.1e^{0.1}-0.1
+\end{pmatrix}\right]=\begin{pmatrix}
+-0.55\\0.005-0.005e^{0.1}
+\end{pmatrix}
+$$
+整体思路是类似的，只不过是计算向量化了。
 ### 稳定性
 
 考虑一个单步的微分方程，我们称是一致(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
