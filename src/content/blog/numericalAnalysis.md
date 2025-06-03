@@ -3073,22 +3073,119 @@ $$
 
 ### 稳定性
 
-考虑一个单步的微分方程，我们称是一致(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
+> 精确的算法未必是好的算法。局部高精度方法不一定全局精度高。
+
+#### 一致与收敛
+
+考虑一个单步的微分方程解法，我们称它是**一致**(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
 $$
 \lim_{h\to 0}\max_{1\le i\le n}\left|\tau _i(h)\right|=0
 $$
+也就是说，对于一个一致的微分方程解法，我们可以通过减小采样间隙的方式来无限降低它的局部截断误差。
 
 更进一步地，如果我们直接要求
 $$
 \lim_{h\to 0}\max_{1\le i\le n}\left|y_i-\omega _i\right|=0
 $$
-那我们称这个微分方程是收敛(Convergent)的。
+那我们称这个解法是**收敛**(Convergent)的。
 
-如果一个 ODE 的初值条件受到一个小的扰动，它的全部的近似结果受到的扰动也较小，那么它对应的求解方法是稳定(stable)的。
+也就是说，对于一个收敛的微分方程解法，我们可以通过减小采样间隙的方式来无限降低它的解与真值之间的误差。
 
-精确的算法未必是好的算法。局部高精度方法不一定全局精度高。
+对于多步解法，以上定义相同。
 
-特征值分解
+#### 稳定
+
+如果一个 ODE 方法的初值条件受到一个小的扰动，它的全部的近似结果受到的扰动也较小，那么它对应的求解方法是**稳定**(stable)的。
+
+上面的定义显然是模糊的，我们首先需要讨论一个合理的评判规则。一个 ODE 方法的稳定性是相对于**测试方程**(test equation) 而言的。一个常见的测试方程是线性标量方程，即：
 $$
-U^{-1}\lambda U
+y'=\lambda y , \quad y(0)=\alpha , \quad  Re(\lambda )<0
 $$
+
+我们假设舍入误差仅仅在初值点被引入。如果对于某个取值范围的 $H=h \lambda$，由初值误差带来的最终计算结果的误差随着采样数的增加而减小，那么我们就说这个 ODE 方法关于 $H$ 是**绝对稳定**(absolutely stable) 的。满足如上条件的 $H$ 的范围越大，ODE 方法也就越稳定。
+
+#### 比较：欧拉法的显/隐式方法
+
+让我们考虑欧拉显式方法。我们知道它的递推式为
+$$
+\omega _{i+1}=\omega _i+h f_i
+$$
+对于我们的测试方程，这个递推式也就是
+$$
+\omega _{i+1}=\omega _i+h\lambda \omega _i=(H +1)\omega _i
+$$
+那么，我们可以根据等比数列的知识得到
+$$
+\omega _{i+1}=\alpha (1+H )^{i+1}
+$$
+
+我们的带有误差的初值为 $\alpha ^*=\alpha +\epsilon$，于是我们得到
+$$
+\epsilon _{i+1}=\omega ^*_{i+1}-\omega _{i+1}=(1+H)^{i+1}\epsilon
+$$
+
+为了让误差随着采样数的增加而减小，必须有 $\left|1+H\right|<1$。于是， $H$ 的范围也就是复平面上以 $(-1, 0i)$ 为圆心，半径为 $1$ 的圆。
+
+如果我们再考虑欧拉隐式方法，就能得到
+$$
+\left\{
+\begin{align*}
+\omega _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\alpha \\
+\epsilon _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\epsilon
+\end{align*}
+\right.
+$$
+因为我们已经规定了 $Re(\lambda )<0$，所以隐式方法总是稳定的！
+
+#### 对微分方程系统的分析
+
+考虑
+$$
+\left\{
+\begin{align*}
+u_1'&=9u_1+24u_2+5 \cos\left(t\right)-\frac{1}{3}\sin\left(t\right), \quad u_1(0)=\frac{4}{3}\\
+u_2'&=-24u_1-51u_2-9 \cos\left(t\right)+\frac{1}{3}\sin\left(t\right), \quad u_2(0)=\frac{2}{3}
+\end{align*}
+\right.
+$$
+我们如何选择 $h$ 来保证使用显式欧拉法时的稳定性呢？
+
+考虑将上述方程写成向量的形式。我们记
+$$
+\left\{
+\begin{align*}
+\mathbf{y}&=\begin{pmatrix}
+u_1\\
+u_2
+\end{pmatrix}\\
+A &=\begin{pmatrix}
+9&24\\
+-24&-51
+\end{pmatrix}\\
+\mathbf{g}(t) &=\begin{pmatrix}
+5 \cos\left(t\right)-\frac{1}{3}\sin\left(t\right)\\
+-9 \cos\left(t\right)+\frac{1}{3} \sin\left(t\right)
+\end{pmatrix}
+\end{align*}
+\right.
+$$
+那么就有
+$$
+\mathbf{y}'=A \mathbf{y}+\mathbf{g}(t)
+$$
+如果我们考虑对 $A$ 做特征值分解 $A=U^{-1}\Lambda U$，那么就有
+$$
+(U \mathbf{y})'=\Lambda ( U \mathbf{y})+( U \mathbf{g}(t))
+$$
+我们注意到，$\Lambda$ 是一个对角矩阵，所以此时新的变量 $U \mathbf{y}$ 的两个变量是互相独立的。因此，我们可以直接使用一阶常微分方程中判断稳定性的结论，即：
+$$
+\left\{
+\begin{align*}
+\left|\lambda _1+1\right|<1\\
+\left|\lambda _2+1\right|<1
+\end{align*}
+\right.
+$$
+可以解得 $\lambda _1=-3 , \quad \lambda _2=-39$，因此我们应当取 $h<\frac{2}{39}$。
+
+其实我们注意到，对于另一个变量来说，这么小的 $h$ 在求解上还是太浪费了。因此，实际问题中降低计算量的一个思路就是避免产生特征值相差较多的 $A$。
