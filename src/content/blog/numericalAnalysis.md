@@ -994,10 +994,8 @@ $$
 > 收敛，且其中间解与收敛终点的误差控制在：
 > $$
 > \begin{align}
-
-    > \left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|&\le \left\|T\right\|^k \left\|\mathbf{x}-\mathbf{x}^{(0)}\right\|\\
-    > \left\|\mathbf{x} -\mathbf{x}^{(k)}\right\|&\le \frac{\left\|T\right\|^k}{1-\left\|T\right\|}\left\|\mathbf{x}^{(1)}-\mathbf{x}^{(0)}\right\|
-
+> \left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|&\le \left\|T\right\|^k \left\|\mathbf{x}-\mathbf{x}^{(0)}\right\|\\
+> \left\|\mathbf{x} -\mathbf{x}^{(k)}\right\|&\le \frac{\left\|T\right\|^k}{1-\left\|T\right\|}\left\|\mathbf{x}^{(1)}-\mathbf{x}^{(0)}\right\|
 > \end{align}
 > $$
 
@@ -1098,20 +1096,10 @@ $$
 
 其实这里非负性，齐次性和三角不等式都是满足的，只能考虑一致性了。
 
-令 $A=\begin{pmatrix}
-
-    1&1\\
-    1&1
-
-\end{pmatrix}$，则有 $A^2=\begin{pmatrix}
-
-    2&2\\2&2
-
-\end{pmatrix}$，不满足 $\|A^2\|\le\|A\|^2$。
+令 $A=\begin{pmatrix}1&1\\1&1\end{pmatrix}$，则有 $A^2=\begin{pmatrix}2&2\\2&2\end{pmatrix}$，不满足 $\|A^2\|\le\|A\|^2$。
 
 #### P430-T13
 
->
 > Prove that if $\|\cdot\|$ is a vector norm on  $\R^n$, then $\|A\|=\max_{\|\mathbf{x}\|=1}\|A\mathbf{x}\|$ is a matrix norm.
 
 非负性和齐次性显然。
@@ -1323,11 +1311,7 @@ $$
 
 首先，回忆二阶矩阵的求逆公式：
 
-对于二阶矩阵 $A=\begin{pmatrix}
-
-    a&b\\c&d
-
-\end{pmatrix}$，其逆为
+对于二阶矩阵 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$，其逆为
 $$
 A^{-1}=\frac{\begin{pmatrix}
 
@@ -1724,7 +1708,7 @@ $$
 $$
 \begin{align*}
 
-    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+A_j\\
+    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j}\frac{(x-x_{j-1})^2}{2h_j}+A_j\\
     S_j(x)&=M_{j-1}\frac{(x_j-x)^3}{6h_j}+M_j \frac{(x-x_{j-1})^3}{6h_j}+A_jx+B_j
 
 \end{align*}
@@ -1744,7 +1728,8 @@ $$
 \begin{align*}
 
     A_j&=\frac{y_j-y_{j-1}}{h_j}-\frac{M_j-M_{j-1}}{6}h_j=f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
-    A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h_j^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h_j^2\right)\frac{x-x_{j-1}}{h_j}
+    % A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h_j^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h_j^2\right)\frac{x-x_{j-1}}{h_j}
+    B_j&=\frac{1}{h_j}(x_j y_{j-1}-x_{j-1}y_j)+\frac{h_j}{6}(M_jx_{j-1}-M_{j-1}x_j)
 
 \end{align*}
 $$
@@ -1752,8 +1737,10 @@ $$
 $$
 \begin{align*}
 
-    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
-    S_{j+1}'(x)&=-M_{j}\frac{(x_{j+1}-x)^2}{2h_{j+1}}+M_{j}\frac{(x-x_{j})^2}{2h_{j+1}}+f[x_{j},x_{j+1}]-\frac{M_{j+1}-M_{j}}{6}h_{j+1}
+    % S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
+    % S_{j+1}'(x)&=-M_{j}\frac{(x_{j+1}-x)^2}{2h_{j+1}}+M_{j}\frac{(x-x_{j})^2}{2h_{j+1}}+f[x_{j},x_{j+1}]-\frac{M_{j+1}-M_{j}}{6}h_{j+1}
+    S_j'(x_j)&=f \left[x_{j-1},x_j\right]+\frac{h_j}{6}\left( 2M_j+M_{j-1} \right)\\
+    S_{j+1}'(x_j)&=f \left[x_j,x_{j+1}\right]+\frac{h_{j+1}}{6}\left( 2M_j+M_{j+1} \right)
 
 \end{align*}
 $$
