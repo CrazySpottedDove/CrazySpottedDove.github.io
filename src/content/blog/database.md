@@ -6,28 +6,29 @@ updatedDate: 2025-02-17
 tags: ["database"]
 category: "课程笔记"
 ---
+
 ## Introduction
 
 ### 测试与评分
 
-- 作业 10%
-- 小测 10%
-- 实验 30%
-- 期末考 50%
+* 作业 10%
+* 小测 10%
+* 实验 30%
+* 期末考 50%
 
 期末考允许带一张 A4 纸。
 
 ### 传统数据库生态的四种角色
 
-- DBMS 开发者：高水平计算机专家，开发标准化、产品化的数据库管理系统
-- 系统集成商：普通编程人员，基于 DBMS 开发各类信息化应用系统
-- 数据库管理员 DBA：运维人员，使用运维工具维护数据库管理系统
-- 最终用户：业务专家，在各类业务场景中使用系统。
+* DBMS 开发者：高水平计算机专家，开发标准化、产品化的数据库管理系统
+* 系统集成商：普通编程人员，基于 DBMS 开发各类信息化应用系统
+* 数据库管理员 DBA：运维人员，使用运维工具维护数据库管理系统
+* 最终用户：业务专家，在各类业务场景中使用系统。
 
 ### 模型
 
-- 对数据语义的抽象产生了关系数据模型
-- 对业务逻辑的抽象产生了事务处理模型
+* 对数据语义的抽象产生了关系数据模型
+* 对业务逻辑的抽象产生了事务处理模型
 
 数据库的三大成就是：关系模型、事务处理、查询优化。
 
@@ -41,17 +42,17 @@ category: "课程笔记"
 
 ### 学习什么
 
-- 数据库的建模和设计——从现实中抽象
-- 编程——使用数据库，学会 SQL 语言
-- 实现 DBMS —— DBMS 如何工作、设计
+* 数据库的建模和设计——从现实中抽象
+* 编程——使用数据库，学会 SQL 语言
+* 实现 DBMS —— DBMS 如何工作、设计
 
 ### DBMS 的特征
 
-- 数据管理的效率和可拓展性(scalability)
-- 减小开发时间
-- 数据独立性
-- 数据完整性(integrity)与安全性
-- 并发访问(concurrent access)和鲁棒性(robustness)
+* 数据管理的效率和可拓展性(scalability)
+* 减小开发时间
+* 数据独立性
+* 数据完整性(integrity)与安全性
+* 并发访问(concurrent access)和鲁棒性(robustness)
 
 > 鲁棒性：稳健性、健壮性
 
@@ -59,13 +60,13 @@ category: "课程笔记"
 
 在数据库系统出现之前，已经有了文件系统。然而，文件系统具有如下问题：
 
-- 数据冗余(redundancy)和不一致(inconsistency)——文件格式非常多
-- 访问数据困难——需要用新的程序来执行新的任务
-- 数据隔离(isolation)——不同文件和不同格式，难以检索(retrieve)和分享
-- 完整性约束还需要程序来完成，难以添加和修改约束
-- 更新没有原子性(atomicity)
-- 不容易被多个用户并发访问
-- 安全问题
+* 数据冗余(redundancy)和不一致(inconsistency)——文件格式非常多
+* 访问数据困难——需要用新的程序来执行新的任务
+* 数据隔离(isolation)——不同文件和不同格式，难以检索(retrieve)和分享
+* 完整性约束还需要程序来完成，难以添加和修改约束
+* 更新没有原子性(atomicity)
+* 不容易被多个用户并发访问
+* 安全问题
 
 > 原子性：一个事务中的所有操作要么全部成功，要么全部失败回滚，不会结束在中间某个环节
 
@@ -75,9 +76,9 @@ category: "课程笔记"
 
 不同对数据库的使用方法需要不同等级的抽象。
 
-- Physical Level: 描述一个 record 如何被存储
-- Logical Level: 描述存储在数据库中的数据以及这些数据之间更高级的关系
-- VIEW Level: 通过应用程序来显示某些数据的细节（可能隐藏一些细节）
+* Physical Level: 描述一个 record 如何被存储
+* Logical Level: 描述存储在数据库中的数据以及这些数据之间更高级的关系
+* VIEW Level: 通过应用程序来显示某些数据的细节（可能隐藏一些细节）
 
 #### 物理层的独立性
 
@@ -93,12 +94,12 @@ category: "课程笔记"
 
 ### DB 语言
 
-- 数据定义语言(DDL)：指明结构
-- **数据操纵语言(DML)**：增删改查。
+* 数据定义语言(DDL)：指明结构
+* **数据操纵语言(DML)**：增删改查。
 
 > M: Manipulation
 
-- 数据控制语言(DCL)：安全性相关。
+* 数据控制语言(DCL)：安全性相关。
 
 SQL = DDL + DML + DCL
 
@@ -108,29 +109,29 @@ SQL = DDL + DML + DCL
 
 在关系代数中，有六个基本操作：
 
-- 选择 SELECT，把表中符合某些条件的数据找出来，形成一个新的表。
+* 选择 SELECT，把表中符合某些条件的数据找出来，形成一个新的表。
 
 > 记作 $\sigma_{p}(r)$，此处 $p$ 为筛选条件， $r$ 为表格。
 
-- 投影 Project，它是一种纵向操作，提取一张表中的某些属性形成一个新的表，并合并其中重复的行。
+* 投影 Project，它是一种纵向操作，提取一张表中的某些属性形成一个新的表，并合并其中重复的行。
 
 > 记作 $\Pi_{array}(r)$，$array$ 是一个属性数组。
 
-- 并 UNION，合并两张拥有相同属性名的表，并合并其中重复的行。
+* 并 UNION，合并两张拥有相同属性名的表，并合并其中重复的行。
 
 > 记作 $a \cup b$
 
-- 集合差 SET Difference，在原表中去掉另一张表中已存在的行。
+* 集合差 SET Difference，在原表中去掉另一张表中已存在的行。
 
->记作 $a-b$
+> 记作 $a-b$
 
-- 笛卡尔积 Cartesian product，对两个拥有不同属性的表操作，返回由各自的行的全部自由组合 collect 成的新表。
+* 笛卡尔积 Cartesian product，对两个拥有不同属性的表操作，返回由各自的行的全部自由组合 collect 成的新表。
 
->记作 $a\times b$
+> 记作 $a\times b$
 
-- 重命名 Rename，重命名一张表里的属性名字。
+* 重命名 Rename，重命名一张表里的属性名字。
 
->记作  $\rho_{R(A,B,\ldots)}(r)$，意为把表 $r$ 重命名为 $R$，并且把它的属性重命名为 $A,B,\ldots$
+> 记作  $\rho_{R(A, B, \ldots)}(r)$，意为把表 $r$ 重命名为 $R$，并且把它的属性重命名为 $A, B, \ldots$
 
 所有其它操作都可以表示成这六个基本操作的组合。
 
@@ -138,48 +139,48 @@ SQL = DDL + DML + DCL
 
 ### 四大常见操作
 
-- 交 SET Intersection，提取两张表中相同的行。
+* 交 SET Intersection，提取两张表中相同的行。
 
 > $$
 > a\cap b=r-(r-s)
 > $$
 
-- 自然连接 Natural JOIN，连接两张表，保留其中公共属性相等的行。
+* 自然连接 Natural JOIN，连接两张表，保留其中公共属性相等的行。
 
-> 例如， 对于表 $r(A,B),s(B,C)$，有
+> 例如， 对于表 $r(A, B), s(B, C)$，有
 > $$
-> r \Join s = \Pi_{A,B,C}\Bigl(\sigma_{r.B=s.B}(r \times s)\Bigr)
+> r \Join s = \Pi_{A, B, C}\Bigl(\sigma_{r. B=s. B}(r \times s)\Bigr)
 > $$
 >
-> theta 连接:先做笛卡尔积，然后做条件为 $\theta$ 的选择.
+> theta 连接: 先做笛卡尔积，然后做条件为 $\theta$ 的选择.
 
-- 除 Division，首先舍弃除数表中所有被除数表不拥有的属性，然后返回一张最大的表，使得它与作为除数的表的笛卡尔积是被除的表的子集。
+* 除 Division，首先舍弃除数表中所有被除数表不拥有的属性，然后返回一张最大的表，使得它与作为除数的表的笛卡尔积是被除的表的子集。
 
-> 例如，对于表 $r(A,B),s(B)$，有
+> 例如，对于表 $r(A, B), s(B)$，有
 > $$
-> r \div s = \{\, a \in \Pi_{A}(r) \mid \forall b \in s,\; (a,b) \in r \,\}
+> r \div s = \{\, a \in \Pi_{A}(r) \mid \forall b \in s, \; (a, b) \in r \, \}
 > $$
 
-- 赋值 Assignment，把一个运算的结果赋给临时变量。
+* 赋值 Assignment，把一个运算的结果赋给临时变量。
 
 ### 拓展操作
 
-- 广义投影 Generalized Projection，允许把投影的属性数组替换成属性函数数组
-- 聚合操作 Aggregate Functions AND Operations，实现取平均、最大值、最小值、求和、计数。
+* 广义投影 Generalized Projection，允许把投影的属性数组替换成属性函数数组
+* 聚合操作 Aggregate Functions AND Operations，实现取平均、最大值、最小值、求和、计数。
 
 > 记作
 > $$
-> G_1,G_2,\ldots G_n\ {\Large g}_{f_1(R_1),f_2(R_2),\ldots f_n(R_n)}(r)
+> G_1, G_2, \ldots G_n\ {\Large g}_{f_1(R_1), f_2(R_2), \ldots f_n(R_n)}(r)
 > $$
-> 其中 $r$ 为表格，$f_1,f_2\ldots f_n$ 为聚合函数， $R_1, R_2,\ldots R_n$ 为 $r$ 的属性， $G_1,G_2,\ldots G_n$ 表示按照这些属性来聚合(可以为空)
+> 其中 $r$ 为表格，$f_1, f_2\ldots f_n$ 为聚合函数， $R_1, R_2, \ldots R_n$ 为 $r$ 的属性， $G_1, G_2, \ldots G_n$ 表示按照这些属性来聚合(可以为空)
 
 ### 数据库的修改
 
 无非就是增删改的操作，我们用符号来表达它们。
 
-- Deletion $A \leftarrow A-\sigma_{a=sth}(A)$
-- Insertion $A \leftarrow A ∪ {(element_1,...element_n)}$
-- UPDATE $A \leftarrow \Pi_{f(a_1),f(a_2),...f(a_n)}$
+* Deletion $A \leftarrow A-\sigma_{a=sth}(A)$
+* Insertion $A \leftarrow A ∪ {(element_1, ...element_n)}$
+* UPDATE $A \leftarrow \Pi_{f(a_1), f(a_2), ...f(a_n)}$
 
 ## SQL
 
@@ -196,22 +197,22 @@ CREATE TABLE branch(
                 );
 ```
 
-支持使用 `super KEY`, `candidate KEY`, `PRIMARY KEY` 来指定键。
+支持使用 `super KEY` , `candidate KEY` , `PRIMARY KEY` 来指定键。
 
 支持的数据类型：
 
-- `char(n)`: 定长字符串。
-- `varchar(n)`: 不定长字符串， `n` 为最大值。
-- `int`: 整数，最大值视机器而定。
-- `smallint`: 小整数。
-- `numeric(p, d)`: 固定位数的数字，精度为 `p`，保留到 `d` 位十进制小数。
-- `real, double precision`: 浮点数。
-- `float(n)`: 至少 `n` 位精度的浮点数。
-- `date`: 如 `2007-2-27`
-- `Time`: 如 `11:18:16`
-- `timestamp`: 如 `2011-3-17 11:18:16`
+* `char(n)`: 定长字符串。
+* `varchar(n)`: 不定长字符串， `n` 为最大值。
+* `int`: 整数，最大值视机器而定。
+* `smallint`: 小整数。
+* `numeric(p, d)`: 固定位数的数字，精度为 `p`，保留到 `d` 位十进制小数。
+* `real, double precision`: 浮点数。
+* `float(n)`: 至少 `n` 位精度的浮点数。
+* `date`: 如 `2007-2-27`
+* `Time`: 如 `11:18:16`
+* `timestamp`: 如 `2011-3-17 11:18:16`
 
-所有的数据类型都允许 `NULL`。
+所有的数据类型都允许 `NULL` 。
 
 在建表时，我们可以添加完整性约束 Integrity Constraints，令一些属性必须满足一定的规则，如：
 
@@ -297,11 +298,11 @@ SELECT a_1, a_2, ... a_n FROM r_1, r_2, ... r_n WHERE some_predication;
 
 这和
 $$
-\Pi_{a_1,a_2,\ldots,a_n}(\sigma_{\text{SOME\_predication}}(r_1\times r_2\times\ldots\times r_m))
+\Pi_{a_1, a_2, \ldots, a_n}(\sigma_{\text{SOME\_predication}}(r_1\times r_2\times\ldots\times r_m))
 $$
 等价。
 
-sql 对大小写不敏感，但是不允许名称中使用 `-`。
+sql 对大小写不敏感，但是不允许名称中使用 `-` 。
 
 sql 允许表中出现重复的 DOMAIN。因此，我们在 `SELECT` 的时候可以决定是否查询重复的 DOMAIN：
 
@@ -318,7 +319,7 @@ SELECT DISTINCT attr FROM rel;
 SELECT * FROM some_table
 ```
 
-允许在选择子句中使用 `+,-,*,/`，这可以让返回的值为运算后的结果。
+允许在选择子句中使用 `+,-,*,/` ，这可以让返回的值为运算后的结果。
 
 ```sql
 SELECT a_1, a_2, a_3*100 FROM some_table
@@ -332,7 +333,7 @@ FROM loan
 WHERE branch_name = 'Perryridge' AND amount > 1200;
 ```
 
-`WHERE` 子句允许使用逻辑连接词 logical connectives `AND, OR, NOT`，同时提供了比较运算符 `BETWEEN` 来方便地表示范围
+`WHERE` 子句允许使用逻辑连接词 logical connectives `AND, OR, NOT` ，同时提供了比较运算符 `BETWEEN` 来方便地表示范围
 
 ```sql
 SELECT loan_number
@@ -354,15 +355,15 @@ WHERE borrower.loan_number = loan.loan_number AND branch_name = 'Perryridge';
 
 #### 重命名
 
-sql 允许为关系和属性重命名。重命名方法为： `old_name AS new_name`。其中， `AS` 也可以用 `=` 替代。
+sql 允许为关系和属性重命名。重命名方法为： `old_name AS new_name` 。其中， `AS` 也可以用 `=` 替代。
 
 ```sql
 SELECT some_attr AS new_name FROM some_table
 ```
 
- `AS` 子句也可以用来作为一个中间变量名，用来简化 `sql` 语句的书写
+`AS` 子句也可以用来作为一个中间变量名，用来简化 `sql` 语句的书写
 
- ```sql
+```sql
 --  此处 AS 是允许省略的
 SELECT customer_name, T.loan_number, S.amount
 FROM borrower AS T, loan AS S
@@ -381,8 +382,8 @@ WHERE T.assets > S.assets AND S.branch_city = 'Brooklyn';
 
 `sql` 允许使用字符串匹配。它提供了以下符号
 
-- `%` 匹配所有的子字符串
-- `_` 匹配所有的字符
+* `%` 匹配所有的子字符串
+* `_` 匹配所有的字符
 
 我们于是可以实现一些模糊查询：
 
@@ -392,7 +393,7 @@ FROM customer
 WHERE customer_name LIKE '%鸠%';
 ```
 
-当需要匹配的字符中出现了 `%,_`，需要进行转义：
+当需要匹配的字符中出现了 `%,_` ，需要进行转义：
 
 ```sql
 -- 指定转义字符为 '\'
@@ -401,7 +402,7 @@ LIKE 'Main\%' ESCAPE '\'
 
 另外，还有如下操作：
 
-- 字符串连接 `||`
+* 字符串连接 `||`
 
 ```sql
 SELECT '客户名=' || customer_name
@@ -412,8 +413,8 @@ FROM customer;
 -- 客户名=王五
 ```
 
-- 大小写转换 `lower(), upper()`
-- 计算字符串长度和提取子字符串，不同的数据库语法可能不同
+* 大小写转换 `lower(), upper()`
+* 计算字符串长度和提取子字符串，不同的数据库语法可能不同
 
 #### 对行排序
 
@@ -431,51 +432,52 @@ ORDER BY customer_name;
 
 #### 重复 Duplicates
 
-实际应用中，选择、投影和笛卡尔积操作是允许重复的行的。当不希望有重复时，使用关键词 `DISTINCT`。
+实际应用中，选择、投影和笛卡尔积操作是允许重复的行的。当不希望有重复时，使用关键词 `DISTINCT` 。
 
 下面举例说明重复的行为。对于
 $$
 \begin{align*}
-    r_1(A,B)&={(1,a),(2,a)}\\
-    r_2(C)&={(2),(3),(3)}
-\END{align*}
+r_1(A, B)&=\{(1, a), (2, a)\}\\
+r_2(C)&=\{(2), (3), (3)\}
+\end{align*}
 $$
 有
 $$
 \begin{align*}
-\Pi_B(r_1)&={(a),(a)}\\
-\Pi_B(r_1)\times r_2&={(a,2),(a,2),(a,3),(a,3),(a,3),(a,3)}
-\END{align*}
+\Pi_B(r_1)&=\{(a), (a)\}\\
+\Pi_B(r_1)\times r_2&=\{(a, 2), (a, 2), (a, 3), (a, 3), (a, 3), (a, 3)\}
+\end{align*}
 $$
 
 ### 集合运算 SET Operations
 
-在 `sql` 中，可以使用 `UNION`(并), `INTERSECT`(交), `EXCEPT`(减)来实现集合运算。
+在 `sql` 中，可以使用 `UNION` (并), `INTERSECT` (交), `EXCEPT` (减)来实现集合运算。
 
-所有这些集合运算都会自动剔除重复部分。如果需要保留重复部分，需要在后面添加关键词 `ALL`。
+所有这些集合运算都会自动剔除重复部分。如果需要保留重复部分，需要在后面添加关键词 `ALL` 。
 
 ![alt text](<../../../assets/mdPaste/database/屏幕截图 2025-03-03 130315.png>)
 
 这可以让我们很容易地处理多个表中的同一属性
 
 ![alt text](../../../assets/mdPaste/database/image.png)
+
 ![alt text](../../../assets/mdPaste/database/image-1.png)
 
-对于这些命令的支持也视数据库不同而定。有些数据库，比如 `SQL Server 2000`，就不支持 `INTERSECT, EXCEPT`。
+对于这些命令的支持也视数据库不同而定。有些数据库，比如 `SQL Server 2000` ，就不支持 `INTERSECT, EXCEPT` 。
 
 ### 聚合函数 Aggregate Functions
 
 聚合函数接受一个列，返回对应的值：
 
-- `avg(col)`
-- `min(col)`
-- `max(col)`
-- `sum(col)`
-- `count(col)`
+* `avg(col)`
+* `min(col)`
+* `max(col)`
+* `sum(col)`
+* `count(col)`
 
 在使用聚合函数的时候，往往需要使用 `GROUP BY` 来指定根据什么聚合。
 
-比如说，对于表格 `account(account_number, branch_name, balance)`，我想要找到每一个 `branch_name` 对应的平均 `balance`，就需要这么做：
+比如说，对于表格 `account(account_number, branch_name, balance)` ，我想要找到每一个 `branch_name` 对应的平均 `balance` ，就需要这么做：
 
 ```sql
 -- 聚合函数后面的部分指定了新的属性名
@@ -523,26 +525,28 @@ FROM <r1, …>
 
 ### NULL VALUES
 
- `NULL` 意味着一个未知或不存在的值。
+`NULL` 意味着一个未知或不存在的值。
 
-- 任何 `NULL` 相关的算术运算都会返回 `NULL`。
-- 任何 `NULL` 相关的比较运算都会返回 `unknown`。
+* 任何 `NULL` 相关的算术运算都会返回 `NULL`。
+* 任何 `NULL` 相关的比较运算都会返回 `unknown`。
 
 下面是 `unknown` 参与逻辑运算的行为：
 
 ![alt text](../../../assets/mdPaste/database/image-3.png)
 
-这可以简单地总结为 `true OR anything = true`, `false AND anything = false`。
+这可以简单地总结为 `true OR anything = true` , `false AND anything = false` 。
 
 当 `WHERE` 子句的计算结果为 `unknown` 时，它会被作为 `false` 处理。
 
-我们使用 `IS NULL, IS NOT NULL` 来处理 `NULL`，而非使用 `=, !=`。
+我们使用 `IS NULL, IS NOT NULL` 来处理 `NULL` ，而非使用 `=, !=` 。
 
 类似地，我们使用 `IS unknown` 来处理某个条件的结果为 `unknown` 的情况。
 
-对于大多数聚合函数，它会忽略掉所有为 `NULL` 的值。如果所有的值都为 `NULL`，聚合函数也会返回 `NULL`。
+对于大多数聚合函数，它会忽略掉所有为 `NULL` 的值。如果所有的值都为 `NULL` ，聚合函数也会返回 `NULL` 。
+
 > 需要注意的是，对于 `count()` 函数，它会对为 `NULL` 的行计数。
 >
+
 ### 嵌套查询 Nested Subqueries
 
 直接从实例出发吧。
@@ -567,10 +571,10 @@ WHERE B.customer_name = D.customer_name
 
 就结果而言，这两个操作是等价的，都是找到了既借钱又存钱的用户。然而，就过程而言，两者并不等价：
 
-- 不使用嵌套时， `FROM borrower B, depositor D` 引入了一次昂贵的笛卡尔积操作。
-- 使用嵌套时，先获得 `depositor` 中全部的 `customer_name`，然后再用它们过滤 `borrower` 表格。
+* 不使用嵌套时， `FROM borrower B, depositor D` 引入了一次昂贵的笛卡尔积操作。
+* 使用嵌套时，先获得 `depositor` 中全部的 `customer_name`，然后再用它们过滤 `borrower` 表格。
 
->在同一 SQL 语句内，除非外层查询的元组变量引入内层查询，否则层查询只进行一次。
+> 在同一 SQL 语句内，除非外层查询的元组变量引入内层查询，否则层查询只进行一次。
 
 #### 比较
 
@@ -595,17 +599,17 @@ WHERE balance >=(
 5. 内部 `SELECT`，收集内部 `WHERE` 中符合条件的行，并做 `max()` 聚合操作，结果与外部的 `balance` 作比较
 6. 外部 `SELECT`，收集符合外部条件的行，提取其中的 `account_number` 作为 `AN` 列， `balance` 作为 `balance` 列。
 
-实质上，就是取了 `account` 中每一个 `branch_name` 对应的 `max(balance)`，然后和对应的 `account_number` 合成一个新的表。这里较为复杂的原因是， `max()` 可以知道一组数据中最大的值是什么，但它却不会指出这个最大的值所在的行。因此，我们要先找出这些行，然后再做一次筛选。
+实质上，就是取了 `account` 中每一个 `branch_name` 对应的 `max(balance)` ，然后和对应的 `account_number` 合成一个新的表。这里较为复杂的原因是， `max()` 可以知道一组数据中最大的值是什么，但它却不会指出这个最大的值所在的行。因此，我们要先找出这些行，然后再做一次筛选。
 
 #### SOME 和 ALL
 
- `SOME` 指将一个元素和一个集合中的每个元素进行比较，只要有一个为 `true`，那就为 `true`，否则为 `false`。
+`SOME` 指将一个元素和一个集合中的每个元素进行比较，只要有一个为 `true` ，那就为 `true` ，否则为 `false` 。
 
 ![alt text](../../../assets/mdPaste/database/image-4.png)
 
- `ALL` 指将一个元素和一个集合中的每个元素进行比较，只要有一个为 `false`，那就为 `false`，否则为 `true`。
+`ALL` 指将一个元素和一个集合中的每个元素进行比较，只要有一个为 `false` ，那就为 `false` ，否则为 `true` 。
 
- ![alt text](../../../assets/mdPaste/database/image-5.png)
+![alt text](../../../assets/mdPaste/database/image-5.png)
 
 ```sql
 SELECT branch_name
@@ -628,7 +632,7 @@ WHERE assets >(
 
 #### EXISTS
 
-顾名思义， `EXISTS` 用于判断嵌套的 `SELECT` 结果是否不为空。它相反的操作即为 `NOT EXISTS`。
+顾名思义， `EXISTS` 用于判断嵌套的 `SELECT` 结果是否不为空。它相反的操作即为 `NOT EXISTS` 。
 
 下面有一个较为复杂的例子，我们来分析一下：
 
@@ -639,8 +643,10 @@ WHERE assets >(
 我们尝试用 `sql` 语句实现数学表达式
 $$
 \begin{align*}
+
     &\Pi_{\text{customer\_name, branch\_name}}(\text{depositor}\bowtie\text{account})\\
     \div&\Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
+
 \end{align*}
 $$
 
@@ -735,7 +741,7 @@ WHERE NOT EXISTS(
 
 #### UNIQUE
 
-`UNIQUE` 关键词用于检验子查询中的行是否没有重复值。反之，则为 `NOT UNIQUE`。
+`UNIQUE` 关键词用于检验子查询中的行是否没有重复值。反之，则为 `NOT UNIQUE` 。
 
 比如说，我想要找到所有的在 Perryridge 这个 branch 中只有至多一个账号的顾客：
 
@@ -749,7 +755,7 @@ WHERE UNIQUE(
 );
 ```
 
-有些数据库不支持 `UNIQUE/NOT UNIQUE`，如 Oracle 8/SQL Server 7。
+有些数据库不支持 `UNIQUE/NOT UNIQUE` ，如 Oracle 8/SQL Server 7。
 
 ### 视图 Views
 
@@ -838,6 +844,7 @@ WHERE branch_name = 'Perryridge';
 
 > 在 `INSERT` 之前， `SELECT` 的结果就已经计算完毕。所以，诸如在同一个表中 `SELECT` 并插入它本身的代码是可以执行的。
 >
+
 #### 更新行
 
 ```sql
@@ -862,6 +869,7 @@ SET balance =(
 >
 > 因此， `VIEW` 的更新是受到严格限制的。只有**行列视图**，即建立在单个基本表上，且列能够对应的视图，才能够更新数据。
 >
+
 ### Joined Relations
 
 `JOIN` 接受两个表格，然后返回一个新的表格。
@@ -872,8 +880,8 @@ SET balance =(
 
 **JOIN condition** 定义了两个表格中的哪些行可以匹配。
 
-- `NATURAL` 自然连接。比较所有同名属性，且在返回的表格中消去重名属性(见 **JOIN type** 配图)。
-- `ON some_condition` 非自然连接。它容许不同名属性的比较，且返回的表格中不消去重名属性。
+* `NATURAL` 自然连接。比较所有同名属性，且在返回的表格中消去重名属性(见 **JOIN type** 配图)。
+* `ON some_condition` 非自然连接。它容许不同名属性的比较，且返回的表格中不消去重名属性。
 
 ```sql
 SELECT * FROM loan INNER JOIN borrower ON loan.loan_number = borrower.loan_number;
@@ -881,16 +889,17 @@ SELECT * FROM loan INNER JOIN borrower ON loan.loan_number = borrower.loan_numbe
 
 ![alt text](../../../assets/mdPaste/database/image-12.png)
 
-- `USING (common_attr_1, common_attr_2, ..., common_attr_n)` 类似于自然连接，只是仅以它列出的公共属性作为连接条件。
+* `USING (common_attr_1, common_attr_2, ..., common_attr_n)` 类似于自然连接，只是仅以它列出的公共属性作为连接条件。
 
 ```sql
 SELECT * FROM loan INNER JOIN borrower USING(loan_number);
 ```
 
 ![alt text](../../../assets/mdPaste/database/image-13.png)
+
 **JOIN type** 定义了参与 `JOIN` 的表格中不与其它表格的任何行匹配的行会如何被处理。
 
-- `INNER JOIN` 只输出匹配成功的行
+* `INNER JOIN` 只输出匹配成功的行
 
 ```sql
 SELECT * FROM loan NATURAL INNER JOIN borrower;
@@ -898,7 +907,7 @@ SELECT * FROM loan NATURAL INNER JOIN borrower;
 
 ![alt text](../../../assets/mdPaste/database/image-7.png)
 
-- `LEFT OUTER JOIN`
+* `LEFT OUTER JOIN`
 
 ```sql
 SELECT * FROM loan NATURAL LEFT OUTER JOIN borrower;
@@ -906,7 +915,7 @@ SELECT * FROM loan NATURAL LEFT OUTER JOIN borrower;
 
 ![alt text](../../../assets/mdPaste/database/image-8.png)
 
-- `RIGHT OUTER JOIN`
+* `RIGHT OUTER JOIN`
 
 ```sql
 SELECT * FROM loan NATURAL RIGHT OUTER JOIN borrower;
@@ -914,7 +923,7 @@ SELECT * FROM loan NATURAL RIGHT OUTER JOIN borrower;
 
 ![alt text](../../../assets/mdPaste/database/image-9.png)
 
-- `FULL OUTER JOIN`
+* `FULL OUTER JOIN`
 
 ```sql
 SELECT * FROM loan NATURAL FULL OUTER JOIN borrower;
@@ -943,8 +952,8 @@ CREATE DOMAIN Dollars AS numeric(12, 2) NOT NULL;
 
 另外，我们再介绍两种类型：Large-object types
 
-- blob: binary large object
-- clob: character large object
+* blob: binary large object
+* clob: character large object
 
 查询时，返回它们的指针而非它们本身。
 
@@ -962,16 +971,16 @@ CREATE TABLE students(
 
 #### 域约束 DOMAIN Constraints
 
-- `NOT NULL`
-- `PRIMARY KEY`
-- `UNIQUE`
-- `CHECK(SOME condition)`
+* `NOT NULL`
+* `PRIMARY KEY`
+* `UNIQUE`
+* `CHECK(SOME condition)`
 
 #### 参照完整性 Referential Integrity
 
-~~一般来说~~，假设有表 $a,b$， $a$ 中的一个属性 $p$ 是 $b$ 中的主键，那么我们说 $p$ 是 $a$ 中的一个外键 FOREIGN KEY。此时， $a$ 被称为参照关系 REFERENCING relation， $b$ 被称为被参照关系 referenced relation。
+~~一般来说~~，假设有表 $a, b$， $a$ 中的一个属性 $p$ 是 $b$ 中的主键，那么我们说 $p$ 是 $a$ 中的一个外键 FOREIGN KEY。此时， $a$ 被称为参照关系 REFERENCING relation， $b$ 被称为被参照关系 referenced relation。
 
-参照关系中外键的值若不为 `NULL`，则必须在被参照关系中实际存在。
+参照关系中外键的值若不为 `NULL` ，则必须在被参照关系中实际存在。
 
 在建表时，我们这样说明参照
 
@@ -984,21 +993,21 @@ FOREIGN KEY (account_number_1) REFERENCES account (account_number_2)
 
 参照关系会引入增删改查上的一些限制，所谓参照完整性。
 
-继续以 $a,b$ 为例:
+继续以 $a, b$ 为例:
 
-- 当我想要在 $a$ 中插入时，我一定要在 $b$ 中检查，确保插入的 $p$ 在 $b$ 中能够找到。
-- 当我想要在 $b$ 中删除时，我一定要在 $a$ 中删除所有的包含被删除的 $p$ 的行。
-- 当我想要更新 $a$ 时，我一定要检查新的 $p$ 的值在 $b$ 中能够找到。
-- 当我想要更新 $b$ 时，如果修改了 $p$，要么拒绝这个更新，要么所有 $a$ 中包含原 $p$ 的行都要被更新。
+* 当我想要在 $a$ 中插入时，我一定要在 $b$ 中检查，确保插入的 $p$ 在 $b$ 中能够找到。
+* 当我想要在 $b$ 中删除时，我一定要在 $a$ 中删除所有的包含被删除的 $p$ 的行。
+* 当我想要更新 $a$ 时，我一定要检查新的 $p$ 的值在 $b$ 中能够找到。
+* 当我想要更新 $b$ 时，如果修改了 $p$，要么拒绝这个更新，要么所有 $a$ 中包含原 $p$ 的行都要被更新。
 
-为了保证上述完整性，我们可以使用 `SQL` 的级联操作 `Cascading actions`：
+为了保证上述完整性，我们可以使用 `SQL` 的级联操作 `Cascading actions` ：
 
-- `ON DELETE CASCADE`：被参照关系中的行被删除时，删除参照关系中所有引用改行的记录
-- `ON UPDATE CASCADE`：被参照关系中的主键更新时，同步更新参照关系中引用该键的外键值
-- `ON DELETE SET NULL`：被参照关系中的行被删除时，参照关系中对应外键变为 `NULL`
-- `ON UPDATE SET NULL`：被参照关系中的主键更新时，参照关系中对应外键变为 `NULL`
+* `ON DELETE CASCADE`：被参照关系中的行被删除时，删除参照关系中所有引用改行的记录
+* `ON UPDATE CASCADE`：被参照关系中的主键更新时，同步更新参照关系中引用该键的外键值
+* `ON DELETE SET NULL`：被参照关系中的行被删除时，参照关系中对应外键变为 `NULL`
+* `ON UPDATE SET NULL`：被参照关系中的主键更新时，参照关系中对应外键变为 `NULL`
 
-> 一般来说，不建议使用 `NULL`，这容易导致参照完整性的语义更为复杂。
+> 一般来说，不建议使用 `NULL` ，这容易导致参照完整性的语义更为复杂。
 
 ```sql
 CREATE TABLE parent (
@@ -1015,7 +1024,7 @@ CREATE TABLE child (
 );
 ```
 
-如果多个表之间存在级联外键依赖，且都设置了 `ON DELETE CASCADE`/`ON UPDATE CASCADE`，那么在链的一端执行删除或更新操作会自动传播到整个依赖链上。但如果这种级联操作中某一处导致了无法通过进一步级联解决的约束冲突，系统便会中止整个事务，所有因该事务及其级联操作所做的更改都会被回滚。
+如果多个表之间存在级联外键依赖，且都设置了 `ON DELETE CASCADE` / `ON UPDATE CASCADE` ，那么在链的一端执行删除或更新操作会自动传播到整个依赖链上。但如果这种级联操作中某一处导致了无法通过进一步级联解决的约束冲突，系统便会中止整个事务，所有因该事务及其级联操作所做的更改都会被回滚。
 
 值得注意的是，参照完整性只在事务 transaction 的最后进行检查。这意味着，一些可能在中间破坏约束，但是在最后恢复约束的操作是被允许的。
 
@@ -1029,6 +1038,7 @@ CREATE ASSERTION some_assertion_name
 ```
 
 在建立一个断言后，每一次可能与断言条件冲突的更新都会被检测。如果断言条件不符合，就会汇报错误。
+
 > 这些检测有可能引入很高的开销，因此应慎用
 
 比如说，我们希望约束每一个银行分行的总 loan 要小于它的总 balance，那么就可以有：
@@ -1102,23 +1112,23 @@ BEGIN ATOMIC
 END;
 ```
 
-在上面的代码中，引起触发器的事件为 `AFTER UPDATE ON account`。共有三种可用的触发事件:
+在上面的代码中，引起触发器的事件为 `AFTER UPDATE ON account` 。共有三种可用的触发事件:
 
-- `INSERT`
-- `DELETE`
-- `UPDATE`
+* `INSERT`
+* `DELETE`
+* `UPDATE`
 
-其中， `ON UPDATE` 这个触发事件可以被限制到特定属性的更新上，如上面就可以改成 `AFTER UPDATE OF balance ON account`。
+其中， `ON UPDATE` 这个触发事件可以被限制到特定属性的更新上，如上面就可以改成 `AFTER UPDATE OF balance ON account` 。
 
 对于行级别的触发器，参照有如下选择：
 
-- 对于删除或更新，可使用 `REFERENCING OLD row AS some_name`
-- 对于插入或更新，可使用 `REFERENCING NEW row AS some_name`
+* 对于删除或更新，可使用 `REFERENCING OLD row AS some_name`
+* 对于插入或更新，可使用 `REFERENCING NEW row AS some_name`
 
-对于指令级别的触发器(`FOR EACH statement`)，参照则有如下选择：
+对于指令级别的触发器( `FOR EACH statement` )，参照则有如下选择：
 
-- 对于删除或更新，可使用 `REFERENCING OLD TABLE AS some_name`
-- 对于插入或更新，可使用 `REFERENCING NEW TABLE AS some_name`
+* 对于删除或更新，可使用 `REFERENCING OLD TABLE AS some_name`
+* 对于插入或更新，可使用 `REFERENCING NEW TABLE AS some_name`
 
 上面的 `TABLE` 都只包含被改变的行。对于需要改变大量的行的操作，指令级别的触发器更有效率。
 
@@ -1130,23 +1140,23 @@ END;
 
 数据库安全性主要是防止恶意攻击者窃取或更改数据。它有以下层面：
 
-- 数据库系统级别: **认证 (Authentication)** 和 **授权 (Authorization)**
+* 数据库系统级别: **认证 (Authentication)** 和 **授权 (Authorization)**
 
   数据库通过验证用户身份（认证）和限制用户的权限（授权），确保只有被允许的用户才能访问或修改特定数据。
 
-- 操作系统级别: 数据库依赖操作系统提供的安全机制
+* 操作系统级别: 数据库依赖操作系统提供的安全机制
 
   只有拥有操作系统超级用户权限的用户才能对数据库数据进行任意操作，因此必须保证操作系统安全，防止超级用户滥用权限。
 
-- 网络级别: 防止数据窃听和身份冒充
+* 网络级别: 防止数据窃听和身份冒充
 
   使用加密技术保护网络传输的数据，防止未授权用户窃取信息（窃听）或冒充授权用户（伪装）。
 
-- 物理级别: 保护数据库服务器的物理安全
+* 物理级别: 保护数据库服务器的物理安全
 
   防止未经授权的物理访问，比如通过锁门、监控、防火措施以及防灾方案（如防水、防火、灾备恢复等）保护数据。
 
-- 人员级别: 用户管理和安全意识培训
+* 人员级别: 用户管理和安全意识培训
 
   严格筛选有权限访问数据库的用户，并对他们进行密码选择和保密方面的培训，防止内部用户失误或成为攻击目标。
 
@@ -1154,42 +1164,42 @@ END;
 
 #### 针对数据库部分内容的授权
 
-- **读取授权 (Read authorization)**
+* **读取授权 (Read authorization)**
   允许用户读取数据库中的数据，但不允许对数据进行修改。
 
-- **插入授权 (Insert authorization)**
+* **插入授权 (Insert authorization)**
   允许用户向数据库中插入新数据，但不允许修改已经存在的数据。
 
-- **更新授权 (Update authorization)**
+* **更新授权 (Update authorization)**
   允许用户修改已有数据，但不允许删除数据。
 
-- **删除授权 (Delete authorization)**
+* **删除授权 (Delete authorization)**
   允许用户删除数据库中的数据。
 
 #### 针对数据库模式修改的授权
 
-- **索引授权 (Index authorization)**
+* **索引授权 (Index authorization)**
   允许用户创建和删除数据库中的索引，提高查询效率。
 
-- **资源授权 (Resources authorization)**
+* **资源授权 (Resources authorization)**
   允许用户创建新的关系（表格），扩展数据库资源。
 
-- **更改授权 (Alteration authorization)**
+* **更改授权 (Alteration authorization)**
   允许用户添加或修改现有关系中的属性（字段）。
 
-- **删除关系授权 (Drop authorization)**
+* **删除关系授权 (Drop authorization)**
   允许用户删除整个关系（表格），从而修改数据库的结构。
 
 可以只赋予用户视图权限，而不对构成视图定义的底层关系进行授权。也就是说，视图可以充当一个安全层，屏蔽底层表中的敏感数据。
 
 视图通过隐藏没必要展示给用户的数据，既简化了系统的使用，也增强了安全性。
 
-举个例子，银行职员只需要知道银行的用户名，不需要知道银行具体的存款信息，那么就可以建立一个只包含 `customer_name` 的视图 `cust_loan`。
+举个例子，银行职员只需要知道银行的用户名，不需要知道银行具体的存款信息，那么就可以建立一个只包含 `customer_name` 的视图 `cust_loan` 。
 
 在查询视图时，查询处理器 query processor 首先检查查询者对视图的访问权限。然后，视图根据其定义被展开成对原表的查询操作。
 
-- 视图不创建实际数据，因此创建视图不需要资源授权。
-- 视图的创建者只继承他对构成视图的基础表上已有的权限。
+* 视图不创建实际数据，因此创建视图不需要资源授权。
+* 视图的创建者只继承他对构成视图的基础表上已有的权限。
 
 #### 权限图
 
@@ -1201,19 +1211,19 @@ END;
 
 对于权限图，有如下约束条件：
 
-- 所有路径都应该以 DBA 为起点。因此，不允许出现循环授权，因为这样会出现回避了 DBA 的循环路径。
-- 当一个用户失去了权限，它赋予给其它用户的权限也随之失效。
+* 所有路径都应该以 DBA 为起点。因此，不允许出现循环授权，因为这样会出现回避了 DBA 的循环路径。
+* 当一个用户失去了权限，它赋予给其它用户的权限也随之失效。
 
 #### `grant` 语句
 
 在 `SQL` 中，可以选择的权限如下：
 
-- `select`：允许对表进行读有关操作
-- `insert`：允许插入行
-- `update`：允许使用 `update` 语句来更新
-- `delete`：允许删除行
-- `references`：允许在创建表时声明外键
-- `all privileges`：提供全部权限
+* `select`：允许对表进行读有关操作
+* `insert`：允许插入行
+* `update`：允许使用 `update` 语句来更新
+* `delete`：允许删除行
+* `references`：允许在创建表时声明外键
+* `all privileges`：提供全部权限
 
 `GRANT` 指令格式如下：
 
@@ -1255,7 +1265,7 @@ from some_users [restrict | cascade]
 revoke select on grade from student_a cascade;
 ```
 
-其中，撤回一个用户的权限时，有可能引起其下游的权限也被撤回，`cascade` 关键词就用于触发这些撤回。如果不希望撤回下游权限，想把操作范围限制起来，就使用 `restrict`。如果级联的撤回是被要求的，那么使用 `restrict` 时会失败。
+其中，撤回一个用户的权限时，有可能引起其下游的权限也被撤回， `cascade` 关键词就用于触发这些撤回。如果不希望撤回下游权限，想把操作范围限制起来，就使用 `restrict` 。如果级联的撤回是被要求的，那么使用 `restrict` 时会失败。
 
 当 `revoke` 中的 `some_users` 被设置成 `public` 时，所有先前因此默认获得了对应权限的用户会失去这些权限，而通过 `grant` 语句明确被赋予权限的用户不会失去这些权限。
 
@@ -1269,12 +1279,13 @@ revoke select on grade from student_a cascade;
 
 审计日志是对“谁干了什么”的记录日志。
 
-- 针对用户审计
+* 针对用户审计
 
-  ![alt text](mdPaste/database/image-1.png)
-- 针对对象审计
+![alt text](mdPaste/database/image-1.png)
 
-  ![alt text](mdPaste/database/image-2.png)
+* 针对对象审计
+
+![alt text](mdPaste/database/image-2.png)
 
 审计结果只对管理员可见。
 
@@ -1301,6 +1312,7 @@ EXEC SQL <embedded SQL statement> END_EXEC
 
 > 一个实体集包含多个同类的实体。
 >
+
 #### 实体 Entity
 
 现实世界可以建模为实体的集合。
@@ -1313,24 +1325,23 @@ EXEC SQL <embedded SQL statement> END_EXEC
 
 一个实体由一组属性来表示，即所有同一实体集的成员所具有的描述性特征。
 
-- **域 (Domain)**
+* **域 (Domain)**
 
   也称为值集，指的是每个属性允许的取值集合。
 
-- **属性类型**：
-  - **简单属性与复合属性(Simple & Composite Attributes)**
-
-    简单属性指不能再分解的属性，如 `sex`、`name`；
+* **属性类型**：
+  + **简单属性与复合属性(Simple & Composite Attributes)**
+    简单属性指不能再分解的属性，如 `sex` 、 `name` ；
 
     复合属性由多个简单属性组成。
-  - **单值属性与多值属性(Single-valued & Multi-valued Attributes)**
 
+  + **单值属性与多值属性(Single-valued & Multi-valued Attributes)**
     单值属性每个实体仅有唯一一个值；
 
-    而多值属性可能包含多个值，例如：多值属性 `phone-numbers`（多个电话号码）。
-  - **派生属性(Derived Attributes)**
+    而多值属性可能包含多个值，例如：多值属性 `phone-numbers` （多个电话号码）。
 
-    可由其他属性计算得出，例如根据出生日期计算得到的 `age`（年龄）。
+  + **派生属性(Derived Attributes)**
+    可由其他属性计算得出，例如根据出生日期计算得到的 `age` （年龄）。
 
 ### 关系集 Relationship Sets
 
@@ -1366,22 +1377,22 @@ $$
 
 映射基数在描述二元关系集时尤为有用。对于一个二元关系集，其映射基数必然属于以下类型之一：
 
-- **一对一 (1 : 1)**
+* **一对一 (1 : 1)**
     每个实体最多只与另一实体集中的唯一一个实体相关联。
 
     *例如：就任总统（总统与国家），每个国家只对应一位总统，每位总统对应唯一的国家。*
 
-- **一对多 (1 : n)**
+* **一对多 (1 : n)**
     一个实体可以关联多个另一个实体，而另一个实体通常只关联唯一的一个。
 
     *例如：分班情况（班级与学生），一个班级中可以有多个学生，但每个学生只属于一个班级。*
 
-- **多对一 (n : 1)**
+* **多对一 (n : 1)**
     与“一对多”相反，多个实体可以关联同一个实体。
 
     *例如：就医（病人与医生），多个病人可以由同一位医生诊治，但每个病人通常只有一个主治医生。*
 
-- **多对多 (n : m)**
+* **多对多 (n : m)**
     两个实体集合中的实体可以相互存在多个关联。
     *例如：选课（学生与课程），一个学生可以选修多门课程，而一门课程也可以被多个学生选修。*
 
@@ -1389,15 +1400,15 @@ $$
 
 #### 实体集的键 (Keys for Entity Sets)
 
-- **超键 (Super Key)**
+* **超键 (Super Key)**
 
   一个实体集的超键是一个或多个属性的集合，它们的值能够唯一地确定实体集中的每个实体。
 
-- **候选键 (Candidate Key)**
+* **候选键 (Candidate Key)**
 
   候选键是最小的超键。其大小不一定为 $1$.
 
-- **主键 (Primary Key)**
+* **主键 (Primary Key)**
 
   主键在候选键中特定选取。
 
@@ -1405,11 +1416,11 @@ $$
 
 #### 关系集的键 (Keys for Relationship Sets)
 
-- **关系集的超键**
+* **关系集的超键**
 
   参与关系集的各个实体集的主键组合构成该关系集的超键。
 
-- **注意**
+* **注意**
 
   在确定候选键时，必须结合关系集的映射基数（如 1:1、1:n、m:n）进行考虑。
 
@@ -1423,21 +1434,21 @@ E-R 图通过符号表示信息。
 
 #### 符号
 
-- **实体集 (Entity Sets)**
+* **实体集 (Entity Sets)**
   用矩形表示。
 
-- **关系集 (Relationship Sets)**
+* **关系集 (Relationship Sets)**
   用菱形表示。
 
-- **属性 (Attributes)**
+* **属性 (Attributes)**
   用椭圆表示，同时：
-  - **双椭圆** 表示多值属性。
-  - **虚线椭圆** 表示派生属性。
+  + **双椭圆** 表示多值属性。
+  + **虚线椭圆** 表示派生属性。
 
-- **连接**
+* **连接**
   线条用于连接实体集与其属性，以及实体集与关系集。
 
-- **主键属性**
+* **主键属性**
   用下划线标记
 
 E-R 图的种类多样。
@@ -1446,10 +1457,10 @@ E-R 图的种类多样。
 
 #### 角色 (Roles)
 
-- **定义**
+* **定义**
   角色指的是实体在某个关系中所扮演的功能。例如，在“works-for”（服务于）关系中，员工可能扮演“经理”（manager）或“工人”（worker）的角色。
 
-- **作用**
+* **作用**
   角色标签用于明确描述实体在关系中的交互方式，从而澄清关系的语义。这些标签是可选的，但在存在歧义时能有效使模型更加清晰。
 
 ![alt text](mdPaste/database/image-4.png)
@@ -1466,12 +1477,12 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-8.png)
 
-- **全参与 (Total Participation)** （用双线表示）
+* **全参与 (Total Participation)** （用双线表示）
   表示实体集中的每个实体至少参与了该关系集中的一条关系。
 
   *例如：在 borrower 关系集中，loan 的参与是全参与，即每笔贷款都必须通过 borrower 关联到一个客户。*
 
-- **部分参与 (Partial Participation)**
+* **部分参与 (Partial Participation)**
   表示某些实体可能在该关系集中完全没有任何关联。
 
   *例如：在 borrower 关系集中，customer 的参与是部分参与，即并非每个客户都有贷款记录。
@@ -1482,21 +1493,21 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-13.png)
 
-以上图为例， `1..1` 表示每个 `loan` 实体最少且最多参与 1 个 `borrower` 关系， `0..*` 则表示每个 `customer` 实体可参与任意个 `borrower` 关系。综合一下，就是 1 个 `customer` 可以拥有多个 `loan`。
+以上图为例， `1..1` 表示每个 `loan` 实体最少且最多参与 1 个 `borrower` 关系， `0..*` 则表示每个 `customer` 实体可参与任意个 `borrower` 关系。综合一下，就是 1 个 `customer` 可以拥有多个 `loan` 。
 
 #### 非二元关系的二元化表示
 
 一些看似非二元的关系可能更适合用二元关系来表示。例如：
 
-- **三元关系拆分**
-  对于三元关系 `parents(he, she, child)`，它将一个孩子分别与其父亲和母亲关联，最佳做法是将其拆分为两个二元关系：
-  - `father(he, child)`
-  - `mother(she, child)`
+* **三元关系拆分**
+  对于三元关系 `parents(he, she, child)` ，它将一个孩子分别与其父亲和母亲关联，最佳做法是将其拆分为两个二元关系：
+  + `father(he, child)`
+  + `mother(she, child)`
   这种拆分方式允许部分信息的存在，例如只知道母亲的情况时，仍能表达有效的关联。
 
-- **一般转换方法**
+* **一般转换方法**
 
-  ![alt text](mdPaste/database/image-9.png)
+![alt text](mdPaste/database/image-9.png)
 
   通常，任何非二元关系都可以通过引入一个人工实体集来转换为二元关系的形式。具体步骤如下：
   1. 用一个新的实体集 E 替换原来位于实体集 A、B 和 C 之间的非二元关系 R。
@@ -1510,8 +1521,8 @@ E-R 图的种类多样。
 
 弱实体集的存在依赖于一个标识实体集（Identifying Entity Set）的存在。
 
-- 弱实体集必须与标识实体集通过一个**全参与、一对多**的关系集相连接，连接方向从标识实体集指向弱实体集。
-- 这种标识关系在 E-R 图中通常用**双菱形**表示。
+* 弱实体集必须与标识实体集通过一个**全参与、一对多**的关系集相连接，连接方向从标识实体集指向弱实体集。
+* 这种标识关系在 E-R 图中通常用**双菱形**表示。
 
 为了区分同一弱实体集中的不同实体，我们定义弱实体集中的一组属性作为判别器 discriminator/partial key。
 
@@ -1524,23 +1535,23 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-10.png)
 
-- 弱实体集的判别器用**虚线下划线**表示。
-- 标识弱实体集的标识关系使用**双菱形**来表示。
-- 对于 section 这个弱实体集，其主键由标识其所属的课程和开课信息组成：
-  - 主键 = (course_id, sec_id, semester, year)
+* 弱实体集的判别器用**虚线下划线**表示。
+* 标识弱实体集的标识关系使用**双菱形**来表示。
+* 对于 section 这个弱实体集，其主键由标识其所属的课程和开课信息组成：
+  + 主键 = (course_id, sec_id, semester, year)
 
 > - 强实体集的主键并不会显式存储在弱实体集中，因为这一信息已经通过标识关系隐含表示了。
 > - 如果将 course_id 显式存储在 section 实体集中，那么 section 就可以被看作一个强实体。但这会导致 course 与 section 之间原本通过两个实体的共有属性 course_id 隐含定义的关系被重复表达。
 
 ![alt text](mdPaste/database/image-11.png)
 
-在这个例子中， `loan_number` 再加上对应的 `payment_number` 已经能够唯一确定一个 payment 了，因此 `payment` 的判别器就是 `payment_number`。
+在这个例子中， `loan_number` 再加上对应的 `payment_number` 已经能够唯一确定一个 payment 了，因此 `payment` 的判别器就是 `payment_number` 。
 
 ### Extended E-R Features
 
 #### 实体集的层次结构(Stratum)
 
-**特殊化 (Specialization)**是一种自顶向下的设计过程，在一个实体集中划分出与其它实体区别显著的子群。对偶地，**泛化(Generalization)**是是一种自底向上的设计过程，即将多个具有相同特征的实体集合合并为一个更高层次的实体集。
+**特殊化 (Specialization)** 是一种自顶向下的设计过程，在一个实体集中划分出与其它实体区别显著的子群。对偶地，**泛化(Generalization)** 是一种自底向上的设计过程，即将多个具有相同特征的实体集合合并为一个更高层次的实体集。
 
 下层实体集可能拥有对上层实体集不适用的额外属性或参与特定的关系，并继承了与之关联的上层实体集中的所有属性及其关系参与。
 
@@ -1550,31 +1561,34 @@ E-R 图的种类多样。
 
 关于一个实体是否可以同时属于一个上层实体集的多种下层实体集，有以下两种约束：
 
-- **不相交 (Disjoint)**
+* **不相交 (Disjoint)**
   限定一个实体只能属于一个下层实体集。
 
   在 E-R 图中，一般在 ISA 三角形旁注明 "disjoint"。
 
-- **可重叠 (Overlapping)**
+* **可重叠 (Overlapping)**
   允许一个实体同时属于多个下层实体集。
 
 #### 完全性约束 (Completeness Constraint)
 
 完全性约束规定了一个高层实体集中的实体是否必须至少属于某个下层实体集：
 
-- **完全泛化 (Total Generalization)**
+* **完全泛化 (Total Generalization)**
   表示每个高层实体至少必须属于一个下层实体集。
 
-- **部分泛化 (Partial Generalization)**
+* **部分泛化 (Partial Generalization)**
   表示高层实体中的实体不必一定属于任何下层实体集。
 
-> ![alt text](mdPaste/database/image-12.png)
+>
+
+![alt text](mdPaste/database/image-12.png)
+
 >
 > 如这里，一个账户要么存款要么借款，而一个人可以是 customer，可以是 employee，也可以两者都不是。
 
 #### 聚合 Aggregation
 
-举个例子，某个员工在某个分行做某个工作，这个工作可能有个领导，也可能没有。目前，我们有一个三元关系 `work_on`，记录了员工在某个分行从事某项工作的情况。
+举个例子，某个员工在某个分行做某个工作，这个工作可能有个领导，也可能没有。目前，我们有一个三元关系 `work_on` ，记录了员工在某个分行从事某项工作的情况。
 
 如果我们再为了记录领导负责工作的情况，再建立一个三元关系，就会造成冗余。这时，我们引入**聚合**。
 
@@ -1582,8 +1596,8 @@ E-R 图的种类多样。
 
 这样，在没有冗余的前提下，可以用下面的模式来表示：
 
-- 员工在特定分行从事特定工作的事实（由 `works-on` 关系表示）；
-- 该员工、分行、工作组合可能具有一个关联的领导（利用聚合后的抽象实体与 `manages` 关系实现）。
+* 员工在特定分行从事特定工作的事实（由 `works-on` 关系表示）；
+* 该员工、分行、工作组合可能具有一个关联的领导（利用聚合后的抽象实体与 `manages` 关系实现）。
 
 ### Design of an E-R Database Schema
 
@@ -1597,8 +1611,8 @@ E-R 图的种类多样。
 
 #### 对象的处理
 
-- 若一个对象只对其名字及单值感兴趣，则可作为属性
-- 若一个对象除名字外，本身还有其他属性需描述，则该对象应定义为实体集。
+* 若一个对象只对其名字及单值感兴趣，则可作为属性
+* 若一个对象除名字外，本身还有其他属性需描述，则该对象应定义为实体集。
 
 > 一个对象不能同时作为实体和属性
 
@@ -1614,31 +1628,31 @@ E-R 图的种类多样。
 
 对于一个强实体集，我们可以直接把它转化成具有对应属性的表。不过，一些特殊的属性需要注意。
 
-- **复合属性**被展平成多个简单属性。
-- **多值属性**独立建表，包含原实体集的主键和该属性，原来的多个值被分成多个行。如： `(key, [value1, value2])` 变成 `(key, value1)` 和 `(key, value2)`。
+* **复合属性**被展平成多个简单属性。
+* **多值属性**独立建表，包含原实体集的主键和该属性，原来的多个值被分成多个行。如： `(key, [value1, value2])` 变成 `(key, value1)` 和 `(key, value2)`。
 
 对于一个弱实体集，在转化成表的过程中，还需要将它对应的标识实体集的主键也加进来(这顺便把联系它和标识实体集的关系集也表示了)。
 
 对于一个关系集，转换的方法依它的映射基数关系而定。
 
-- (1:n)/(n:1)
+* (1:n)/(n:1)
 
   把关系集的属性合并到 `n` 的表中，并添加一个外键，引用 `1` 的主键。
-- (1:1)
-  - 可以将两个实体集合成一张表，或者在其中一张表中添加外键引用另一个实体集。
-  - 若关系集有属性，也可独立成表，把两个实体集的主键放进来。
-- (n:m)
+* (1:1)
+  + 可以将两个实体集合成一张表，或者在其中一张表中添加外键引用另一个实体集。
+  + 若关系集有属性，也可独立成表，把两个实体集的主键放进来。
+* (n:m)
 
   创建新的表，包含各个实体集的主键作为外键组合(通常这构成了复合主键)，也包含关系集的属性。
 
-> 对于 Partial Participation 的关系集，转换成表后有可能产生 `null`，因为 `n` 中的一行可能没有对应到 `1` 中。
+> 对于 Partial Participation 的关系集，转换成表后有可能产生 `null` ，因为 `n` 中的一行可能没有对应到 `1` 中。
 
 处理 Specialization/Generalization 时，有两种思路。
 
-- 以高等级 $\to$ 低等级的顺序转化表。对于低等级的实体集，要把高等级实体集的主键加进来，然后再是自己的特殊属性。
+* 以高等级 $\to$ 低等级的顺序转化表。对于低等级的实体集，要把高等级实体集的主键加进来，然后再是自己的特殊属性。
 
   这样做的坏处是，当我需要获取某个实体的全部信息时，需要同时访问高等级表和低等级表。
-- 直接转化所有的低等级实体集，并把高等级实体集的属性也加进来，使用高等级实体集的主键。如果 Specialization 是完全的，那么就没有必要在高等级表中存储数据。此时，它作为一个视图来工作。
+* 直接转化所有的低等级实体集，并把高等级实体集的属性也加进来，使用高等级实体集的主键。如果 Specialization 是完全的，那么就没有必要在高等级表中存储数据。此时，它作为一个视图来工作。
 
   这样做的坏处是，可能带来大量的数据冗余。
 
@@ -1668,18 +1682,18 @@ E-R 图的种类多样。
 
 在传统的关系型数据库中，我们要求所有的关系都是符合第一范式的。这也就引出了把非原子域转化成原子域的问题：
 
-- 对于复合属性，可以把它展平成多个简单属性
-- 对于多值属性，可以把多值变成多条记录或者建立一个新的表。
+* 对于复合属性，可以把它展平成多个简单属性
+* 对于多值属性，可以把多值变成多条记录或者建立一个新的表。
 
 对第一范式的硬性要求有如下考量(一张表中列过多时，可能导致数据的冗余和增删改的异常)：
 
-- 简化数据的存储
-- 减少数据的冗余
-- 简化查询操作
+* 简化数据的存储
+* 减少数据的冗余
+* 简化查询操作
 
 > 事实上，原子性不仅仅是形式上的，还是功能上的。
 >
-> 举一个例子，有些小聪明的程序员可能会把学号设计成专业编码 + 学生 id ，如 `CS3125`。但事实上，由于这么做把专业和 id 耦合在了一起，事实上这是非原子的。
+> 举一个例子，有些小聪明的程序员可能会把学号设计成专业编码 + 学生 id ，如 `CS3125` 。但事实上，由于这么做把专业和 id 耦合在了一起，事实上这是非原子的。
 >
 > 比如，当一个学生要转专业，我们就要考虑修改学号。而学号作为一个主键，我们需要检查所有的涉及学号的表，这明显就复杂化了对数据的操作。
 >
@@ -1693,15 +1707,15 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-16.png)
 
-以此表为例，`branch-name`、`branch-city` 和 `assets` 的数据在每个贷款记录中重复。当我们只是想要修改一个分行的 `assets` 时，我们居然需要遍历所有贷款记录并进行修改，这是很糟糕的事情。
+以此表为例， `branch-name` 、 `branch-city` 和 `assets` 的数据在每个贷款记录中重复。当我们只是想要修改一个分行的 `assets` 时，我们居然需要遍历所有贷款记录并进行修改，这是很糟糕的事情。
 
-而且，在新添加一个 branch 时，它没有 loan，这导致了问题。直觉上，我们会给 `customer-name` 和 `loan-number` 赋 `null`，可是它们是键，这并不合理。因此，我们要在有了贷款记录后再加进这个表，这在逻辑上一点都不符合直觉，所谓**新增异常**。
+而且，在新添加一个 branch 时，它没有 loan，这导致了问题。直觉上，我们会给 `customer-name` 和 `loan-number` 赋 `null` ，可是它们是键，这并不合理。因此，我们要在有了贷款记录后再加进这个表，这在逻辑上一点都不符合直觉，所谓**新增异常**。
 
 同样地，当一个分行只有一条贷款记录时，我们想要删除它，就会把这个分行也从这个表中删去，这就是**删除异常**。
 
 在上面的讨论中，我们看到，当彼此之间相关性没那么强的信息都被放在一张表中，就会导致一系列问题。因此，一个自然的思路是把相关性不强的信息分开。对应的操作，也就是把表格分解(decomposition)。
 
-如上表，就可以把它分解成 `Branch_schema(branch-name, branch-city, assets)` 和 `Loan_info_schema(branch-name, customer-name, loan-number, amount)`。
+如上表，就可以把它分解成 `Branch_schema(branch-name, branch-city, assets)` 和 `Loan_info_schema(branch-name, customer-name, loan-number, amount)` 。
 
 我们用**无损连接分解**(Lossless-join decomposition)来描述一个好的分解，即：
 
@@ -1709,14 +1723,14 @@ E-R 图的种类多样。
 
 在数学上，即：
 
-> 对于原表 $R$ 的任意属性 $r$，有
+> 将原表 $R$ 分解成 $R_1, R_2, \ldots, R_n$，有
 > $$
-> r=\Pi_{R_1}(r)\bowtie\Pi_{R_2}(r)
+> R = R_1\Join R_2 \Join \ldots R_n
 > $$
 
 ### 函数依赖 Functional Dependency
 
-假设表 $R$ 有属性 $\alpha$ 和 $\beta$。我们记 $\alpha \to \beta$，若对于表中的任意行 $t_1,t_2$，只要 $t_1[\alpha ]=t_2[\alpha ]$，就有 $t_1[\beta ]=t_2[\beta ]$。
+假设表 $R$ 有属性 $\alpha$ 和 $\beta$。我们记 $\alpha \to \beta$，若对于表中的任意行 $t_1, t_2$，只要 $t_1[\alpha ]=t_2[\alpha ]$，就有 $t_1[\beta ]=t_2[\beta ]$。
 
 在语言上，我们称 $\alpha \to \beta$ 为 $\beta$ 函数依赖于(functionally dependent on) $\alpha$，或 $\alpha$ 函数决定(functionally determines)  $\beta$。
 
@@ -1728,9 +1742,9 @@ E-R 图的种类多样。
 
 首先，我们给出基本的定律。
 
-- 自反律 reflexivity：若 $B\subseteq A$，则 $A\to B$
-- 增补律 augmentation：若 $A\to B$，则 $CA\to CB$。这里符号 $CA$ 表示把 $C$ 中所有属性和 $A$ 中所有属性合起来，形成一个新的集合。显然，这样会有 $CA\to B$。
-- 传递律 transitivity：若 $A\to B,B\to C$，则 $A\to C$。
+* 自反律 reflexivity：若 $B\subseteq A$，则 $A\to B$
+* 增补律 augmentation：若 $A\to B$，则 $CA\to CB$。这里符号 $CA$ 表示把 $C$ 中所有属性和 $A$ 中所有属性合起来，形成一个新的集合。显然，这样会有 $CA\to B$。
+* 传递律 transitivity：若 $A\to B, B\to C$，则 $A\to C$。
 
 我们把多个函数依赖关系放在一个集合 $F$ 中，称为一个函数依赖集。对于所有可以通过上面的定律推导出来的函数依赖关系，我们也把它们收集起来，记作 $F^+$，称为 $F$ 的闭包。
 
@@ -1738,9 +1752,9 @@ E-R 图的种类多样。
 
 根据基本定律，可以推导出一些有用的定律：
 
-- 合并律 Union：$(A\to B\land A\to C)\Rightarrow (A\to BC)$
-- 分解律 Decomposition： $(A\to BC)\Rightarrow (A\to B\land A\to C)$
-- 伪传递律 Pseudotransitivity： $(A\to B\land CB\to D)\Rightarrow(CA\to D)$
+* 合并律 Union：$(A\to B\land A\to C)\Rightarrow (A\to BC)$
+* 分解律 Decomposition： $(A\to BC)\Rightarrow (A\to B\land A\to C)$
+* 伪传递律 Pseudotransitivity： $(A\to B\land CB\to D)\Rightarrow(CA\to D)$
 
 对于参与函数依赖集 $F$ 中某些函数关系的属性组成的集合 $a$，我们定义 $a^+$ 为在 $F$ 下由 $a$ 中属性所直接和间接函数决定的属性的集合。
 
@@ -1752,7 +1766,7 @@ E-R 图的种类多样。
 
 ![alt text](mdPaste/database/image-18.png)
 
-首先，我们选取没有被指向的属性，在上图中即 $A,G$。然后，我们再检查是否需要添加新的属性来保证可以走通图中的全部属性。
+首先，我们选取没有被指向的属性，在上图中即 $A, G$。然后，我们再检查是否需要添加新的属性来保证可以走通图中的全部属性。
 
 ![alt text](mdPaste/database/image-19.png)
 
@@ -1772,7 +1786,7 @@ E-R 图的种类多样。
 
 首先，我们考虑分解要是一个无损连接分解：
 
-> 对于表 $R_1,R_2$，当且仅当 $\left\{ R_1\cap R_2 \right\}\to R_1$ 或 $\left\{ R_1\cap R_2 \right\}\to R_2$，且 $R=R_1\cup R_2$，有 $R_1,R_2$ 是 $R$ 的无损分解。
+> 对于表 $R_1, R_2$，当且仅当 $\left\{ R_1\cap R_2 \right\}\to R_1$ 或 $\left\{ R_1\cap R_2 \right\}\to R_2$，且 $R=R_1\cup R_2$，有 $R_1, R_2$ 是 $R$ 的无损分解。
 
 简单来说，就是分解后两张表的公有属性是其中至少一张表的键。
 
@@ -1801,7 +1815,7 @@ $$
 
 #### BCNF 分解
 
-BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依赖关系 $\alpha\to \beta$，如果 $\alpha$ 不是键，那就进行一次分解 $(\alpha ,\beta )\cup(R - \beta )$，然后把新的表放进递归序列。递归结束，即完成分解。
+BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依赖关系 $\alpha\to \beta$，如果 $\alpha$ 不是键，那就进行一次分解 $(\alpha , \beta )\cup(R - \beta )$，然后把新的表放进递归序列。递归结束，即完成分解。
 
 这样分解后，所有的子表都满足 BCNF，且分解是无损连接分解。
 
@@ -1818,9 +1832,8 @@ BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依�
 考虑
 
 $$
-\begin{align*}
-    R&=(J, K, L)\\
-    F&=\left\{ JK\to L, L\to K \right\}
+\begin{align*}R&=(J, K, L)\\
+F&=\left\{ JK\to L, L\to K \right\}
 \end{align*}
 $$
 
@@ -1828,7 +1841,7 @@ $$
 
 如果尝试 BCNF 分解，会获得 $(JL)$ 和 $(LK)$，此时依赖关系 $JK\to L$ 丢失。
 
-3NF 可能带来冗余问题，如 $R$，当我们尝试添加一组 $(l,k)$ 时（为了便于理解，假设 $J$ 代表学生， $K$ 代表课程， $L$ 代表老师， $(l,k)$ 即老师开了一门课）， $j$ 的值就可能为 `null`。
+3NF 可能带来冗余问题，如 $R$，当我们尝试添加一组 $(l, k)$ 时（为了便于理解，假设 $J$ 代表学生， $K$ 代表课程， $L$ 代表老师， $(l, k)$ 即老师开了一门课）， $j$ 的值就可能为 `null` 。
 
 #### 3NF 分解
 
@@ -1842,7 +1855,7 @@ $$
 
 ### 多值依赖 Multivalued Dependencies
 
-有的表虽然符合 BCNF，但是它又好像没有什么好的性质。比如说，考虑一张表 `classes(course, teacher, book)`，用来表示一个老师开了某个课，然后课程需要某些教材。可以发现，这张表中没有函数依赖关系，因此满足 BCNF。
+有的表虽然符合 BCNF，但是它又好像没有什么好的性质。比如说，考虑一张表 `classes(course, teacher, book)` ，用来表示一个老师开了某个课，然后课程需要某些教材。可以发现，这张表中没有函数依赖关系，因此满足 BCNF。
 
 然而，观察这张表可能的实例，会发现数据冗余非常严重：
 
@@ -1852,7 +1865,7 @@ $$
 
 ——我们定义多值依赖(Multivalued Dependencies) 来指导这样的分解。
 
-我们定义  $b$ 多值依赖于 $a$，即 $a\to\to b$，若对于任意行，如果它们的 $a,b$ 相同，则其余的属性不会相同。
+我们定义  $b$ 多值依赖于 $a$，即 $a\to\to b$，若对于任意行，如果它们的 $a, b$ 相同，则其余的属性不会相同。
 
 对于一张表 $R$， 如果 $a \subseteq b$ 或者 $a\cup b = R$，那么 $a\to\to b$ 是平凡的。
 
@@ -1870,21 +1883,21 @@ $$
 
 存储媒介根据以下三点分类：
 
-- 访问数据的速度
-- 单位数据的开销
-- 可靠性，如在供电错误或系统崩溃时，以及物理存储错误时数据是否安全。
+* 访问数据的速度
+* 单位数据的开销
+* 可靠性，如在供电错误或系统崩溃时，以及物理存储错误时数据是否安全。
 
 如下的存储层级，速度逐渐变小，容量逐渐变大
 
-- primary storage(volatile)
-  - cache
-  - main memory
-- secondary storage/on-line storage(辅助存储器，联机存储器)(non-volatile)
-  - flash memory
-  - magnetic disk
-- tertiary storage/off-line storage(三级存储器，脱机存储器)(non-volatile)
-  - optical disk
-  - magnetic tapes
+* primary storage(volatile)
+  + cache
+  + main memory
+* secondary storage/on-line storage(辅助存储器，联机存储器)(non-volatile)
+  + flash memory
+  + magnetic disk
+* tertiary storage/off-line storage(三级存储器，脱机存储器)(non-volatile)
+  + optical disk
+  + magnetic tapes
 
 Cache 是最快的，也是最昂贵的存储。它受计算机系统硬件的管理，具有易失性。
 
@@ -1900,41 +1913,44 @@ Tage sorage 主要用于备份，具有非易失性，容量非常大，读写�
 
 ### Magnetic Disks
 
-> ![alt text](mdPaste/database/image-26.png)
+>
+
+![alt text](mdPaste/database/image-26.png)
+
 >
 > 1. **Platter（盘片）**：
->    - 磁盘的核心存储介质，由多个圆形的磁性盘片组成。
->    - 每个盘片的两面都可以用来存储数据。
+> - 磁盘的核心存储介质，由多个圆形的磁性盘片组成。
+> - 每个盘片的两面都可以用来存储数据。
 >
 > 2. **Track（磁道）**：
->    - 每个盘片被划分为多个同心圆环，称为磁道。
->    - 磁道是数据存储的基本单位。
+> - 每个盘片被划分为多个同心圆环，称为磁道。
+> - 磁道是数据存储的基本单位。
 >
 > 3. **Sector（扇区）**：
->    - 每个磁道进一步划分为多个扇区。
->    - 扇区是磁盘上最小的存储单位，通常大小为 512 字节或 4KB。
+> - 每个磁道进一步划分为多个扇区。
+> - 扇区是磁盘上最小的存储单位，通常大小为 512 字节或 4KB。
 >
 > 4. **Cylinder（柱面）**：
->    - 不同盘片上相同半径的磁道组成一个柱面。
->    - 通过柱面可以同时访问多个盘片上的数据，减少寻道时间。柱面 $i$ 包含所有盘片的第 $i$ 个磁道。
+> - 不同盘片上相同半径的磁道组成一个柱面。
+> - 通过柱面可以同时访问多个盘片上的数据，减少寻道时间。柱面 $i$ 包含所有盘片的第 $i$ 个磁道。
 >
 > 5. **Spindle（主轴）**：
->    - 盘片通过主轴固定在一起，并由主轴驱动旋转。
->    - 主轴的旋转速度（如 5400 RPM 或 7200 RPM）决定了磁盘的读写速度。
+> - 盘片通过主轴固定在一起，并由主轴驱动旋转。
+> - 主轴的旋转速度（如 5400 RPM 或 7200 RPM）决定了磁盘的读写速度。
 >
 > 6. **Read-Write Head（读写磁头）**：
->    - 每个盘片的每一面都有一个读写磁头，用于读取和写入数据。
->    - 磁头通过感应磁场的变化来操作数据。
+> - 每个盘片的每一面都有一个读写磁头，用于读取和写入数据。
+> - 磁头通过感应磁场的变化来操作数据。
 >
 > 7. **Arm Assembly（磁臂组件）**：
->    - 磁头固定在磁臂上，磁臂可以在盘片表面移动。
->    - 磁臂的移动使磁头能够访问不同的磁道。
+> - 磁头固定在磁臂上，磁臂可以在盘片表面移动。
+> - 磁臂的移动使磁头能够访问不同的磁道。
 >
 > 8. **Arm（磁臂）**：
->    - 磁臂连接磁头和磁臂组件，负责在磁盘表面定位磁头。
+> - 磁臂连接磁头和磁臂组件，负责在磁盘表面定位磁头。
 >
 > 9. **Rotation（旋转）**：
->    - 磁盘通过主轴旋转，使磁头能够快速访问不同的扇区。
+> - 磁盘通过主轴旋转，使磁头能够快速访问不同的扇区。
 
 当需要读/写一个扇区时，磁臂旋转到目标轨道，盘片持续旋转，数据在目标扇区经过磁头下方时被读/写。
 
@@ -1965,37 +1981,37 @@ Tage sorage 主要用于备份，具有非易失性，容量非常大，读写�
 
 #### **多磁盘系统**
 
-- 多个磁盘通过控制器连接到计算机系统。
-- 控制器的功能（如校验和、坏扇区重映射）通常由单个磁盘独立完成，从而减少控制器的负载。
+* 多个磁盘通过控制器连接到计算机系统。
+* 控制器的功能（如校验和、坏扇区重映射）通常由单个磁盘独立完成，从而减少控制器的负载。
 
 磁盘接口标准定义了磁盘与计算机系统之间的通信方式。
 
 > 常见的接口标准包括：
 >
 > 1. **ATA（AT Adaptor）**：
->    - 早期的并行接口标准，适用于个人电脑。
->    - 后续发展为更快的 **SATA** 标准。
+> - 早期的并行接口标准，适用于个人电脑。
+> - 后续发展为更快的 **SATA** 标准。
 >
 > 2. **SATA（Serial ATA）**：
->    - 串行接口，取代了传统的并行 ATA。
->    - 提供更高的传输速度和更简单的电缆设计。
->    - 常用于个人电脑和消费级存储设备。
+> - 串行接口，取代了传统的并行 ATA。
+> - 提供更高的传输速度和更简单的电缆设计。
+> - 常用于个人电脑和消费级存储设备。
 >
 > 3. **SCSI（Small Computer System Interconnect）**：
->    - 并行接口，适用于高性能存储设备。
->    - 支持多个设备连接，常用于服务器和工作站。
+> - 并行接口，适用于高性能存储设备。
+> - 支持多个设备连接，常用于服务器和工作站。
 >
 > 4. **SAS（Serial Attached SCSI）**：
->    - SCSI 的串行版本，提供更高的速度和可靠性。
->    - 常用于企业级存储系统。
+> - SCSI 的串行版本，提供更高的速度和可靠性。
+> - 常用于企业级存储系统。
 
 #### 磁盘的性能评估
 
 Access Time 为 Seek time(寻道时间) 与 Rotational latency(旋转等待时间) 的和。
 
-- 寻道时间指把磁臂放到正确的磁道上花费的时间。
+* 寻道时间指把磁臂放到正确的磁道上花费的时间。
 
-- 旋转等待时间指扇区到达读写头下面消耗的时间。
+* 旋转等待时间指扇区到达读写头下面消耗的时间。
 
 Data transfer rate 是检索数据或存储数据的速度。多个磁盘可能由同一个磁盘控制器控制，所以磁盘控制器可以处理数据的速率也很重要。
 
@@ -2049,18 +2065,18 @@ $$
 
 磁盘系统中的并行性旨在通过以下方式提高性能：
 
-- 处理多个小型访问请求以增加吞吐量。
-- 减少响应时间。
+* 处理多个小型访问请求以增加吞吐量。
+* 减少响应时间。
 
 一种提高数据传输效率的方案是将数据分布在多个磁盘上，即数据条带化。下面介绍两种数据条带化。
 
-- **比特级拆分 (Bit-Level Striping)**
+* **比特级拆分 (Bit-Level Striping)**
 
 比特级拆分将每个字节的位分布到多个磁盘上。例如，在一个包含 8 个磁盘的阵列中，将每个字节的第 i 位写入第 i 个磁盘。这么做的优点是，每次访问可以以单个磁盘 8 倍的速率读取数据。缺点则是，寻道时间和访问时间比单个磁盘更差。在现在，比特级拆分已经不怎么使用了。
 
-- **块级拆分 (Block-Level Striping)**
+* **块级拆分 (Block-Level Striping)**
 
-块级拆分将文件的第 i 个块分配到磁盘 `(i mod n) + 1`，其中 n 是磁盘数量。当不同的块位于不同的磁盘上时，多个请求可以并行运行。一系列对块的请求可以让我们把所有的磁盘都并行利用起来。
+块级拆分将文件的第 i 个块分配到磁盘 `(i mod n) + 1` ，其中 n 是磁盘数量。当不同的块位于不同的磁盘上时，多个请求可以并行运行。一系列对块的请求可以让我们把所有的磁盘都并行利用起来。
 
 #### RAID Levels
 
@@ -2121,15 +2137,171 @@ level 6 使用块级拆分，并在 level 5 的基础上添加了额外的冗余
 
 以上的所有 level 应用如下：
 
-- level 0 只在数据安全不重要的情况下使用
-- level 2, 4 从不使用，因为有更好的 level3, 5
-- level 3 也不再使用，因为位级拆分导致了并行问题
-- level 6 也很少使用，因为 level 1 和 level 5 已经为几乎所有的应用程序提供了充分的数据安全性
+* level 0 只在数据安全不重要的情况下使用
+* level 2, 4 从不使用，因为有更好的 level3, 5
+* level 3 也不再使用，因为位级拆分导致了并行问题
+* level 6 也很少使用，因为 level 1 和 level 5 已经为几乎所有的应用程序提供了充分的数据安全性
 
 因此，现实中的竞争只存在于 level1, 5 之间。接下来，我们着重比较它们的差异。
 
-- 在小的写操作上， level 1 的性能优于 level 5，这是因为对于单个 block 的写入， level 1 只需要写两个 block，而 level 5 需要读两个 block 与写两个 block。因此，在需要频繁更新的情况下，level 1 更适合。
-- level 1 的存储压力高于 level 5。好在磁盘容量增长比磁盘访问时间增长得更快，这份额外存储成本是可以接受的。
+* 在小的写操作上， level 1 的性能优于 level 5，这是因为对于单个 block 的写入， level 1 只需要写两个 block，而 level 5 需要读两个 block 与写两个 block。因此，在需要频繁更新的情况下，level 1 更适合。
+* level 1 的存储压力高于 level 5。好在磁盘容量增长比磁盘访问时间增长得更快，这份额外存储成本是可以接受的。
 
 综上，level 5 适合更新率低，且数据更新量大的应用，而其它的应用，level 1 都很适合。
 
+---
+终究是鸽了
+
+---
+
+## 考前抱佛脚
+
+### Nested-Loop Join
+
+考虑 theta 连接 $R\Join_\theta S$。Nested-Loop Join 为：
+
+对于每一个  $R$ 中的元组，遍历 $S$ 中的元组并判断满不满足关系 $\theta$。
+
+```lua
+for r in R do -- loop 1
+    for s in S do -- loop 2
+        check(r, s, θ)
+    end
+end
+```
+
+我们称  $R$ 为外层关系， $S$ 为内层关系。
+
+---
+
+当缓冲区只能为 $R$ 和 $S$ 保存一个块时，有：
+
+* 对于 $R$ 而言，我们为了获取一个 $r$，会通过寻道找到它的所在块并传输过来。之后，直到这个块中的所有别的 $r$ 被使用完，我们才需要寻道找新的块并传输。因此，它引入的寻道数为 $R$ 的块数 $b_R$，而块传输数也为 $b_R$ 。
+* 对于 $S$ 而言，每一次对它的遍历都需要引入一次寻道，然后再是连续的块传输 $b_S$ 次。因此，它需要的寻道数为 $n_R(R\text{的元组数})$，块传输数为 $n_R\cdot b_S$。
+
+综上，当缓冲区只能为 $R$ 和 $S$ 保存一个块时，总开销为：
+* 寻道数 $b_R+n_R$
+* 块传输数 $b_R+n_R\cdot b_S$
+
+---
+
+当缓冲区能够放下 $R$ 和 $S$ 时，数据库会采用预加载的策略，即先一次寻道，传输所有的 $r$，然后再一次寻道，传输所有的 $s$。所以，总开销为：
+* 寻道数 $2$
+* 块传输数 $b_R+b_S$
+
+### Block Nested-Loop Join
+
+Block Nested-Loop Join 使用分块处理的方式来充分利用空间局部性，从而减少寻道数。
+
+```lua
+for block_R in R do
+    for block_S in S do
+        for r in block_R do
+            for s in block_S do
+                check(r, s, θ)
+            end
+        end
+    end
+end
+```
+
+---
+
+当缓冲区只能为 $R$ 和 $S$ 保存一个块时，有：
+
+* 每一个 block_R 需要 1 次寻道和 1 次块传输
+* 遍历一遍 S 需要 1 次寻道和  $b_S$ 次块传输
+
+因此，总开销为：
+* 寻道数  $1\cdot b_R + 1\cdot b_R=2b_R$
+* 块传输数  $1\cdot b_R + b_S\cdot b_R=b_R+b_S\cdot b_R$
+
+---
+
+当缓冲区能够放下 $R$ 和 $S$ 时，数据库会采用预加载的策略，即先一次寻道，传输所有的 block_R，然后再一次寻道，传输所有的 block_S。所以，总开销为：
+* 寻道数 $2$
+* 块传输数 $b_R+b_S$
+
+---
+
+当缓冲区总共有 $M$ 个块时，我们分配 $M-2$ 个块给 $R$，1 个块给 $S$，1 个块作为输出缓冲区，那么，有：
+
+* 每一次寻道 block_R，我们都一次性传输 $M-2$ 个块，因此， $R$ 总共需要 $t_R=\lceil \frac{b_R}{M-2} \rceil$ 次寻道，而块传输数不变。
+* 遍历  $S$ 的次数变为 $t_R$，每次遍历依旧是 1 次寻道和 $b_S$ 次块传输。
+
+因此，总开销为：
+* 寻道数  $2t_R$
+* 块传输数 $b_R+t_R\cdot b_S$
+
+只有内部循环才能充分利用空间局部性，所以将更大的关系作为内层关系时，Join 更为高效。
+
+### Indexed Nested-Loop Join
+
+在 Indexed Nested-Loop Join 中，我们在内层循环里不是遍历 $S$，而是通过 $S$ 的索引查找匹配记录。
+
+```lua
+for r in R do
+    Index(S)->Find(θ(r))
+end
+```
+
+我们记通过索引检索满足 $\theta(r)$ 条件需要的寻道数为 $\text{seek}_{index(S)}$，传输数为 $\text{transfer}_{index(S)}$，则有总开销为：
+* 寻道数  $b_R+n_R \cdot \text{seek}_{index(S)}$
+* 块传输数  $b_R+n_R \cdot \text{transfer}_{index(S)}$
+
+### Merge Join
+
+Merge Join 用于对已经排好序的  $R$ 和 $S$ 进行 Join，且处理的条件类似于 `r.somkey = s.somekey` 。下面以升序排序的为例。
+
+算法上，取两个指针分别指向两个表的头，然后固定其中一个指针，另一个指针往下扫。记固定的指针对应的键值为 t
+* 扫到的值小于 t，则继续往下
+* 扫到的值等于 t，添加结果，并往扫
+* 扫到的值大于 t，就把当前指针变成固定指针，开始下一轮。
+
+这样，我们就可以交替地扫完两张表。
+
+设为 $R$ 分配了 $m_R$ 个缓存块，为 $S$ 分配了 $m_S$ 个缓存块，则开销为：
+
+* 寻道数 $\lceil \frac{b_R}{m_R} \rceil + \lceil \frac{b_S}{m_S} \rceil$
+* 块传输数 $b_R+b_S$
+
+### Hash Join
+
+Hash Join 适用于处理条件类似于 `r.somkey = s.somekey` 的 theta 连接。
+
+我们选择一个哈希函数 $H$ 来对 $R$ 和 $S$ 做一次划分。显然地，经过划分后，我们只需要对匹配的划分做检查即可。
+
+具体而言，令 $H(r)\in[0, n_H-1], H(s)\in[0, n_H-1]$。我们为 $R, S$ 分别建立 $n_H$ 个桶，其中第 $i$ 个桶记为 $R_i, S_i$。于是，任意的元组 $r$ 被放到 $R_{H(r)}$ 中， $s$ 亦然。需要注意的是，内存放不下上述划分，因此它们都会被写回磁盘。
+
+然后，遍历每一个 $R_i$。我们用不同的哈希函数 $H_i$ 在内存中建立一个哈希索引。接着，对于每一个 $S_i$ 中的元组，使用这个哈希索引探测 $S_i$ 中可能的匹配项，并进一步检查。匹配了，就加到结果中。遍历下一个 $R_i$ 时，销毁上一个内存中的哈希索引。
+
+因为需要建立内存中的索引，应保证 $R$ 是两个关系中较小的。我们把这样的 $R$ 叫做构建输入， $S$ 叫做探测输入。
+
+在划分中，我们对 $R, S$ 都进行了完全的读操作，因此需要 $b_R+b_S$ 次读的块传输。而写的时候，考虑因为每一个划分中的块可能并没有被填满，所以对于 $R$ 的划分，最多可能需要额外进行 $n_H$ 次写入， $S$ 的划分亦然，因此需要 $b_R+b_S+2n_H$ 次写的块传输。
+
+在建立哈希索引的时候，对 $R$ 的全部划分都读了一遍，最多需要 $b_R+n_H$ 次块传输。
+
+在探测的时候，对 $S$ 的全部划分都读了一遍，最多需要 $b_S+n_H$ 次块传输。
+
+综上需要 $3b_S+3b_R+4n_H$ 次块传输。
+
+至于寻道数，==妈的真的理解不了==。据说，假设为输入缓冲区和每个划分接受的输出缓冲区都分配 $m$ 个块的话，需要 $2\lceil \frac{b_R}{m} \rceil+ 2\lceil \frac{b_S}{m} \rceil +2 n_H$ 次寻道。
+
+### Hash Join Applying Recursive Partitioning
+
+我们之前提到过，在 Hash Join 中，我们尝试为划分建立哈希索引。但是，如果划分过大，没法装进内存，那就没有办法建立哈希索引了。因此，一个方法时，当划分过大时，就对它使用新的哈希函数进行再划分，直到大小合适为止。这样的划分过程被称为递归划分。
+
+假设内存有 $M$ 个 block，我们倾向于一次做 $M-1$ 个划分。因此，我们总共需要做
+$$
+t=\lceil \log_{M-1}(b_R)-1 \rceil
+$$
+次划分。
+
+开销为
+* 块传输  $2(b_R+b_S)t+b_R+b_S$
+* 寻道数 $2 \left( \lceil \frac{b_R}{m} \rceil + \lceil \frac{b_S}{m} \rceil\right)t$
+
+### External Merge Sort
+
+* 块传输  $b_r \left( 2 \lceil \log_{M-1}\left(\frac{b_r}{M}\right) \rceil +1\right)$
+* 寻道数 $2 \lceil \frac{b_r}{M} \rceil + \lceil \frac{b_r}{b_b} \rceil \left( 2 \lceil \log_{M-1}\left(\frac{b_r}{M}\right) \rceil -1\right)$
