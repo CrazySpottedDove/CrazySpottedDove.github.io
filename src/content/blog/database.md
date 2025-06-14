@@ -2305,3 +2305,40 @@ $$
 
 * 块传输  $b_r \left( 2 \lceil \log_{M-1}\left(\frac{b_r}{M}\right) \rceil +1\right)$
 * 寻道数 $2 \lceil \frac{b_r}{M} \rceil + \lceil \frac{b_r}{b_b} \rceil \left( 2 \lceil \log_{M-1}\left(\frac{b_r}{M}\right) \rceil -1\right)$
+
+### ARIES
+
+每一个页中都有一个字段 `PageLSN` 来记录影响了该页的最后一条日志的序列号。更新页时，使用排他锁，同时更新内容和 `PageLSN` ；写回时，使用共享锁。
+
+每一条日志包含 `lsn` , `TsxID` , `PrevLSN` , `RedoInfo` , `UndoInfo` 。
+
+补偿日志 Compensation Log Record 包含 `lsn` , `TsxID` , `UndoNextLSN` , `RedoInfo` 。 `UndoNextLSN` 指示了在 undo 阶段时需要撤销的下一条日志的位置。它保证在当前日志和 `UndoNextLSN` 指向的日志之间的全部日志都已经被撤销，从而避免重复撤销。
+
+`DirtyPageTable` 记录了在 buffer 中已经被更新的页。对于每一个 `DirtyPageTable` 中的页，它记录 `PageLSN` 和 `RecLSN` 。 `RecLSN` 指示了页上第一个未被持久化的操作对应的日志。换句话说，任何在 `RecLSN` 之前的日志针对该页的修改都已经被持久化。因此，它在一个页刚刚被加入 `DirtyPageTable` 的时候被更新为当前日志的 `lsn` 。综合 `DirtyPageTable` 中全部的 `RecLSN` ，我们就能找到一个合适的日志，保证该日志之前的全部操作都已经被持久化。
+
+在 `CheckPoint` 中，我们保存一张 `DirtyPageTable` ，以及所有活跃事务的 `LastLSN` 。在生成检查点时，我们并需要不把所有的脏页都持久化。这降低了 `CheckPoint` 的开销。
+
+#### Analysis Pass
+
+首先，我们找到一个合适的重做起点 `RedoLSN` 。如果 `DirtyPageTable` 中有内容，就选择其中最小的 `RecLSN` 。否则，说明检查点之前没有对任何页进行过未持久化的修改。此时，将 `RedoLSN` 选择为检查点的 `lsn` 。
+
+其次，将 `undo_list` 初始化为检查点中的全部活跃事务。接着，从检查点开始正向扫描日志，找到新的事务就放进 `undo_list` 。如果扫描过程中发现了有更新行为的日志，就检查它更新的页是否在 `DirtyPageTable` 中。如果没有，就加进去，并初始化它的 `RecLSN` 。如果找到了事务的结束，就从 `undo_list` 中删除事务。
+
+另外，我们需要关注所有的 `undo_list` 中的事务的最后一条日志。
+
+#### Redo Pass
+
+从 `RedoLSN` 开始正向扫描，发现任何更新日志时，首先确定这个更新是否已经被持久化。
+
+* 如果 `DirtyPageTable` 中没有这个日志要更新的页，说明更新已被持久化。
+* 如果能找到，再拿日志的 `lsn` 和它要更新的页的 `RecLSN` 比较。如果 `lsn` 更小，说明更新已经被持久化。
+
+如果没有被持久化，再从磁盘中 fetch 对应的页。进一步验证，如果这个页的 `PageLSN` 要小于 `lsn` ，就重做这个操作。
+
+#### Undo Pass
+
+> 在撤销一条日志时，我们生成一条 CLR，它记录了 undo 的行为，并通过 `UndoNextLSN` 指向被撤销的日志的 `PrevLSN` 。
+
+每一个事务的 `Next_LSN_to_be_undone` 被置为 Analysis Pass 中关注的所有事务的最后一条日志。每一次撤销，我们都从这些 lsn 中选择最大的执行。
+* 如果这个日志是一般的日志，就把事务的 `Next_LSN_to_be_undone` 置为它的 `PrevLSN`，并撤销日志的行为。
+* 如果这个日志是 CLR，就直接把事务的 `Next_LSN_to_be_undone` 置为它的 `UndoNextLSN`。
