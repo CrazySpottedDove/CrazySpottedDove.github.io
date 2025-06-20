@@ -1656,6 +1656,7 @@ $$
 \end{align*}
 $$
 这个递推表完成了 0 到 4 阶的前向差分。最后，将对角线上的差分代入公式即可。
+
 ### Hermite Interpolation
 
 在过去的插值中，我们只是要求每一个取样点的函数值相同，而没有关注它们的导数。如果我们考虑让它们的 $n$ 阶导数也相同，那么就能够获得更多的条件，从而也获得一些插值。
@@ -2007,7 +2008,7 @@ $$
 
 对于一组函数 $\left\{ \phi _0(x), \phi _1(x), \ldots, \phi _n(x) \right\}$，如果在区间 $\left[a, b\right]$ 上，有
 $$
-\forall x,a_0\phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)=0\Leftrightarrow a_0=a_1=\ldots a_n=0
+\forall x, a_0\phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)=0\Leftrightarrow a_0=a_1=\ldots a_n=0
 $$
 则说这组函数是线性无关的。
 
@@ -2395,7 +2396,42 @@ A=\frac{4T_{2n}-T_{n}}{3}
 $$
 于是，我们就可以通过这个式子作为一个 $A$ 的近似解。
 
-### Richard
+更进一步地，我们发现，上面得到的式子中， $T_{2n}$ 与 $T_n$ 前的系数只与误差项的次数有关。如果我们记
+$$
+S=\frac{4T_{2n}-T_n}{3}
+$$
+就有 $S$ 的误差项为 4。因此，我们可以进一步加速收敛：
+$$
+\left\{
+\begin{align*}
+S_n&=\frac{4T_{2n}-T_n}{4-1}\\
+C_n&=\frac{4^2S_{2n}-S_n}{4^2-1}\\
+R_n&=\frac{4^3C_{2n}-C_n}{4^3-1}
+\end{align*}
+\right.
+$$
+而具体的递推思路如下图：
+
+![alt text](mdPaste/numericalAnalysis/image-21.png)
+
+### Richardson's Extrapolation
+
+理查德外推是对如龙伯格积分情形的一种推广。假设我们有一个 $T_0(h)$ 来近似真解 $I$，且对于某个变量 $h$，它的 truncation error 满足
+$$
+T_0(h)-I=\alpha _1h+\alpha _2h^2+\alpha _3h^3+\ldots
+$$
+那么，我们就可以选择对 $h$ 做一个扰动，得到
+$$
+T_0 \left( \frac{h}{2} \right)-I=\alpha _1 \frac{h}{2}+\alpha _2 \left( \frac{h}{2} \right)^2+ \alpha _3 \left( \frac{h}{2} \right)^3+\ldots
+$$
+于是乎，我们可以得出这样一个式子：
+$$
+T_1(h)=\frac{2T_0 \left( \frac{h}{2} \right)-T_0(h)}{2-1}=I+\beta _1 h^2 + \beta _2 h^3+\ldots
+$$
+每一次外推，收敛阶数就上升一阶。这样的外推过程可以不断地进行下去，于是我们得到外推序列的递推式
+$$
+T_n(h)=\frac{2^nT_{n-1}\left( \frac{h}{2} \right)-T_{n-1}(h)}{2^n-1}=I+t_1h^{n+1}+t_2h^{n+2}+\dots
+$$
 
 ### Adaptive Quadrature Method
 
