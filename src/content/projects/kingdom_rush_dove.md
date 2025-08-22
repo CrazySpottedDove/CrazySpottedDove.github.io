@@ -1,4 +1,10 @@
-# Kingdom-Rush Dove 版
+---
+title: Kingdom Rush Dove 版
+description: 一个注重平衡性、可操作性、舒适性的王国保卫战改版
+pubDate: 2025-08-22
+updatedDate: 2025-08-22
+tags: ["lua","KingdomRush","王国保卫战","dove 版"]
+---
 
 该版本还在活跃开发阶段，因此暂时不提供打包文件。想要启动本游戏，请在 Kingdom Rush 文件夹双击 launch.bat。
 
