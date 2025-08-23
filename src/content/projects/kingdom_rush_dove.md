@@ -68,6 +68,10 @@ f1| 开启/关闭一键造塔面板(用于斗蛐蛐)
 
 您自己的存档可以在本文档同级目录提供的快捷方式 `存档位置` 中查询。
 
+存档示意如下：
+
+![alt text](mdPaste/kingdom_rush_dove/image-7.png)
+
 本改版由于双英雄机制，修改了原有存档的数据结构。因此，如果和本改版同时共享原版的存档文件，会导致原版打开时蓝屏。
 
 ## 补丁配置
@@ -78,15 +82,19 @@ f1| 开启/关闭一键造塔面板(用于斗蛐蛐)
 
 ![alt text](mdPaste/kingdom_rush_dove/image-4.png)
 
-如果需要自定义配置，请在 `patches` 文件夹中创建 `config.lua` ，并将 `default.lua` 中的内容复制过来，最后按照自己的喜好修改 `config.lua` 。
+如果需要自定义配置，请进入**存档位置**，找到或创建 `config.lua` ，并按照自己的喜好修改。
 
-类似的，在 `patches` 文件夹中也提供了 `keyset_default.lua` 。
+在选关阶段，您可以通过点击 `f1` 键的方式呼出补丁配置界面，并进行一些基础配置。
+
+![alt text](mdPaste/kingdom_rush_dove/image-8.png)
+
+## 键位配置
+
+类似的，在 `patches` 文件夹中也提供了 `keyset_default.lua` 作为参考模板。
 
 ![alt text](mdPaste/kingdom_rush_dove/image-5.png)
 
-您可以新建一个 `keyset_custom.lua` ，并通过修改 `keyset_custom.lua` 的方式修改键位。
-
-这个配置不需要重新打开游戏。修改配置后，进入相应关卡，配置即生效。
+您可以在**存档位置**中找到 `keyset_custom.lua` ，并通过修改 `keyset_custom.lua` 的方式修改键位。
 
 ## 斗蛐蛐功能
 
@@ -96,9 +104,13 @@ f1| 开启/关闭一键造塔面板(用于斗蛐蛐)
 
 ![alt text](mdPaste/kingdom_rush_dove/image-6.png)
 
-为了启用斗蛐蛐功能，需要用户自行在 `patches` 文件夹中创建 `criket.lua` 文件，并参照 `criket_template.lua` 进行编写。
+您可以在**存档位置**中找到 `criket.lua` ，并通过修改它的方式自定义斗蛐蛐出怪。另外，只有在 `on` 置为 `true` 时，斗蛐蛐文件才生效。
 
 关于造塔，局内默认提供了 f1 键打开一键造塔菜单，可以一键全屏建造满级塔。可以再次点击 f1 键关闭这个菜单。
+
+在选关阶段，您可以通过点击 `f2` 键的方式呼出斗蛐蛐配置界面，决定是否启动斗蛐蛐模式。
+
+![alt text](mdPaste/kingdom_rush_dove/image-9.png)
 
 ## 修改详情
 
