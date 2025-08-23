@@ -94,7 +94,7 @@ f1| 开启/关闭一键造塔面板(用于斗蛐蛐)
 
 ![alt text](mdPaste/kingdom_rush_dove/image-5.png)
 
-您可以在**存档位置**中找到 `keyset_custom.lua` ，并通过修改 `keyset_custom.lua` 的方式修改键位。
+您可以在**存档位置**中找到 `keyset.lua` ，并通过修改 `keyset.lua` 的方式修改键位。
 
 ## 斗蛐蛐功能
 
