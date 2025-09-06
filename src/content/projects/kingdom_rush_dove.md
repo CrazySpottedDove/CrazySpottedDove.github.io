@@ -62,6 +62,7 @@ f| 调集所有援军
 e| 调集所有非援军、英雄的可调集单位，如大恶魔
 f1| 开启/关闭一键造塔面板(用于斗蛐蛐)
 f2| 无尽模式下消耗 10000 金币开启科技商店
+f3| 一键调集全图兵营前往拦截范围内的敌人
 
 ## 存档
 
@@ -93,7 +94,46 @@ f2| 无尽模式下消耗 10000 金币开启科技商店
 
 类似的，在 `patches` 文件夹中也提供了 `keyset_default.lua` 作为参考模板。
 
-![alt text](mdPaste/kingdom_rush_dove/image-5.png)
+```lua
+-- 本文件是默认键位配置文件，请勿修改。
+-- 如果需要自定义配置文件，请在本文件相同目录下创建 keyset_custom.lua 文件，并将本文件内容复制过去，自行修改。
+-- 同一个功能可以设置多个键位，比如一号英雄的选择，就绑定了两个键位。玩家可以按照喜好自行绑定多个键位。
+-- 特殊地，如需要设置 f1 键位，需要填写 "f1"
+return {
+    -- 火雨键位，默认为 "1"
+    pow_1 = {"1"},
+    -- 援军键位，默认为 "2"
+    pow_2 = {"2"},
+    -- 一号英雄键位，默认为 "a" 或 "space"(即空格)
+    hero_1 = {"a", "space"},
+    -- 二号英雄键位，默认为 "d"
+    hero_2 = {"d"},
+    -- 三号英雄键位，默认为 "s"
+    hero_3 = {"s"},
+    -- 四号英雄键位，默认为 "q"
+    hero_4 = {"q"},
+    -- 五号英雄键位，默认为 "r"
+    hero_5 = {"r"},
+    -- 援军调集键位，默认为 "f"
+    reinforce = {"f"},
+    -- 非援军的可调集单位(如大恶魔)的调集键位，默认为 "e"
+    reinforce_other = {"e"},
+    -- 下一波键位，默认为 "w" 或 "return"(回车)
+    next_wave = {"w", "return"},
+    -- 放慢速度键位，默认为 "4"
+    slow = {"4"},
+    -- 加快速度键位，默认为 "5"
+    quick = {"5"},
+    -- 恢复正常速度键位，默认为 "6"
+    normal = {"6"},
+    -- 开启/关闭一键造塔菜单键位，默认为 "f1"
+    criket_toggle = {"f1"},
+    -- 无尽模式开启商店键位，一旦开启即扣取对应金币，默认为 "f2"
+    endless_shop = {"f2"},
+    -- 兵营寻路键位，会让士兵未处于拦截状态的兵营修改集结点到离家最近敌人位置，默认为 "f3"
+    barrack_seek = {"f3"},
+}
+```
 
 您可以在**存档位置**中找到 `keyset.lua` ，并通过修改 `keyset.lua` 的方式修改键位。
 
@@ -103,7 +143,58 @@ f2| 无尽模式下消耗 10000 金币开启科技商店
 
 在 `patches` 文件夹中提供了 `criket_template.lua` 作为斗蛐蛐文件的参考模板。
 
-![alt text](mdPaste/kingdom_rush_dove/image-6.png)
+```lua
+-- 这是一个编辑斗蛐蛐出怪的样例文件
+-- 你可以在同一文件夹中创建一个名为 criket.lua 的新文件来定义你的斗蛐蛐波次
+-- 若你的 criket 缺少一些设置将会使用本文件的设置
+return {
+    on = false, -- 是否启用斗蛐蛐，需要则置为 true
+    cash = 50000, -- 初始金币
+    groups = {
+        { -- 第 1 组出怪
+            path_index = 1, -- 设置出怪路径为 1（至少为 1）
+            delay = 5, -- 开始出这组怪的延迟，单位为秒
+            spawns = {
+                { -- 出怪 1
+                    creep = "enemy_goblin", -- 选择出怪：哥布林
+                    max = 100, -- 总数量
+                    interval = 0.1, -- 每隔 0.1 秒出一个哥布林
+                    fixed_sub_path = 0, -- 子路径，0 为随机
+                    interval_next = 5 -- 出完后，过 5 秒出下一怪
+                }, { -- 出怪 2
+                    creep = "enemy_fat_orc", -- 选择出怪：兽人
+                    max = 50, -- 总数量
+                    interval = 0.2, -- 每隔 0.2 秒出一个兽人
+                    fixed_sub_path = 0, -- 子路径，0 为随机
+                    interval_next = 0
+                }
+            }
+        }, { -- 第 2 组出怪
+            path_index = 1, -- 设置出怪路径为 1
+            delay = 0, -- 开始出怪前的延迟，单位为秒
+            spawns = {
+                { -- 出怪 1
+                    creep = "enemy_goblin", -- 选择出怪：哥布林
+                    max = 100, -- 总数量
+                    interval = 0.1, -- 每隔 0.1 秒出一个哥布林
+                    fixed_sub_path = 0, -- 子路径，0 为随机
+                    interval_next = 5 -- 出完后，过 5 秒出下一怪
+                }
+            }
+        }
+    },
+    required_textures = { -- 启用的贴图列表
+        "go_enemies_acaroth", "go_enemies_ancient_metropolis", "go_enemies_bandits", "go_enemies_bittering_rancor",
+        "go_enemies_blackburn", "go_enemies_desert", "go_enemies_elven_woods", "go_enemies_faerie_grove",
+        "go_enemies_forgotten_treasures", "go_enemies_grass", "go_enemies_halloween", "go_enemies_hulking_rage",
+        "go_enemies_ice", "go_enemies_jungle", "go_enemies_mactans_malicia", "go_enemies_rising_tides", "go_enemies_rotten",
+        "go_enemies_sarelgaz", "go_enemies_storm", "go_enemies_torment", "go_enemies_underground", "go_enemies_wastelands"
+    },
+    required_sounds = { -- 启用的音效列表
+        "hero_gerald" -- 比如说，有一个特殊的英雄 boss gerald，可能就需要他的音效
+    }
+}
+```
 
 您可以在**存档位置**中找到 `criket.lua` ，并通过修改它的方式自定义斗蛐蛐出怪。另外，只有在 `on` 置为 `true` 时，斗蛐蛐文件才生效。
 
