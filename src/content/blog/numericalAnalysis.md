@@ -118,7 +118,8 @@ category: "课程笔记"
 牛顿法也属于一种不动点方法。它的思路是把一个非线性函数线性化。
 
 $$
-0=f(p)\approx f(p_0)+f'(p_0)(p-p_0)\quad, \quad p\approx p_0-\frac{f(p_0)}{f'(p_0)}
+0=f(p)\approx f(p_0)+f'(p_0)(p-p_0)\quad, \quad p\approx
+p_0-\frac{f(p_0)}{f'(p_0)}
 $$
 
 #### 定理
@@ -213,7 +214,9 @@ $21^{\frac{1}{3}}$。
 d. 可以设 $p_n=21^{k_n}$，则有
 
 $$
-21^{k_n}=21^{\frac{1-k_{n-1}}{2}}\Rightarrow k_n=\frac{1-k_{n-1}}{2}\Rightarrow k_n-\frac{1}{3}=-\frac{1}{2}(k_{n-1}-\frac{1}{3})
+21^{k_n}=21^{\frac{1-k_{n-1}}{2}}\Rightarrow
+k_n=\frac{1-k_{n-1}}{2}\Rightarrow
+k_n-\frac{1}{3}=-\frac{1}{2}(k_{n-1}-\frac{1}{3})
 $$
 
 可知 $k_n$ 的误差为 $O(\frac{1}{2}^n)$，那么
@@ -230,7 +233,7 @@ $$
 
 > ---
 >
-> 1. 利用不动点定理，证明当 $x_0\gt\sqrt{2}$时，
+> 1. 利用不动点定理，证明当 $x_0\gt\sqrt{2}$ 时，
 >
 > $$
 > x_n=\frac{1}{2}x_{n-1}+\frac{1}{x_{n-1}}, \qquad \text{for } n\ge 1
@@ -280,11 +283,10 @@ $$
 $$
 \begin{align*}
 
-    u(x)&=\frac{f(x)}{f'(x)}\\
-    x_{n+1}&=x_n-\frac{u(x_n)}{u'(x_n)}
+  u(x)&=\frac{f(x)}{f'(x)}\\
+  x_{n+1}&=x_n-\frac{u(x_n)}{u'(x_n)}
 
 \end{align*}
-
 $$
 
 > 关于邻域内不存在重根这一点，可以通过把函数 $f(x)$ 写成
@@ -334,14 +336,18 @@ $$
 > 这会得到立方收敛的结果。比较一下平方收敛和立方收敛。
 
 设另一个平方收敛的序列为 $\{q_n\}$，为了便于分析，我们设它们都收敛到 $0$(其实就是移动坐标轴)，且
+
 $$
-\frac{p_{n+1}}{p_{n}^3}\approx 0.5 \quad\text{and}\quad\frac{q_{n+1}}{q_n^2}\approx 0.5
+\frac{p_{n+1}}{p_{n}^3}\approx 0.5
+\quad\text{and}\quad\frac{q_{n+1}}{q_n^2}\approx 0.5
 $$
+
 可以得出
+
 $$
 \begin{align*}
-|q_n-0|&\approx (0.5)^{2^n-1}|q_0|^{2n}\\
-|p_n-0|&\approx (0.5)^{\frac{3^n-1}{2}}|p_0|^{3n}
+  |q_n-0|&\approx (0.5)^{2^n-1}|q_0|^{2n}\\
+  |p_n-0|&\approx (0.5)^{\frac{3^n-1}{2}}|p_0|^{3n}
 \end{align*}
 $$
 
@@ -382,6 +388,7 @@ $$
 ![alt text](mdPaste/numericalAnalysis/image-1.png)
 
 大致步骤一致，只是在 Step4 部分有所区别：我们需要对 $j=1, \ldots n, j\ne i$ 操作。然后，我们在 Step8 阶段就可以返回所有的解：
+
 $$
 x_i=a_{i, n+1}/a_{i, i}, i=1, 2, \ldots, n
 $$
@@ -391,15 +398,19 @@ $$
 ![alt text](mdPaste/numericalAnalysis/image-3.png)
 
 根据上一题，我们可以得出，加减法的次数为
+
 $$
 \sum_{i=1}^{n}(n-k+1)(n-1)=\frac{n^3}{2}-\frac{n}{2}
 $$
+
 乘除法的次数为
+
 $$
 \sum_{i=1}^{n}(n-k+2)(n-1)+n=\frac{n^3}{2}+n^2-\frac{n}{2}
 $$
 
 为了便于计算，我们可以都只对乘除法的次数进行比较。高斯消元法需要的乘除法总数
+
 $$
 \frac{n^3}{3}+n^2-\frac{n}{3}
 $$
@@ -452,23 +463,24 @@ $$
 $$
 L_1 =
 \begin{pmatrix}
-1      &        &        &        & \\
--m_{2, 1} & 1      &        &        & \\
-\vdots & \vdots & \ddots &        & \\
--m_{n, 1} &        &        & 1      &
+  1      &        &        &        & \\
+  -m_{2, 1} & 1      &        &        & \\
+  \vdots & \vdots & \ddots &        & \\
+  -m_{n, 1} &        &        & 1      &
 \end{pmatrix}
 $$
 
 依次类推，第 $i$ 次消元等价于左乘 $L_i$:
+
 $$
 L_i=
 \begin{pmatrix}
-1&&&&&\\
-&\ddots&&&&\\
-&&1&&&\\
-&&-m_{i+1, i}&1&&\\
-&&\vdots&&\ddots&\\
-&&-m_{n, i}&&&1
+  1&&&&&\\
+  &\ddots&&&&\\
+  &&1&&&\\
+  &&-m_{i+1, i}&1&&\\
+  &&\vdots&&\ddots&\\
+  &&-m_{n, i}&&&1
 \end{pmatrix}
 $$
 
@@ -483,13 +495,17 @@ $$
 这个下三角矩阵只与系数矩阵有关。因此，当系数矩阵一定时，这个方法效率很高。
 
 现在，让我们重新整理一下符号。忘掉上面的 $L$，改取
+
 $$
 L=L_1^{-1}L_2^{-2}\ldots L_{n-1}^{-1}
 $$
+
 则有
+
 $$
 A=LU, U\text{为高斯消元法后得到的系数矩阵}
 $$
+
 可以看到，我们把 $A$ 分解成了一个下三角矩阵 $L$ 和一个上三角矩阵 $U$ 的乘积。
 
 如果我们在度量上做限制，让 $L$ 为一个单位下三角矩阵，那么这样的分解就是唯一的。
@@ -510,12 +526,15 @@ $$
 #### 正定矩阵的优化算法
 
 当 $A$ 是正定矩阵时，显然，它可以分解成 $B\Lambda B^T$ 的形式，其中 $B$ 为单位下三角矩阵， $\Lambda$ 为对角线元素均大于零的对角阵。另外，我们还有
+
 $$
 U=\Lambda\tilde{U}
 $$
+
 其中 $\Lambda$ 是以 $u_{ii}$ 为对角元素的对角阵，而 $\tilde{U}$ 则因此变成了一个单位上三角矩阵。注意到 $L$ 为一个单位下三角矩阵，则只能有 $L=\tilde{U}^{T}$
 
 又因为 $\Lambda$ 对角线元素均大于零，因此它可以被分解为 $\Lambda^{\frac{1}{2}}\Lambda^{\frac{1}{2}}$。那么，我们进行再整理，则有
+
 $$
 A=\tilde{L}\tilde{L}^{T}, \tilde{L}=L\Lambda^{\frac{1}{2}}
 $$
@@ -564,35 +583,44 @@ a)
 只要可以解决这两个递归，就能够完成 $LU$ 分解。
 
 对于递归(1)，有(注意 $l_{ii}=1$ )：
+
 $$
-\sum_{j=1}^{i}l_{ij}u_{jk}=a_{ik}\quad\Rightarrow\quad  u_{ik}=a_{ik}-\sum_{j=1}^{i-1}l_{ij}u_{jk}, \quad i\le k \le n
+\sum_{j=1}^{i}l_{ij}u_{jk}=a_{ik}\quad\Rightarrow\quad
+u_{ik}=a_{ik}-\sum_{j=1}^{i-1}l_{ij}u_{jk}, \quad i\le k \le n
 $$
+
 这里引入了 $(i-1)(n+1-i)$ 次乘除法与 $(i-1)(n+1-i)$ 次加减法。
 
 对于递归(2)，有：
+
 $$
-\sum_{j=1}^{i}l_{kj}u_{ji}=a_{ki}\quad\Rightarrow\quad l_{ki}=\frac{a_{ki}-\sum_{j=1}^{i-1}l_{kj}u_{ji}}{u_{ii}}, \quad i< k\le n
+\sum_{j=1}^{i}l_{kj}u_{ji}=a_{ki}\quad\Rightarrow\quad
+l_{ki}=\frac{a_{ki}-\sum_{j=1}^{i-1}l_{kj}u_{ji}}{u_{ii}}, \quad i< k\le n
 $$
+
 这里引入了 $i(n-i)$ 次乘除法与 $(i-1)(n-i)$ 次加减法。
 
 从 $i=1$ 一直递归到 $i=n$，就可以完成 $LU$ 分解了。
 
 乘除法数为
+
 $$
 \begin{align*}
 
-    \sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)&=\sum_{i=1}^{n}-\frac{2}{3}\Delta (i^3)+(n+2)\Delta (i^2)-(2n+\frac{7}{3})\Delta (i)\\
-    &=\frac{1}{3}n^3-\frac{1}{3}n
+  \sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)&=\sum_{i=1}^{n}-\frac{2}{3}\Delta
+  (i^3)+(n+2)\Delta (i^2)-(2n+\frac{7}{3})\Delta (i)\\
+  &=\frac{1}{3}n^3-\frac{1}{3}n
 
 \end{align*}
 $$
 
 加减法数为
+
 $$
 \begin{align*}
 
-    \sum_{i=1}^{n}(i-1)(2n+1-i)&=\sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)-\sum_{i=1}^{n}(n-i)\\
-    &=\frac{1}{3}n^3-\frac{1}{2}n^2+\frac{1}{6}n
+  \sum_{i=1}^{n}(i-1)(2n+1-i)&=\sum_{i=1}^{n}(i-1)(n+1-i)+i(n-i)-\sum_{i=1}^{n}(n-i)\\
+  &=\frac{1}{3}n^3-\frac{1}{2}n^2+\frac{1}{6}n
 
 \end{align*}
 $$
@@ -600,12 +628,16 @@ $$
 b)
 
 考虑 $\vec{y}$ 的前 $i-1$ 位已被求解，欲求解第 $i$ 位，有
+
 $$
-\sum_{k=1}^{i}l_{ik}y_k=b_i\quad\Rightarrow\quad y_i=b_i-\sum_{k=1}^{i-1}l_{ik}y_k
+\sum_{k=1}^{i}l_{ik}y_k=b_i\quad\Rightarrow\quad
+y_i=b_i-\sum_{k=1}^{i-1}l_{ik}y_k
 $$
+
 这里引入了 $i-1$ 次乘除法和 $i-1$ 次加减法。
 
 于是乘除法与加减法数都为
+
 $$
 \sum_{i=1}^{n}(i-1)=\frac{n(n-1)}{2}
 $$
@@ -615,19 +647,25 @@ c)
 与 (b) 中相反， $U\vec{x}=\vec{y}$ 的求解是从下往上的，且因为 $u_{ii}$ 可能不为 $1$，导致每一次都需要多进行一次除法，因此会每次引入 $i$ 次乘除法和 $i-1$ 次加减法
 
 于是乘法数为
+
 $$
 \frac{n(n+1)}{2}
 $$
+
 加减法数为
+
 $$
 \frac{n(n-1)}{2}
 $$
 
 通过求和，可以解得总共需要的乘除法数量为
+
 $$
 \frac{1}{3}n^3+n^2-\frac{1}{3}n
 $$
+
 加减法数量为
+
 $$
 \frac{1}{3}n^3+\frac{1}{2}n^2-\frac{5}{6}n
 $$
@@ -637,11 +675,13 @@ $$
 d)
 
 乘除法总数为
+
 $$
 \frac{1}{3}n^3-\frac{1}{3}n+mn^2
 $$
 
 加减法总数为
+
 $$
 \frac{1}{3}n^3-\frac{1}{2}n^2+\frac{1}{6}n+mn^2-mn=\frac{1}{3}n^3+(m-\frac{1}{2})n^2+(\frac{1}{6}-m)n
 $$
@@ -688,11 +728,13 @@ $$
 (ii) 这由正定性是显然的，我们只要取 $\vec{x_i}$ 的第 $i$ 位为 $1$，其它位为零，然后用 $\vec{x}^TA\vec{x}>0$ 的条件代入就可知， $A$ 的对角线元素必然严格大于零。
 
 (iii) 我们同样采用构造的方法。我们任意取 $i, j$，使得 $x_i=1, x_j=-1$，且 $\vec{x}$ 的其它位为 $0$。那么，有(采用爱因斯坦求和约定)：
+
 $$
 \vec{x}^TA\vec{x}=x_pA_{pq}x_q=A_{ii}+A_{jj}-2A_{ij}
 $$
 
 不妨设 $A_{ii}\ge A_{jj}$，则有
+
 $$
 2A_{ii}-2A_{ij}\ge A_{ii}+A_{jj}-2A_{ij}>0\Rightarrow A_{ii}>A_{ij}
 $$
@@ -702,14 +744,17 @@ $$
 综上，对于任意的 $j$，均存在 $i\ne j$ 使得 $A_{ii}>|A_{ij}|$，证毕。
 
 (iv) 令 $x_i=t, x_j=1, i\ne j$，其余位为 $0$，则有
+
 $$
 A_{ii}t^2+2A_{ij}t+A_{jj}>0
 $$
 
 左式作为一个一元二次方程，它的 $\Delta$ 应当小于零，即
+
 $$
 4a_{ij}^2-4a_{ii}a_{jj}<0
 $$
+
 化简即为所求。
 
 #### P412-T17
@@ -719,8 +764,10 @@ $$
 ![alt text](mdPaste/numericalAnalysis/image-8.png)
 
 (a) 只要计算行列式为 $0$ 即可。
+
 $$
-|A|=-\alpha+2(2\alpha-\beta)=0\quad\Rightarrow \quad\forall 3\alpha = 2\beta\text{ 均可}
+|A|=-\alpha+2(2\alpha-\beta)=0\quad\Rightarrow \quad\forall 3\alpha =
+2\beta\text{ 均可}
 $$
 
 (b)  $\forall|\alpha| >1, |\beta| < 1$ 即可
@@ -728,11 +775,12 @@ $$
 (c)  $\forall\alpha; \beta=1$
 
 (d) 只需所有主子矩阵的行列式均为正。于是有：
+
 $$
 \begin{align*}
-\alpha >0\\
-2\alpha-\beta >0\\
-3\alpha-2\beta>0
+  \alpha >0\\
+  2\alpha-\beta >0\\
+  3\alpha-2\beta>0
 \end{align*}
 $$
 
@@ -745,11 +793,15 @@ $$
 ### 向量的范数
 
 我们定义向量的范数 norm。范数需要满足:
+
 $$
 \begin{aligned}
-\text{(1) 非负性 positive definite：} \quad & \|x\| \ge 0 \quad \text{且} \quad \|x\|=0 \iff x=\mathbf{0}, \\
-\text{(2) 齐次性 homogeneous：} \quad & \|\alpha x\| = |\alpha| \, \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
-\text{(3) 三角不等式 triangle inequality：} \quad & \|x+y\| \le \|x\| + \|y\|, \quad \forall x, y.
+  \text{(1) 非负性 positive definite：} \quad & \|x\| \ge 0 \quad
+  \text{且} \quad \|x\|=0 \iff x=\mathbf{0}, \\
+  \text{(2) 齐次性 homogeneous：} \quad & \|\alpha x\| = |\alpha| \,
+  \|x\|, \quad \forall \alpha\in\mathbb{R}, \\
+  \text{(3) 三角不等式 triangle inequality：} \quad & \|x+y\| \le \|x\| +
+  \|y\|, \quad \forall x, y.
 \end{aligned}
 $$
 
@@ -785,6 +837,7 @@ $$
 ### 矩阵的范数
 
 一般而言，前面提到的性质对于范数已经足够了。然而，为了便于分析，我们往往要求矩阵的范数还满足如下条件：
+
 $$
 \text{一致性 consistent：}\|AB\|\le\|A\|\cdot\|B\|
 $$
@@ -803,17 +856,20 @@ $$
 * $p$ 阶自然范数：
 
 $$
-\|A\|_p=\max_{\vec{x}\ne \vec{0}}\frac{\|A\vec{x}\|_p}{\|\vec{x}\|_p}=\max_{\|\vec{x}\|=1}\|A\vec{x}\|_p
+\|A\|_p=\max_{\vec{x}\ne
+\vec{0}}\frac{\|A\vec{x}\|_p}{\|\vec{x}\|_p}=\max_{\|\vec{x}\|=1}\|A\vec{x}\|_p
 $$
+
 这个依赖于向量的定义似乎有些奇怪，但其实它表现了空间各个方向上矩阵算子最强的拉伸能力。
 
 常用的自然范数有：
+
 $$
 \begin{align*}
 
-    \|A\|_{\infty}&=\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|\\
-    \|A\|_{\infty}&=\max_{1\le j\le n}\sum_{i=1}^n|a_{ij}|\\
-    \|A\|_2&=\sqrt{\lambda_{\text{max}}(A^TA)}(\text{谱范数})
+  \|A\|_{\infty}&=\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|\\
+  \|A\|_{\infty}&=\max_{1\le j\le n}\sum_{i=1}^n|a_{ij}|\\
+  \|A\|_2&=\sqrt{\lambda_{\text{max}}(A^TA)}(\text{谱范数})
 
 \end{align*}
 $$
@@ -846,16 +902,19 @@ $$
 雅可比迭代法的思路是构造一个便于求解的迭代式(系数矩阵只是个对角阵)，以提高迭代效率。
 
 我们把一个矩阵 $A$ 分成对角阵 $D$ 与上三角阵 $-U$ 和下三角阵 $-L$ 的和，则有
+
 $$
 A \mathbf{x}= \mathbf{b}\iff D \mathbf{x}=(L+U) \mathbf{x}+ \mathbf{b}
 $$
 
 这就出现了一个可迭代式(假设 $D$ 可逆)
+
 $$
 \mathbf{x}=D^{-1}(L+U) \mathbf{x}+ D^{-1}\mathbf{b}
 $$
 
 我们定义雅可比迭代法的系数 $T_j=D^{-1}(L+U), \mathbf{c_j}=D^{-1}b$，则有迭代式
+
 $$
 \mathbf{x}^{(k)}=T_j\mathbf{x}^{(k-1)}+\mathbf{c_j}
 $$
@@ -880,11 +939,14 @@ $$
 > 当然，我们还需要保证迭代式易于求解的问题，因此一些拥有优良性质的矩阵就适合被留下来，把剩余部分扔到迭代右式里。
 
 Gauss-Seidel Iterative Method 的思路就是解一个系数矩阵为下三角矩阵的迭代式。我们做如下拆分：
+
 $$
-(D-L)\mathbf{x}=U \mathbf{x}+\mathbf{b}\iff \mathbf{x}=(D-L)^{-1}U \mathbf{x}+(D-L)^{-1}\mathbf{b}
+(D-L)\mathbf{x}=U \mathbf{x}+\mathbf{b}\iff \mathbf{x}=(D-L)^{-1}U
+\mathbf{x}+(D-L)^{-1}\mathbf{b}
 $$
 
 类似地，我们定义 $T_g=(D-L)^{-1}U, \mathbf{c_g}=(D-L)^{-1}\mathbf{b}$，则有迭代式
+
 $$
 \mathbf{x}^{(k)}=T_g\mathbf{x}^{(k-1)}+\mathbf{c_g}
 $$
@@ -956,21 +1018,28 @@ $$
 > 其中 $\mathbf{\Delta }^{(k+1)}$ 是一个有关于 $\mathbf{x}^{(k)}$ 的函数，且当 $\mathbf{x}^{(k)}$ 为不动点时取值为 $\mathbf{0}$。这个函数事实上表现了每一步迭代的步长。
 
 接着这个视角，我们可以把 Gauss-Seidel 迭代法写成如下的形式：
+
 $$
-x_i^{(k+1)}=x_i^{(k)}+\frac{b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}-\sum_{j\ge i}a_{ij}x_j^{(k)}}{a_{ii}}
+x_i^{(k+1)}=x_i^{(k)}+\frac{b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}-\sum_{j\ge
+i}a_{ij}x_j^{(k)}}{a_{ii}}
 $$
+
 特殊地，我们记
+
 $$
 r_i^{(k+1)}=b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}-\sum_{j\ge i}a_{ij}x_j^{(k)}
 $$
+
 并称之为残差 residual。
 
 这样，就有
+
 $$
 x_i^{(k+1)}=x_i^{(k)}+\frac{r_i^{(k+1)}}{a_{ii}}
 $$
 
 回忆一下我们上面提到的视角，我们很容易想到一件事，这个迭代的步长也许可以加一些系数来调整。这也就是所谓的 relaxation method：
+
 $$
 x_i^{(k+1)}=x_i^{(k)}+\omega \frac{r_i^{(k+1)}}{a_{ii}}
 $$
@@ -982,11 +1051,13 @@ $$
 * $\omega >1$ Successive Over-Relaxation Methods
 
 经过化简，我们可以得出 relaxation method 的一个不太简洁的矩阵表示：
+
 $$
 \begin{align*}
 
-    \mathbf{x}^{(k+1)}&=(D-\omega L)^{-1}[(1-\omega )D+\omega U]\mathbf{x}^{(k)}+(D-\omega L)^{-1}\omega \mathbf{b}\\
-    &=T_{\omega }\mathbf{x}^{(k)}+\mathbf{c}_\omega
+  \mathbf{x}^{(k+1)}&=(D-\omega L)^{-1}[(1-\omega )D+\omega
+  U]\mathbf{x}^{(k)}+(D-\omega L)^{-1}\omega \mathbf{b}\\
+  &=T_{\omega }\mathbf{x}^{(k)}+\mathbf{c}_\omega
 
 \end{align*}
 $$
@@ -995,7 +1066,7 @@ $$
 
 ![alt text](mdPaste/numericalAnalysis/image-11.png)
 
-对于不同的方程，我们可以通过调整 $\omega $，使得谱半径达到最小，此时收敛速度最快。
+对于不同的方程，我们可以通过调整 $\omega$，使得谱半径达到最小，此时收敛速度最快。
 
 ### Homework
 
@@ -1007,10 +1078,13 @@ $$
 > $$
 
 不妨令 $x_t$ 是 $\vec{x}$ 的分量中绝对值最大的，则有
+
 $$
 \|x\|_{\infty}=|x_j|^2\le\sum_{i=1}^nx_i^2=\|x\|_2^2
 $$
+
 且也有
+
 $$
 \|x\|_2^2=\sum_{i=1}^nx_i^2\le nx_j^2
 $$
@@ -1026,10 +1100,10 @@ $$
 
 $$
 \begin{align*}
-\mathbf{x}-\tilde{\mathbf{x}}&\approx 1\times 10^{-4}(8.57, -6.67)^T\\
-\|\mathbf{x}-\tilde{\mathbf{x}}\|&=8.57\times 10^{-4}\\
-A\tilde{\mathbf{x}}-\mathbf{b}&\approx (-0.00020, -0.00012)^T\\
-\|A\tilde{\mathbf{x}}-\mathbf{b}\|&=2.0\times 10^{-4}
+  \mathbf{x}-\tilde{\mathbf{x}}&\approx 1\times 10^{-4}(8.57, -6.67)^T\\
+  \|\mathbf{x}-\tilde{\mathbf{x}}\|&=8.57\times 10^{-4}\\
+  A\tilde{\mathbf{x}}-\mathbf{b}&\approx (-0.00020, -0.00012)^T\\
+  \|A\tilde{\mathbf{x}}-\mathbf{b}\|&=2.0\times 10^{-4}
 \end{align*}
 $$
 
@@ -1049,15 +1123,21 @@ $$
 非负性和齐次性显然。
 
 对于三角不等式，设 $\mathbf{x}=\mathbf{x_i}$ 令 $\|A\mathbf{x}\|$ 取最大， $\mathbf{x}=\mathbf{x_j}$ 令 $\|B\mathbf{x}\|$ 取最大， $\mathbf{x}=\mathbf{x_k}$ 令 $\|(A+B)\mathbf{x}\|$ 取最大，有
+
 $$
-\|A+B\|=\|(A+B)\mathbf{x_k}\|\le \|A\mathbf{x_k}\|+\|B\mathbf{x_k}\|\le\|A\mathbf{x_i}\|+\|B\mathbf{x_j}\|=\|A\|+\|B\|
+\|A+B\|=\|(A+B)\mathbf{x_k}\|\le
+\|A\mathbf{x_k}\|+\|B\mathbf{x_k}\|\le\|A\mathbf{x_i}\|+\|B\mathbf{x_j}\|=\|A\|+\|B\|
 $$
 
 对于一致性，有
+
 $$
-\forall \|\mathbf{x}\|=1, \|AB\mathbf{x}\|=\|A(B\mathbf{x})\|\le\|A\|\|B\mathbf{x}\|\le\|A\|\|B\|
+\forall \|\mathbf{x}\|=1,
+\|AB\mathbf{x}\|=\|A(B\mathbf{x})\|\le\|A\|\|B\mathbf{x}\|\le\|A\|\|B\|
 $$
+
 即
+
 $$
 \|AB\|\le\|A\|\|B\|
 $$
@@ -1107,26 +1187,32 @@ $$
 只以 (d), (h) 为例。
 
 (d):
-$$
-\det\begin{pmatrix}
 
-    1-\lambda &1\\
-    -2&-2-\lambda
+$$
+\det
+\begin{pmatrix}
+
+  1-\lambda &1\\
+  -2&-2-\lambda
 
 \end{pmatrix}=\lambda ^2+\lambda =0
 $$
+
 解得 $\lambda _1=0, \lambda _2=-1$，故谱半径为 $1$，不收敛。
 
 (h):
-$$
-\det\begin{pmatrix}
 
-    3-\lambda &2&-1\\
-    1&-2-\lambda &3\\
-    2&0&4-\lambda
+$$
+\det
+\begin{pmatrix}
+
+  3-\lambda &2&-1\\
+  1&-2-\lambda &3\\
+  2&0&4-\lambda
 
 \end{pmatrix}=-\lambda ^3+5 \lambda ^2+2 \lambda -24=0
 $$
+
 解得 $\lambda _1=3, \lambda _2=4, \lambda _3=-2$，故谱半径为 $4$，不收敛。
 
 #### p453-T13
@@ -1136,34 +1222,43 @@ $$
 > 如果 $a_{ii}\ne 0, i=1, 2, \ldots, n$，则有 $\rho (T_\omega )\ge| \omega -1|$
 
 Proof:
+
 $$
 T_\omega =(D-\omega L)^{-1}[(1-\omega )D+\omega U]
 $$
+
 首先，让我们回忆一下线性代数的内容：
 
 对于 $n$ 阶矩阵 $A$，有它的特征多项式 $\det(\lambda E-A)$ 等于
+
 $$
-\lambda ^n+b_1 \lambda ^{n-1}+\ldots+b_{n-1} \lambda +b_n, \text{ where } b_k=(-1)^kS_k
+\lambda ^n+b_1 \lambda ^{n-1}+\ldots+b_{n-1} \lambda +b_n, \text{
+where } b_k=(-1)^kS_k
 $$
+
 其中 $S_k$ 为 $A$ 的所有 $k$ 阶主子式之和。
 
 由这个定理，可以得到两个重要推论：
+
 $$
 \begin{align*}
 
-    \sum_{i=1}^{n}\lambda _i&=\sum_{i=1}^{n}a_{ii}\\
-    \prod_{i=1}^n \lambda _i&=\det(A)
+  \sum_{i=1}^{n}\lambda _i&=\sum_{i=1}^{n}a_{ii}\\
+  \prod_{i=1}^n \lambda _i&=\det(A)
 
 \end{align*}
 $$
+
 而我们需要使用的是第二个。
 
 我们可以注意到， $(D-\omega L)^{-1}$ 是一个下三角矩阵， $[(1-\omega )D+\omega U]$ 是一个上三角矩阵，而它们的行列式是非常好计算的，即为对角线元素的乘积。
 
 对于 $(D-\omega L)^{-1}$，其对角线元素为 $\frac{1}{a_{ii}}$；对于 $[(1-\omega )D+\omega U]$，其对角线元素为 $\frac{1-\omega }{a_{ii}}$。于是，我们有
+
 $$
 \det(T_\omega )=(1-\omega )^n
 $$
+
 根据平均原则，特征值最大的模至少要为 $|1-\omega|$，得证。
 
 ## Error Bounds and Iterative Refinement
@@ -1171,8 +1266,11 @@ $$
 ### Condition Number 条件数
 
 对于一个方程 $A(\mathbf{x}+\delta \mathbf{x})=\mathbf{b}+\delta \mathbf{b}$，有相对误差范围
+
 $$
-\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \left\|A\right\|\cdot \left\|A^{-1}\right\|\cdot \frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|}
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le
+\left\|A\right\|\cdot \left\|A^{-1}\right\|\cdot \frac{\left\|\delta
+\mathbf{b}\right\|}{\left\|\mathbf{b}\right\|}
 $$
 
 $\left\|A\right\|\cdot \left\|A^{-1}\right\|$ 表现了相对误差的放大系数，被记为 $K(A)$，即条件数 condition number。可以看出，我们希望 $K(A)$ 越小越好。
@@ -1192,14 +1290,24 @@ $\left\|A\right\|\cdot \left\|A^{-1}\right\|$ 表现了相对误差的放大系�
 $$
 (A+\delta A)(\mathbf{x}+\delta \mathbf{x})=\mathbf{b}
 $$
+
 此时有结论
+
 $$
-\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \frac{K(A)\frac{\left\|\delta A\right\|}{\left\|A\right\|}}{1-K(A)\frac{\left\|\delta  A\right\|}{\left\|A\right\|}}
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le
+\frac{K(A)\frac{\left\|\delta
+A\right\|}{\left\|A\right\|}}{1-K(A)\frac{\left\|\delta
+A\right\|}{\left\|A\right\|}}
 $$
 
 更进一步地，当 $A$ 和 $\mathbf{b}$ 均存在误差时，如果我们限制  $\left\|\delta A\right\|<\frac{1}{\left\|A^{-1}\right\|}$，则有
+
 $$
-\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le \frac{K(A)}{1-K(A)\frac{\left\|\delta A\right\|}{\left\|A\right\|}}\left( \frac{\left\|\delta A\right\|}{\left\|A\right\|}+\frac{\left\|\delta \mathbf{b}\right\|}{\left\|\mathbf{b}\right\|} \right)
+\frac{\left\|\delta \mathbf{x}\right\|}{\left\|\mathbf{x}\right\|}\le
+\frac{K(A)}{1-K(A)\frac{\left\|\delta
+A\right\|}{\left\|A\right\|}}\left( \frac{\left\|\delta
+  A\right\|}{\left\|A\right\|}+\frac{\left\|\delta
+\mathbf{b}\right\|}{\left\|\mathbf{b}\right\|} \right)
 $$
 
 ### 数值秩
@@ -1215,17 +1323,23 @@ $$
 在线性方程组的迭代求解中，我们同样引入残差向量的概念：
 
 对于迭代过程中的某个 $\mathbf{x}^{(k)}$，有其残差为
+
 $$
 \mathbf{r}^{(k)}=\mathbf{b}-A \mathbf{x}^{(k)}
 $$
 
 类似于 $\mathbf{b}$ 存在误差时对解的误差的估计，对于任意的自然范数，我们有
+
 $$
-\frac{\left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|}{\left\|\mathbf{x}\right\|}\le K(A)\frac{\left\|\mathbf{r}^{(k)}\right\|}{\left\|\mathbf{b}\right\|}
+\frac{\left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|}{\left\|\mathbf{x}\right\|}\le
+K(A)\frac{\left\|\mathbf{r}^{(k)}\right\|}{\left\|\mathbf{b}\right\|}
 $$
+
 这也等价于
+
 $$
-\left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|\le \left\|\mathbf{r}^{(k)}\right\|\cdot \left\|A^{-1}\right\|
+\left\|\mathbf{x}-\mathbf{x}^{(k)}\right\|\le
+\left\|\mathbf{r}^{(k)}\right\|\cdot \left\|A^{-1}\right\|
 $$
 
 据此，我们只需要控制 $\left\|\mathbf{r}^{(k)}\right\|\cdot \left\|A^{-1}\right\|$ 收敛即可。
@@ -1262,8 +1376,10 @@ $$
 首先，回忆二阶矩阵的求逆公式：
 
 对于二阶矩阵 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$，其逆为
+
 $$
-A^{-1}=\frac{\begin{pmatrix}
+A^{-1}=\frac{
+  \begin{pmatrix}
 
     d&-b\\-c&a
 
@@ -1273,6 +1389,7 @@ $$
 于是易解。
 
 对于更高阶的矩阵，回想一下伴随矩阵 $A^*$，它满足 $a^*_{ij}$ 为 $a_{ji}$ 的代数余子式。另一种表达，则是伴随矩阵为原矩阵的代数余子式矩阵的转置。对于矩阵的逆，有
+
 $$
 A^{-1}=\frac{A^*}{\left|A\right|}
 $$
@@ -1288,12 +1405,13 @@ h_{ij}=\frac{1}{i+j-1}
 $$
 
 因此，三阶希尔伯特矩阵为
+
 $$
 \begin{pmatrix}
 
-    1&\frac{1}{2}&\frac{1}{3}\\[1ex]
-    \frac{1}{2}&\frac{1}{3}&\frac{1}{4}\\[1ex]
-    \frac{1}{3}&\frac{1}{4}&\frac{1}{5}
+  1&\frac{1}{2}&\frac{1}{3}\\[1ex]
+  \frac{1}{2}&\frac{1}{3}&\frac{1}{4}\\[1ex]
+  \frac{1}{3}&\frac{1}{4}&\frac{1}{5}
 
 \end{pmatrix}
 $$
@@ -1313,9 +1431,13 @@ $$
 我们考虑把任意的向量 $\mathbf{x}$ 用上述的特征向量分解，并不断地用 $A$ 去乘 $\mathbf{x}$。最终， $A^k\mathbf{x}$ 会趋向于 $\lambda _{1}^{k}\alpha \mathbf{x}_{1}$，其中 $\alpha \mathbf{x}_{1}$ 为 $\mathbf{x}$ 在 $\mathbf{x}_1$ 上的分量（考虑 $|\lambda _1|$ 严格大于 $|\lambda _2|$，因此其它分量会等比收敛）。
 
 在有了 $A^k \mathbf{x}\to \lambda _1^k \alpha \mathbf{x}_1$ 的认识的基础上，我们也很容易想到，用
+
 $$
-\lambda _1\approx \frac{\left\|\mathbf{x}^{(k+1)}\right\|}{\left\|\mathbf{x^{(k)}}\right\|}, \mathbf{x}^{(k)}=A^{(k)} \mathbf{x}
+\lambda _1\approx
+\frac{\left\|\mathbf{x}^{(k+1)}\right\|}{\left\|\mathbf{x^{(k)}}\right\|},
+\mathbf{x}^{(k)}=A^{(k)} \mathbf{x}
 $$
+
 的方式来估计 $\lambda _1$，并通过每次迭代中估计值的变化量来决定是否停止迭代。
 
 当然，这样的方法存在问题，那就是你无法保证计算的稳定性。考虑 $\left|\lambda _1\right|<1$ 的情况，随着迭代的进行， $\|\mathbf{x}^{(k)}\|$ 会逐渐趋于零，导致计算误差增大。因此，一个朴素的想法是，让每一次迭代后都做一次标准化，保证 $\|\mathbf{x}^{(k)}\|$ 在一个合适的范围。
@@ -1340,17 +1462,22 @@ $$
 如果我们考虑使用对 $\lambda _i$ 所在的一维坐标系平移来实现这一点，最大限度地提升 $\left|\frac{\lambda _1}{\lambda _2}\right|$ 的办法是，让新的坐标原点为旧系中的 $\frac{\lambda _2+\lambda _n}{2}$，即构造一个新的矩阵，使得所有的特征值都减去 $p=\frac{\lambda _2+\lambda _n}{2}$。
 
 这种新的矩阵可以简单地通过 $B=A-pI$ 来构造。此时，有
+
 $$
-\left|\frac{\lambda _1-p}{\lambda _2-p}\right|>\left|\frac{\lambda _1}{\lambda _2}\right|
+\left|\frac{\lambda _1-p}{\lambda _2-p}\right|>\left|\frac{\lambda
+_1}{\lambda _2}\right|
 $$
+
 即收敛加速。
 
 这时，我们需要求解 $\lambda _n$。考虑对 $A^{-1}$ 做迭代，那么我们将解出其 dominant eigenvalue 为 $\frac{1}{\lambda _n}$。
 
 需要注意的是，由于计算矩阵的逆较为麻烦，我们实际上在每一次迭代中用
+
 $$
 A \mathbf{x'}^{(k+1)}=\mathbf{x'}^{(k)}
 $$
+
 的方式解出 $\mathbf{x'}^{(k+1)}$。
 
 > 你可能发现了，其实我们只要提升收敛速度就好， $p$ 的取值只要有道理就好了。因此，我们也可以选择求解一些虽然不能最大限度提升收敛速度，但是求解上比较方便的 $p$，并据此提升收敛速度。
@@ -1372,10 +1499,13 @@ $$
 拉格朗日插值 $P_n$ 是由多个拉格朗日基函数(basis function) $L_{n, i}$ 组合而成的。
 
 对于 $n+1$ 个点 $(x_i, y_i)$，有
+
 $$
 P_n(x)=\sum_{i=0}^{n}L_{n, i}(x)y_i
 $$
+
 而每一个基函数的表达式为
+
 $$
 L_{n, i}=\prod_{j\ne i, j=0}^{n}(x-x_j)\cdot \prod_{j\ne i}^{}\frac{1}{x_i-x_j}
 $$
@@ -1385,15 +1515,19 @@ $$
 ### Remainder
 
 我们走进了近似函数这一步，自然也要有对函数近似的误差。对于一个函数 $f$ 和与之对应的插值函数 $P$，我们有误差函数
+
 $$
 R(x)=f(x)-P(x)
 $$
+
 如果我们对 $f$ 在 $[a, b]$ 中的 $n+1$ 个 $x_0\le x_1\ldots\le x_n$ 取拉格朗日插值 $P_n$ ，且 $f(x)\in C^{n+1}[a, b]$，则有
+
 $$
 R_n(x)=f(x)-P_n(x)
 $$
 
 显然地， $R_n$ 拥有 $n+1$ 个根，于是我们一定能把它写成
+
 $$
 R_n(x)=K(x)\prod_{i=0}^{n}(x-x_i)
 $$
@@ -1405,30 +1539,41 @@ $$
 这里，我们采用换一个元的方式做拆分：
 
 对于任意的 $x\ne x_i$，我们暂时先把它固定住，然后引入一个新的变量 $t$。当 $t=x$ 时，就会有
+
 $$
 R_n(t)=K(x)\prod_{i=0}^{n}(t-x_i)
 $$
+
 这时，我们不难发现，这个发生了变量替换之后产生的方程，总共拥有 $n+2$ 个解。换而言之，如果我们定义
+
 $$
 g(t)=R_n(t)-K(x)\prod_{i=0}^{n}(t-x_i)=f(t)-P_n(t)-K(x)\prod_{i=0}^{n}(t-x_i)
 $$
+
 那么 $g(t)$ 会拥有 $n+2$ 个根。
 
 根据罗尔中值定理，我们可以在 $[a, b]$ 上找到某个点 $\xi$ ，使得 $g(\xi )^{(n+1)}=0$。此时，有
+
 $$
 f^{(n+1)}(\xi )-K(x)\cdot(n+1)! =0
 $$
+
 即得
+
 $$
 K(x)=\frac{f^{(n+1)}(\xi )}{(n+1)!}
 $$
+
 综上有
+
 $$
 R_n(x)=\frac{f^{(n+1)}(\xi )}{(n+1)!}\prod_{i=0}^{n}(x-x_i)
 $$
+
 在直观方面，我们取 $p(x)=\prod_{i=0}^{n}(x-x_i)$，这可以看成一个基础的单位插值多项式。
 
 那么，我们就可以把 $R_n(x)$ 表示成
+
 $$
 R_n(x)=\frac{f^{(n+1)}(\xi )}{p^{(n+1)}(\xi )}p(x)
 $$
@@ -1456,9 +1601,12 @@ $k$ 阶的拉格朗日插值多项式之间存在着递推的关系，这表现�
 Neville's Method 就是一个利用这种递推关系来求解高阶拉格朗日插值多项式的方法。
 
 我们不妨简记 $P_{0, 1, \ldots, k}(x)=N_{0, k}$，那么就能发现这样一件事情：
+
 $$
-N_{i, j+1}=\frac{x-x_{j+1}}{x_i-x_{j+1}} N_{i, j}+ \frac{x_i-x}{x_i-x_{j+1}} N_{i+1, j+1}
+N_{i, j+1}=\frac{x-x_{j+1}}{x_i-x_{j+1}} N_{i, j}+
+\frac{x_i-x}{x_i-x_{j+1}} N_{i+1, j+1}
 $$
+
 这足以让我们建立一个合适的递推方法。
 
 我们不妨用一个二维坐标来描述求解 $N_{0, k}$ 的思路。把 $N_{i, j}$ 映射为坐标 $(i, j)$，则有：
@@ -1497,37 +1645,42 @@ $$
 对于单个取样点 $x_0$，牛顿插值为 $f_0$。
 
 再加一个取样点 $x_1$，我们希望保持前面的插值不变，因此新加的基函数 $N^{(1)}=(x-x_0)$。于是，牛顿插值为
+
 $$
 f_0+(x-x_0)\frac{f_1-f_0}{x_1-x_0}
 $$
 
 依次类推，第 $i+1$ 个基函数也就是
+
 $$
 N^{(i)}=\prod_{j=0}^{j<i}(x-x_j)
 $$
+
 我们再把对应的系数记为 $\alpha ^{(i)}$，那么，我们求解牛顿插值的过程，其实也就是求解一个线性方程组：
+
 $$
 \begin{pmatrix}
-1 & 0 & 0 & \cdots & 0 \\
-1 & (x_1 - x_0) & 0 & \cdots & 0 \\
-1 & (x_2 - x_0) & (x_2 - x_0)(x_2 - x_1) & \cdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
-1 & (x_n - x_0) & (x_n - x_0)(x_n - x_1) & \cdots & \prod_{j=0}^{n-1}(x_n - x_j)
+  1 & 0 & 0 & \cdots & 0 \\
+  1 & (x_1 - x_0) & 0 & \cdots & 0 \\
+  1 & (x_2 - x_0) & (x_2 - x_0)(x_2 - x_1) & \cdots & 0 \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  1 & (x_n - x_0) & (x_n - x_0)(x_n - x_1) & \cdots &
+  \prod_{j=0}^{n-1}(x_n - x_j)
 \end{pmatrix}
 \begin{pmatrix}
-\alpha^{(0)} \\
-\alpha^{(1)} \\
-\alpha^{(2)} \\
-\vdots \\
-\alpha^{(n)}
+  \alpha^{(0)} \\
+  \alpha^{(1)} \\
+  \alpha^{(2)} \\
+  \vdots \\
+  \alpha^{(n)}
 \end{pmatrix}
 =
 \begin{pmatrix}
-f(x_0) \\
-f(x_1) \\
-f(x_2) \\
-\vdots \\
-f(x_n)
+  f(x_0) \\
+  f(x_1) \\
+  f(x_2) \\
+  \vdots \\
+  f(x_n)
 \end{pmatrix}
 $$
 
@@ -1542,30 +1695,39 @@ $$
 我们介绍差分作为表述牛顿插值的一种形式。
 
 函数的一阶差分如下表示：
+
 $$
 f[x_i, x_j]=\frac{f(x_i)-f(x_j)}{x_i-x_j}(i\ne j , x_i\ne x_j)
 $$
 
 且函数差分之间存在如下的递推关系：
+
 $$
-f[x_0, \ldots, x_{k+1}]=\frac{f[x_0, x_1, \ldots, x_k]-f[x_1, \ldots, x_k, x_{k+1}]}{x_0-x_{k+1}}
+f[x_0, \ldots, x_{k+1}]=\frac{f[x_0, x_1, \ldots, x_k]-f[x_1, \ldots,
+x_k, x_{k+1}]}{x_0-x_{k+1}}
 $$
 
 经过推导，我们可以得到
+
 $$
-f[x_0, \ldots, x_k]=\sum_{i=0}^{k}\frac{f(x_i)}{\prod_{j=0, j\ne i}^{k}(x_i-x_j)}
+f[x_0, \ldots, x_k]=\sum_{i=0}^{k}\frac{f(x_i)}{\prod_{j=0, j\ne
+i}^{k}(x_i-x_j)}
 $$
 
 这事实上在说明一件事情，也就是 $f[x_0, \ldots, x_k]$ 的取值与 $x_0, \ldots, x_k$ 的顺序是没有关系的。也正因此，上面的递推式中，其实取任意两个点之间的差都是可以的。
 
 那么，我们就可以写出这样一个式子：
+
 $$
-f[x, x_0, \ldots, x_{k+1}]=\frac{f[x, x_0, \ldots, x_k]-f[x_0, \ldots, x_{k+1}]}{x-x_{k+1}}
+f[x, x_0, \ldots, x_{k+1}]=\frac{f[x, x_0, \ldots, x_k]-f[x_0,
+\ldots, x_{k+1}]}{x-x_{k+1}}
 $$
 
 通过整理，可以得到
+
 $$
-f[x, x_0, \ldots, x_k]=f[x_0, \ldots, x_{k+1}]+f[x, x_0, \ldots, x_{k+1}](x-x_{k+1})
+f[x, x_0, \ldots, x_k]=f[x_0, \ldots, x_{k+1}]+f[x, x_0, \ldots,
+x_{k+1}](x-x_{k+1})
 $$
 
 把左侧看成一个函数，右边就可以看成添加一个取样点 $x_{k+1}$ 后对它的重新表示。这让我们联想到牛顿插值中不断添加取样点的过程。
@@ -1573,9 +1735,11 @@ $$
 ![alt text](mdPaste/numericalAnalysis/image-14.png)
 
 于是，对于一个函数 $f(x)$，我们总是可以把它表示成
+
 $$
 \begin{align*}
-f(x)&=f(x_0)+f[x_0, x_1](x-x_0)+\ldots+f[x_0, \ldots, x_n](x-x_0)\ldots(x-x_{n-1})\\&+f[x, x_0, \ldots, x_n](x-x_0)\ldots(x-x_n)
+  f(x)&=f(x_0)+f[x_0, x_1](x-x_0)+\ldots+f[x_0, \ldots,
+  x_n](x-x_0)\ldots(x-x_{n-1})\\&+f[x, x_0, \ldots, x_n](x-x_0)\ldots(x-x_n)
 \end{align*}
 $$
 
@@ -1592,19 +1756,25 @@ $$
 #### 牛顿前向差分
 
 我们令牛顿插值的采样间距 $x_{i+1}-x_i=h$，并假设我们需要估计的点坐标为 $x=x_0+th$。定义前向差分为：
+
 $$
 \begin{align*}
-\Delta y_0&=y_1-y_0\\
-\Delta ^2y_0&=\Delta y_1-\Delta y_0\\
-\Delta y_i&=y_{i+1}-y_i\\
-\Delta ^ky_i&=\Delta^{k-1} y_{i+1}-\Delta^{k-1} y_i
+  \Delta y_0&=y_1-y_0\\
+  \Delta ^2y_0&=\Delta y_1-\Delta y_0\\
+  \Delta y_i&=y_{i+1}-y_i\\
+  \Delta ^ky_i&=\Delta^{k-1} y_{i+1}-\Delta^{k-1} y_i
 \end{align*}
 $$
+
 那么，就可以得到
+
 $$
-f(x)\approx y_0+t \Delta y_0+\frac{t(t-1)}{2}\Delta ^2y_0+\ldots+\frac{t(t-1)\ldots (t-n+1)}{n!}\Delta^n y_0
+f(x)\approx y_0+t \Delta y_0+\frac{t(t-1)}{2}\Delta
+^2y_0+\ldots+\frac{t(t-1)\ldots (t-n+1)}{n!}\Delta^n y_0
 $$
+
 误差为
+
 $$
 \frac{f^{n+1}(\xi )}{(n+1)!}t(t-1)\ldots(t-n)h^{n+1}
 $$
@@ -1612,49 +1782,60 @@ $$
 #### 牛顿后向差分
 
 同样地，我们定义后向差分为：
+
 $$
 \begin{align*}
-\nabla y_n&=y_n-y_{n-1}\\
-\nabla ^2y_n&=\nabla y_n-\nabla y_{n-1}\\
-\nabla ^ky_n&=\nabla ^{k-1}y_n-\nabla ^{k-1}y_{n-1}
+  \nabla y_n&=y_n-y_{n-1}\\
+  \nabla ^2y_n&=\nabla y_n-\nabla y_{n-1}\\
+  \nabla ^ky_n&=\nabla ^{k-1}y_n-\nabla ^{k-1}y_{n-1}
 \end{align*}
 $$
+
 并假设需要估计的点坐标为 $x=x_n+th$，则有
+
 $$
-f(x)\approx y_n+t \nabla y_n+ \frac{t(t+1)}{2}\nabla ^2y_n+\ldots+\frac{t(t+1)\ldots(t+n-1)}{n!}\nabla ^ny_n
+f(x)\approx y_n+t \nabla y_n+ \frac{t(t+1)}{2}\nabla
+^2y_n+\ldots+\frac{t(t+1)\ldots(t+n-1)}{n!}\nabla ^ny_n
 $$
+
 误差为
+
 $$
 \frac{f^{n+1}(\xi )}{(n+1)!}t(t+1)\ldots(t+n)h^{n+1}
 $$
+
 符合直觉地，当待估计点与 $x_0$ 更近时，前向差分误差更好，反之亦然。
 
 一个例子如下：
 
 有函数满足：
+
 $$
 \begin{align*}
-f(0.0)&=1.00000\\
-f(0.2)&=1.22140\\
-f(0.4)&=1.49182\\
-f(0.6)&=1.82212\\
-f(0.8)&=2.22554
+  f(0.0)&=1.00000\\
+  f(0.2)&=1.22140\\
+  f(0.4)&=1.49182\\
+  f(0.6)&=1.82212\\
+  f(0.8)&=2.22554
 \end{align*}
 $$
+
 我们尝试使用牛顿前向插值来估计 $f(0.05)$。
 
 首先，可以得到 $h=0.2, t=0.25$。
 
 接下来，我们列差分表来实现类似于 Neville 的递推：
+
 $$
 \begin{align*}
-1.00000&{} & {}&{} & {}&{} & {}&{} & {}&{}\\
-1.22140&{} & 0.22140&{} & {}&{} & {}&{} & {}&{}\\
-1.49182&{} & 0.27042&{} & 0.04902&{} & {}&{} & {}&{}\\
-1.82212&{} & 0.33030&{} & 0.05988&{} & 0.01086&{} & {}&{}\\
-2.22554&{} & 0.40342&{} & 0.07312&{} & 0.01324&{} & 0.00238&{}
+  1.00000&{} & {}&{} & {}&{} & {}&{} & {}&{}\\
+  1.22140&{} & 0.22140&{} & {}&{} & {}&{} & {}&{}\\
+  1.49182&{} & 0.27042&{} & 0.04902&{} & {}&{} & {}&{}\\
+  1.82212&{} & 0.33030&{} & 0.05988&{} & 0.01086&{} & {}&{}\\
+  2.22554&{} & 0.40342&{} & 0.07312&{} & 0.01324&{} & 0.00238&{}
 \end{align*}
 $$
+
 这个递推表完成了 0 到 4 阶的前向差分。最后，将对角线上的差分代入公式即可。
 
 ### Hermite Interpolation
@@ -1667,26 +1848,31 @@ Hermite 插值就是这样的插值中的一种特例——它要求一阶导也
 和  $H'_{2n+1}(x_i)=y_i'$。
 
 我们将 Hermite 插值记作
+
 $$
 H_{2n+1}(x)=\sum_{i=0}^{n}y_ih_i(x)+\sum_{i=0}^{n}y_i'\hat{h}_i(x)
 $$
 
 因为系数解已经取了 $y_i$ 和 $y_i'$， 对于 $h_i(x)$，除了 $x_i$ 都是它的重根（因为那里的导数也要取零）。于是，有
+
 $$
 h_i(x)=(A_ix+B_i)L_{n, i}^2(x)
 $$
 
 通过代入条件 $h_i(x_i)=1, h_i'(x_i)=0$，可以解得
+
 $$
 h_i(x)=[1-2L_{n, i}'(x_i)(x-x_i)]L_{n, i}^2(x)
 $$
 
 通过类似的思路，可以解得
+
 $$
 \hat{h}_i(x)=(x-x_i)L_{n, i}^2(x)
 $$
 
 Hermite 插值对应的残差为
+
 $$
 R_n(x)=\frac{f^{2n+2}(\xi )}{(2n+2)!}\left[\prod_{i=0}^{n}(x-x_i)\right]^2
 $$
@@ -1712,76 +1898,96 @@ $$
 Method of Bending Moment 是用于求解 Cubic Spline Interpoloation 的一种方法。
 
 我们记以 $x_0, x_1, \ldots, x_n$ 为采样点的立方样条插值为 $S(x)$，且在 $[x_{j-1}, x_j]$ 上的分段插值为 $S_j(x)$，区间长度 $x_j-x_{j-1}$ 为 $h_j$。然后，我们简记
+
 $$
 M_{j-1}=S_j''(x_{j-1}), M_j=S_j''(x_j)
 $$
+
 根据立方样条插值的条件，我们有
+
 $$
 S_j''(X_{j-1})'=S_{j-1}''(x_{j-1})
 $$
+
 可以发现左右两侧都会被简记成 $M_{j-1}$。因此，这个记法是合理的。
 
 在每一个分段 $[x_{j-1}, x_j]$ 中，我们首先考虑 $S_j''(x)$，它对应着由 $(x_{j-1}, M_{j-1})$ 与 $(x_j, M_j)$ 决定的线性插值。于是有
+
 $$
 S_j''(x)=M_{j-1}\frac{x_j-x}{h_j}+M_j \frac{x-x_{j-1}}{h_j}
 $$
 
 通过把它积分两次，我们可以得到两个含待定系数的方程：
+
 $$
 \begin{align*}
 
-    S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j}\frac{(x-x_{j-1})^2}{2h_j}+A_j\\
-    S_j(x)&=M_{j-1}\frac{(x_j-x)^3}{6h_j}+M_j \frac{(x-x_{j-1})^3}{6h_j}+A_jx+B_j
+  S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j}\frac{(x-x_{j-1})^2}{2h_j}+A_j\\
+  S_j(x)&=M_{j-1}\frac{(x_j-x)^3}{6h_j}+M_j \frac{(x-x_{j-1})^3}{6h_j}+A_jx+B_j
 
 \end{align*}
 $$
 
 如果我们希望通过 $M_j, M_{j-1}$ 表示出 $A_j, B_j$，那么结合
+
 $$
 \begin{align*}
 
-    S_j(x_{j-1})&=y_{j-1}\\
-    S_j(x_j)&=y_j
+  S_j(x_{j-1})&=y_{j-1}\\
+  S_j(x_j)&=y_j
 
 \end{align*}
 $$
+
 两个条件，我们可以构造出二元一次方程组，并求解出
+
 $$
 \begin{align*}
 
-    A_j&=\frac{y_j-y_{j-1}}{h_j}-\frac{M_j-M_{j-1}}{6}h_j=f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
-    % A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h_j^2 \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h_j^2\right)\frac{x-x_{j-1}}{h_j}
-    B_j&=\frac{1}{h_j}(x_j y_{j-1}-x_{j-1}y_j)+\frac{h_j}{6}(M_jx_{j-1}-M_{j-1}x_j)
+  A_j&=\frac{y_j-y_{j-1}}{h_j}-\frac{M_j-M_{j-1}}{6}h_j=f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
+  % A_jx+B_j&=\left( y_{j-1}-\frac{M_{j-1}}{6}h_j^2
+  % \right)\frac{x_j-x}{h_j}+\left(y_j-\frac{M_j}{6}h_j^2\right)\frac{x-x_{j-1}}{h_j}
+  B_j&=\frac{1}{h_j}(x_j
+  y_{j-1}-x_{j-1}y_j)+\frac{h_j}{6}(M_jx_{j-1}-M_{j-1}x_j)
 
 \end{align*}
 $$
+
 然后，根据 $S'(x)$ 在 $x_j$ 处连续，我们有
+
 $$
 \begin{align*}
 
-    % S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
-    % S_{j+1}'(x)&=-M_{j}\frac{(x_{j+1}-x)^2}{2h_{j+1}}+M_{j}\frac{(x-x_{j})^2}{2h_{j+1}}+f[x_{j},x_{j+1}]-\frac{M_{j+1}-M_{j}}{6}h_{j+1}
-    S_j'(x_j)&=f \left[x_{j-1},x_j\right]+\frac{h_j}{6}\left( 2M_j+M_{j-1} \right)\\
-    S_{j+1}'(x_j)&=f \left[x_j,x_{j+1}\right]+\frac{h_{j+1}}{6}\left( 2M_j+M_{j+1} \right)
+  % S_j'(x)&=-M_{j-1}\frac{(x_j-x)^2}{2h_j}+M_{j-1}\frac{(x-x_{j-1})^2}{2h_j}+f[x_{j-1},x_j]-\frac{M_j-M_{j-1}}{6}h_j\\
+  % S_{j+1}'(x)&=-M_{j}\frac{(x_{j+1}-x)^2}{2h_{j+1}}+M_{j}\frac{(x-x_{j})^2}{2h_{j+1}}+f[x_{j},x_{j+1}]-\frac{M_{j+1}-M_{j}}{6}h_{j+1}
+  S_j'(x_j)&=f \left[x_{j-1},x_j\right]+\frac{h_j}{6}\left(
+  2M_j+M_{j-1} \right)\\
+  S_{j+1}'(x_j)&=f \left[x_j,x_{j+1}\right]+\frac{h_{j+1}}{6}\left(
+  2M_j+M_{j+1} \right)
 
 \end{align*}
 $$
+
 且 $S_j'(x_j)=S_{j+1}'(x_j)$
 
 于是，我们可以构造出含三个未知数 $M_{j-1}, M_j, M_{j+1}$ 的方程
+
 $$
 \mu _jM_{j-1}+2M_j+\lambda _jM_{j+1}=g_j
 $$
+
 其中
+
 $$
 \begin{align*}
 
-    \lambda _j&=\frac{h_{j+1}}{h_j+h_{j+1}}\\
-    \mu _j&=1-\lambda _j\\
-    g_j&=\frac{6}{h_j+h_{j+1}}\left( f[x_j,x_{j+1}]-f[x_{j-1},x_j] \right)
+  \lambda _j&=\frac{h_{j+1}}{h_j+h_{j+1}}\\
+  \mu _j&=1-\lambda _j\\
+  g_j&=\frac{6}{h_j+h_{j+1}}\left( f[x_j,x_{j+1}]-f[x_{j-1},x_j] \right)
 
 \end{align*}
 $$
+
 且 $1\le j \le n-1$
 
 现在，我们有 $n+1$ 个未知数 $M_0, \ldots, M_n$，同时有 $n-1$ 个方程。我们还需要加上两个方程才能够求解这个线性方程组。这两个方程对应着 $x_0, x_n$ 上特殊的边界条件。
@@ -1793,25 +1999,29 @@ Clamped boundary 分别提供了两个边界的导数值 $y_0', y_n'$，并要�
 $$
 \begin{align*}
 
-    \lambda _0&=\frac{h_1}{h_0+h_1}=\frac{h_1}{h_1}=1\\
-    \mu _0&=1-1=0\\
-    g_0&=\frac{6}{h_0+h_1}\left( f[x_0,x_1]-f[x_{-1},x_0] \right)=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)
+  \lambda _0&=\frac{h_1}{h_0+h_1}=\frac{h_1}{h_1}=1\\
+  \mu _0&=1-1=0\\
+  g_0&=\frac{6}{h_0+h_1}\left( f[x_0,x_1]-f[x_{-1},x_0]
+  \right)=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)
 
 \end{align*}
 $$
 
 于是有
+
 $$
 2M_0+M_1=g_0
 $$
+
 同理，我们也可以构造出
+
 $$
 \begin{align*}
 
-    \lambda _n&=0\\
-    \mu _n&=1\\
-    g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])\\
-    M_{n-1}+2M_n&=g_n
+  \lambda _n&=0\\
+  \mu _n&=1\\
+  g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])\\
+  M_{n-1}+2M_n&=g_n
 
 \end{align*}
 $$
@@ -1821,11 +2031,12 @@ $$
 我们也可以不对边界的导数值作约束，而是对边界的二阶导做约束。我们提供两个边界的二阶导 $y_0'', y_n''$，并要求 $S_1''(x_0), S_n''(x_n)$ 对应相等。
 
 这时，我们就直接多了两个方程
+
 $$
 \begin{align*}
 
-    M_0&=y_0''\\
-    M_n&=y_n''
+  M_0&=y_0''\\
+  M_n&=y_n''
 
 \end{align*}
 $$
@@ -1840,54 +2051,57 @@ $$
 
 $$
 \begin{pmatrix}
-2 & \lambda _0 & 0 & \cdots & 0 & 0 \\
-\mu_1 & 2 & \lambda_1 & \cdots & 0 & 0 \\
-0 & \mu_2 & 2 & \cdots & 0 & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-0 & 0 & 0 & \cdots & 2 & \lambda_{n-1} \\
-0 & 0 & 0 & \cdots & \mu _n & 2
+  2 & \lambda _0 & 0 & \cdots & 0 & 0 \\
+  \mu_1 & 2 & \lambda_1 & \cdots & 0 & 0 \\
+  0 & \mu_2 & 2 & \cdots & 0 & 0 \\
+  \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+  0 & 0 & 0 & \cdots & 2 & \lambda_{n-1} \\
+  0 & 0 & 0 & \cdots & \mu _n & 2
 \end{pmatrix}
 \begin{pmatrix}
-M_0 \\
-M_1 \\
-M_2 \\
-\vdots \\
-M_{n-1} \\
-M_n
+  M_0 \\
+  M_1 \\
+  M_2 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
 \end{pmatrix}
 =
 \begin{pmatrix}
-g_0 \\
-g_1 \\
-g_2 \\
-\vdots \\
-g_{n-1} \\
-g_n
+  g_0 \\
+  g_1 \\
+  g_2 \\
+  \vdots \\
+  g_{n-1} \\
+  g_n
 \end{pmatrix}
 $$
 
 其中，对于 Clamped boundary，有
+
 $$
 \begin{align*}
 
-    \lambda _0&=1\\
-    \mu _n&=1\\
-    g_0&=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)\\
-    g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])
+  \lambda _0&=1\\
+  \mu _n&=1\\
+  g_0&=\frac{6}{h_1}\left( f[x_0,x_1]-y_0' \right)\\
+  g_n&=\frac{6}{h_n}(y_n'-f[x_{n-1},x_n])
 
 \end{align*}
 $$
 
 对于约束二阶导的情况，有
+
 $$
 \begin{align*}
 
-    \lambda _0&=\mu _n=0\\
-    g_0&=2y_0''\\
-    g_n&=2y_n''
+  \lambda _0&=\mu _n=0\\
+  g_0&=2y_0''\\
+  g_n&=2y_n''
 
 \end{align*}
 $$
+
 或者可以直接解低两阶的方程组。
 
 ## 近似理论 Approximation Theory
@@ -1908,10 +2122,13 @@ $$
 ### Discreate Least Squares Approximation
 
 在本节的开始，为了讨论方便，我们先限定 $P$ 的形式为一个多项式
+
 $$
 P(x)=a_0+a_1x+\ldots+a_nx^n
 $$
+
 并要求残差向量的二范数最小。为了计算方便，我们定义误差指标为
+
 $$
 E_2=\sum_{i=1}^{m}\left( P(x_i)-y_i \right)^2
 $$
@@ -1921,46 +2138,61 @@ $$
 为了方便起见，我们用矩阵的语言描述这个问题。
 
 记
-$$
-\mathbf{a}=\begin{pmatrix}
 
-    a_0\\ a_1\\ \vdots \\ a_n
+$$
+\mathbf{a}=
+\begin{pmatrix}
+
+  a_0\\ a_1\\ \vdots \\ a_n
 
 \end{pmatrix},
-\mathbf{x}=\begin{pmatrix}
-1&\ldots &x_1^n\\
-1&\ldots & x_2^n\\
-\vdots&\vdots &\vdots \\
-1&\ldots&x_m^n
+\mathbf{x}=
+\begin{pmatrix}
+  1&\ldots &x_1^n\\
+  1&\ldots & x_2^n\\
+  \vdots&\vdots &\vdots \\
+  1&\ldots&x_m^n
 \end{pmatrix}
 $$
+
 那么，我们就有
+
 $$
-\mathbf{x}\mathbf{a}=\mathbf{p}=\begin{pmatrix}
-P(x_1)\\ \vdots \\ P(x_m)
+\mathbf{x}\mathbf{a}=\mathbf{p}=
+\begin{pmatrix}
+  P(x_1)\\ \vdots \\ P(x_m)
 \end{pmatrix}
 $$
 
 如果我们再记
+
 $$
-\mathbf{y}=\begin{pmatrix}
-y_1\\ \vdots\\y_m
+\mathbf{y}=
+\begin{pmatrix}
+  y_1\\ \vdots\\y_m
 \end{pmatrix}
 $$
+
 则有
+
 $$
 \begin{align*}
-E_2&=\left\|\mathbf{x}\mathbf{a}-\mathbf{y}\right\|_2^2\\
-&=\left( \mathbf{a}^T \mathbf{x}^T - \mathbf{y}^T \right)\left( \mathbf{x}\mathbf{a}-\mathbf{y} \right)\\
-&=\mathbf{a}^T \mathbf{x}^T \mathbf{x}\mathbf{a}-2 \mathbf{a}^T \mathbf{x}^T \mathbf{y}+\mathbf{y}^T \mathbf{y}
+  E_2&=\left\|\mathbf{x}\mathbf{a}-\mathbf{y}\right\|_2^2\\
+  &=\left( \mathbf{a}^T \mathbf{x}^T - \mathbf{y}^T \right)\left(
+  \mathbf{x}\mathbf{a}-\mathbf{y} \right)\\
+  &=\mathbf{a}^T \mathbf{x}^T \mathbf{x}\mathbf{a}-2 \mathbf{a}^T
+  \mathbf{x}^T \mathbf{y}+\mathbf{y}^T \mathbf{y}
 \end{align*}
 $$
+
 那么求导即有
+
 $$
 E_2'=2 \mathbf{x}^T \mathbf{x} \mathbf{a} - 2 \mathbf{x}^T \mathbf{y}
 $$
 
 因此，这个条件可以整理为
+
 $$
 \left( \mathbf{x}^T \mathbf{x} \right) \mathbf{a}=\mathbf{x}^T \mathbf{y}
 $$
@@ -1970,20 +2202,26 @@ $$
 而实际上， $P(x)$ 的形式可以不是一个多项式。
 
 比如说，我们希望 $P(x)$ 的形式为 $P(x)=a e^{ax}$。此时，我们可以这么处理（简记 $P(x)=p$ ）：
+
 $$
 \begin{align*}
-p&=be^{ax}\\
-\Rightarrow \ln p &= \ln b + ax\\
+  p&=be^{ax}\\
+  \Rightarrow \ln p &= \ln b + ax\\
 \end{align*}
 $$
+
 我们记
+
 $$
 P=\ln p, X=x, a_1=a, a_0 = \ln b
 $$
+
 那么上面就被化成了
+
 $$
 P=a_0+a_1 X
 $$
+
 的形式，就可以用之前的做法来解决了。
 
 > 然而，这么做实际上有一个问题：沿用之前的做法的话，意味着我们认为 residual 为
@@ -1999,17 +2237,22 @@ $$
 ### Orthogonal Polynomials and Least Squares Approximation
 
 过去，我们强调多项式的形式为
+
 $$
 P(x)=a_0+a_1x^1+\ldots a_nx^n
 $$
+
 而现在，我们强调多项式作为一个线性空间中的一个向量的属性，并借此来定义广义多项式。
 
 首先，我们定义多项式中线性无关的概念：
 
 对于一组函数 $\left\{ \phi _0(x), \phi _1(x), \ldots, \phi _n(x) \right\}$，如果在区间 $\left[a, b\right]$ 上，有
+
 $$
-\forall x, a_0\phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)=0\Leftrightarrow a_0=a_1=\ldots a_n=0
+\forall x, a_0\phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi
+_n(x)=0\Leftrightarrow a_0=a_1=\ldots a_n=0
 $$
+
 则说这组函数是线性无关的。
 
 显然地，如果 $\phi _i(x)$ 是一个 $i$ 阶多项式，那么  $\left\{ \phi _0(x), \phi _1(x), \ldots, \phi _n(x) \right\}$ 是线性无关的。
@@ -2017,79 +2260,95 @@ $$
 对于任意一组线性无关的函数，我们可以认为它们构成了某个线性空间的一组基。而这些线性无关函数的线性组合，也就被定义为**广义多项式**。
 
 另外，关于之前的残差，我们也进行广义化。我们为残差的每一项添加权重 $\omega _i$，即
+
 $$
 E=\sum_{i=1}^{m} \omega _i\left(P(x_i)-y_i\right)^2
 $$
 
 如果我们突破采样点的限制，使用连续的形式，则可以使用权函数来定义残差。
+
 $$
 E=\int_{a}^{b}\omega (x) \left( P(x)-f(x) \right)^2
 $$
 
 回顾之前用线性代数语言描述的残差，我们会发现，在离散情况下考虑多项式近似时，若令
-$$
-\mathbf{\omega }=\begin{pmatrix}
 
-    \sqrt{\omega _1}&&&\\
-    &\sqrt{\omega _2}&&\\
-    &&\ddots&\\
-    &&& \sqrt{\omega _m}
+$$
+\mathbf{\omega }=
+\begin{pmatrix}
+
+  \sqrt{\omega _1}&&&\\
+  &\sqrt{\omega _2}&&\\
+  &&\ddots&\\
+  &&& \sqrt{\omega _m}
 
 \end{pmatrix}
 $$
+
 则有
+
 $$
-E=\left\|\mathbf{\omega }\mathbf{x}\mathbf{a}-\mathbf{\omega }\mathbf{y}\right\|_2^2
+E=\left\|\mathbf{\omega }\mathbf{x}\mathbf{a}-\mathbf{\omega
+}\mathbf{y}\right\|_2^2
 $$
+
 既然已经出现了范数和线性空间的表述，我们为何不定义点积？
+
 $$
-(f, g)=\left\{\begin{align*}
+(f, g)=\left\{
+  \begin{align*}
 
     &\sum_{i=1}^{m} \omega _i f(x_i)g(x_i)\\
     &\int_{a}^{b} \omega (x)f(x)g(x)\mathrm{d}x
 
-\end{align*}\right.
+  \end{align*}\right.
 $$
+
 自然地，当 $(f, g)=0$ 时，我们说 $f, g$ 正交。
 
 那么， $E=(P-y, P-y)$，我们想找的也就是使得这个内积最小的 $P$。
 
 现在，我们再考虑 $\omega_i =1$ 时广义多项式的近似。令 $P(x)=a_0 \phi _0(x)+a_1 \phi _1(x)+\ldots+a_n \phi _n(x)$，且对 $f$ 近似，则原先关于 $\left\{ a_i \right\}$ 导数为 $0$ 的条件转化为
+
 $$
 \begin{pmatrix}
-&&\\
-&b_{ij}=(\phi _i, \phi _j)&\\
-&&
+  &&\\
+  &b_{ij}=(\phi _i, \phi _j)&\\
+  &&
 \end{pmatrix}
 \begin{pmatrix}
 
-    a_0\\
-    \vdots\\
-    a_n
+  a_0\\
+  \vdots\\
+  a_n
 
 \end{pmatrix}
-=\begin{pmatrix}
+=
+\begin{pmatrix}
 
-    (\phi _0,f)\\
-    \vdots\\
-    (\phi_n,f)
+  (\phi _0,f)\\
+  \vdots\\
+  (\phi_n,f)
 
 \end{pmatrix}
 $$
+
 这看起来是个线性方程组。所谓最好的解线性方程组的方法就是不要解这个线性方程组，注意力惊人的我们注意到，当 $\left\{ \phi _i \right\}$ 是一个单位正交基时，我们可以直接得到
+
 $$
 \begin{pmatrix}
 
-    a_0\\
-    \vdots\\
-    a_n
+  a_0\\
+  \vdots\\
+  a_n
 
 \end{pmatrix}
-=\begin{pmatrix}
+=
+\begin{pmatrix}
 
-    (\phi _0,f)\\
-    \vdots\\
-    (\phi_n,f)
+  (\phi _0,f)\\
+  \vdots\\
+  (\phi_n,f)
 
 \end{pmatrix}
 $$
@@ -2101,19 +2360,26 @@ $$
 根据施密特正交化，我们可以导出这样一个结论：
 
 对于满足形式
+
 $$
 \phi _0(x)\equiv 1, \phi _1(x)=x-B_1
 $$
+
 的基，有递推关系
+
 $$
 \phi _k(x)=(x-B_k)\phi _{k-1}(x)-C_k \phi _{k-2}(x)
 $$
+
 其中
+
 $$
-B_k=\frac{(x \phi _{k-1}, \phi _{k-1})}{(\phi _{k-1}, \phi _{k-1})}, C_k=\frac{(x \phi _{k-1}, \phi _{k-2})}{( \phi _{k-2}, \phi _{k-2})}
+B_k=\frac{(x \phi _{k-1}, \phi _{k-1})}{(\phi _{k-1}, \phi _{k-1})},
+C_k=\frac{(x \phi _{k-1}, \phi _{k-2})}{( \phi _{k-2}, \phi _{k-2})}
 $$
 
 注意点积隐含了 $\omega _i$。这里，我们通过上述过程获得了一组互相正交的基 $\phi_i$，而对应的系数 $a_i$ 也就是
+
 $$
 a_i=\frac{(\phi _i, y)}{(\phi _i, \phi _i)}
 $$
@@ -2143,10 +2409,14 @@ Chevyshev Theorem 告诉我们，**$P_n$ 满足 $\left\|P_n-f\right\|_\infty$ �
 那么，应该怎么取点呢？
 
 审视一下我们面对的问题。我们可以轻松地写出拉格朗日插值的残差为
+
 $$
-\left|P_n(x)-f(x)\right|= \left|R_n(x)\right| = \left|\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i)\right|
+\left|P_n(x)-f(x)\right|= \left|R_n(x)\right| =
+\left|\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i)\right|
 $$
+
 我们希望取合适的点 $x_0, \ldots, x_n$，使得这个残差的值尽可能的小。虽然 $\xi$ 是和 $x$ 相关的量，但是我们没法描述其中的关系，因此，我们退而求其次，尝试最小化
+
 $$
 \left|\prod_{i=0}^{n}(x-x_i)\right|
 $$
@@ -2156,30 +2426,37 @@ $$
 根据切比雪夫定理，我们需要 $\prod_{i=0}^{n}(x-x_i)$ 拥有上下振荡，且绝对值相同的 $n+2$ 个极值点。在几何直觉上，这让我们联想到三角函数。
 
 不妨取一个余弦函数 $\cos \left( n\theta \right)$，我们会发现，它在 $\theta\in[0, \pi]$ 中有 $n+1$ 个极值点
+
 $$
 \frac{0\pi}{n}, \frac{\pi}{n}, \frac{2\pi}{n}, \ldots, \frac{n\pi}{n}
 $$
 
 此时，我们做一次换元，令 $x=\cos\theta$，那么就会有 $x\in[-1, 1]$，且原函数转化为
+
 $$
 T_n(x)=\cos \left( n\arccos x \right)
 $$
+
 这就是所谓的切比雪夫多项式。利用三角函数的递推关系，我们可以得到一个较为方便的递推式
+
 $$
 \begin{align*}
 
-    T_0(x)&=1\\
-    T_1(x)&=x\\
-    T_{n+1}(x)&=2xT_n(x)-T_{n-1}(x)
+  T_0(x)&=1\\
+  T_1(x)&=x\\
+  T_{n+1}(x)&=2xT_n(x)-T_{n-1}(x)
 
 \end{align*}
 $$
 
 然而，你可能发现了， $n+1$ 和 $n+2$ 数量对不上。不过，这倒也好说，我们只要改用 $T_{n+1}$ 就可以了。再通过一些换元，我们就可以把 $x$ 的范围限制在 $[-1, 1]$，从而利用切比雪夫多项式来获得一个残差向量的无穷范数上界最小化的近似。注意观察切比雪夫多项式 $T_{n+1}$ 的最高次项系数为 $2^{n}$，所以对
+
 $$
 \left|\prod_{i=0}^{n}(x-x_i)\right|
 $$
+
 最小化的结果是取 $T_{n+1}$ 的 $n+1$ 个根，此时为
+
 $$
 \left|\frac{T_{n+1}(x)}{2^n}\right|
 $$
@@ -2204,13 +2481,17 @@ $$
 > 在过去，我们讨论的插值总是默认了用户会提供一些采样点。然而，在切比雪夫多项式的使用中，我们发现，使用的采样点是自己决定的。事实上，大多数优秀的插值方法，它的采样点都不依赖用户输入，而是自己选取。合适的采样点选取对于提高精度、减少计算非常重要。
 
 来点题外话。不知道你有没有注意到一件有趣的事情：拉格朗日插值的余项
+
 $$
 \frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i)
 $$
+
 和泰勒展开的余项
+
 $$
 \frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)^{n+1}
 $$
+
 在形式上惊人的接近。事实上，当区间足够小时，两者是等价的。在几何直觉上，我们不妨把拉格朗日插值看成泰勒展开延拓到区间上的结果。
 
 #### 幂级数的经济化
@@ -2249,6 +2530,7 @@ $$
 ### 数值微分 Numerical Differentiation
 
 一个很自然的想法是直接用
+
 $$
 f'(x_0)=\lim_{h\to 0}\frac{f(x_0+h)-f(x_0)}{h}
 $$
@@ -2258,37 +2540,50 @@ $$
 另一种想法是，首先使用插值多项式来逼近这个函数，然后用这个插值多项式的导数作为函数的导数。
 
 如果我们选择用 $x_0, x_0+h$ 两个点来做拉格朗日插值，可以得到
+
 $$
 f(x)=\frac{f(x_0)(x_0+h-x)+f(x_0+h)(x-x_0)}{h}+\frac{(x-x_0)(x-x_0-h)}{2}f''(\xi)
 $$
+
 对它求导，可以得到
+
 $$
 f'(x)=\frac{f(x_0+h)-f(x_0)}{h}-\frac{h}{2}f''(\xi)
 $$
+
 这样，我们就得到了一个关于误差的估计，它是 $O(h)$ 的。
 
 如果我们尝试再多添加一个采样点，那么情况会好很多：
+
 $$
 \begin{align*}
 
-    f(x_0+h)&=f(x_0)+f'(x_0)h+\frac{1}{2}f''(x_0)h^2+\frac{1}{6}f'''(x_0)h^3+\frac{1}{24}f^{(4)}(\xi _1)h^4\\
-    f(x_0-h)&=f(x_0)-f'(x_0)h+\frac{1}{2}f''(x_0)h^2-\frac{1}{6}f'''(x_0)h^3+\frac{1}{24}f^{(4)}(\xi _2)h^4
+  f(x_0+h)&=f(x_0)+f'(x_0)h+\frac{1}{2}f''(x_0)h^2+\frac{1}{6}f'''(x_0)h^3+\frac{1}{24}f^{(4)}(\xi
+  _1)h^4\\
+  f(x_0-h)&=f(x_0)-f'(x_0)h+\frac{1}{2}f''(x_0)h^2-\frac{1}{6}f'''(x_0)h^3+\frac{1}{24}f^{(4)}(\xi
+  _2)h^4
 
 \end{align*}
 $$
+
 两式相减(这时余项取三阶)，可以得到
+
 $$
 \begin{align*}
 
-    f'(x_0)&=\frac{f(x_0+h)-f(x_0-h)}{2h}-\frac{1}{12}\left(f'''(\xi _1)+f'''(\xi _2) \right) h^2\\
-            &=\frac{f(x_0+h)-f(x_0-h)}{2h}-\frac{1}{6}f'''(\xi)h^2
+  f'(x_0)&=\frac{f(x_0+h)-f(x_0-h)}{2h}-\frac{1}{12}\left(f'''(\xi
+  _1)+f'''(\xi _2) \right) h^2\\
+  &=\frac{f(x_0+h)-f(x_0-h)}{2h}-\frac{1}{6}f'''(\xi)h^2
 
 \end{align*}
 $$
+
 两式相加，同理可以得到
+
 $$
 f''(x_0)=\frac{f(x_0-h)+f(x_0+h)-2f(x_0)}{h^2}-\frac{1}{12}f^{(4)}(\xi)h^2
 $$
+
 可以看到，我们只是添加了一个取样点，就成功地把误差从 $O(h)$ 降低到了 $O(h^2)$。
 
 数值微分是不稳定的。尽管我们希望通过增加取样点的方式来提升近似精度，但是这样做的同时，会导致舍入误差也增大。
@@ -2302,14 +2597,18 @@ $$
 显然，对于一个 $n$ 阶的拉格朗日插值导出的积分表达式，它的精确度为 $n$。
 
 $$
-\int_{a}^{b}f(x)\mathrm{d}x = \int_{a}^{b}\sum_{k=0}^{n}f(x_k)L_k(x)\mathrm{d}x+\int_{a}^{b}\prod_{i=0}^{n}\frac{f^{(n+1)}(\xi(x))}{(n+1)!}\mathrm{d}x
+\int_{a}^{b}f(x)\mathrm{d}x =
+\int_{a}^{b}\sum_{k=0}^{n}f(x_k)L_k(x)\mathrm{d}x+\int_{a}^{b}\prod_{i=0}^{n}\frac{f^{(n+1)}(\xi(x))}{(n+1)!}\mathrm{d}x
 $$
 
 这一个表达式同时展示了数值积分的计算值和误差范围。在计算部分，我们把积分的操作提前，这样，我们就可以提前计算每一个 $f(x_k)$ 对应的系数
+
 $$
 a_k=\int_{a}^{b}L_k(x)\mathrm{d}x
 $$
+
 于是有
+
 $$
 \int_{a}^{b}f(x)\mathrm{d}x \approx \sum_{k=0}^{n}a_kf(x_k)
 $$
@@ -2319,8 +2618,10 @@ $$
 #### Trapezoidal Rule
 
 我们记 $x_0=a, x_1=b, h=b-a$。此时，根据一阶拉格朗日多项式，我们可以得到
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{2}\left( f(x_0)+f(x_1) \right)-\frac{h^3}{12}f''(\xi )
+\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{2}\left( f(x_0)+f(x_1)
+\right)-\frac{h^3}{12}f''(\xi )
 $$
 
 > 其中，误差项的转变应用了积分中值定理。
@@ -2335,7 +2636,8 @@ $$
 考虑 $x_0=a, x_1=a+h, x_2=b, h=\frac{b-a}{2}$，根据二阶拉格朗日多项式，可推导得到
 
 $$
-\int_{x_0}^{x_2}f(x)\mathrm{d}x=\frac{h}{3}\left( f(x_0)+4f(x_1)+f(x_2) \right)-\frac{h^5}{90}f^{(4)}(\xi )
+\int_{x_0}^{x_2}f(x)\mathrm{d}x=\frac{h}{3}\left(
+f(x_0)+4f(x_1)+f(x_2) \right)-\frac{h^5}{90}f^{(4)}(\xi )
 $$
 
 你可能会惊讶于它的精确度居然为 3。这是由于均匀取点而产生的特殊现象。在误差累积的过程中，奇数次项的积分被消去，因此，最终的误差阶数总是奇数阶的。
@@ -2343,13 +2645,19 @@ $$
 #### 一般形式
 
 当 $n$ 为偶数时，有
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=\sum_{i=0}^{n}a_i f(x_i)+\frac{h^{n+3}f^{(n+2)}(\xi )}{(n+2)!}\int_{0}^{n}t^2(t-1)\ldots (t-n)\mathrm{d} t
+\int_{a}^{b}f(x)\mathrm{d}x=\sum_{i=0}^{n}a_i
+f(x_i)+\frac{h^{n+3}f^{(n+2)}(\xi
+)}{(n+2)!}\int_{0}^{n}t^2(t-1)\ldots (t-n)\mathrm{d} t
 $$
 
 当 $n$ 为奇数时，有
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=\sum_{i=0}^{n}a_i f(x_i)+\frac{h^{n+2}f^{(n+1)}(\xi )}{(n+1)!}\int_{0}^{n}t(t-1)\ldots (t-n)\mathrm{d} t
+\int_{a}^{b}f(x)\mathrm{d}x=\sum_{i=0}^{n}a_i
+f(x_i)+\frac{h^{n+2}f^{(n+1)}(\xi )}{(n+1)!}\int_{0}^{n}t(t-1)\ldots
+(t-n)\mathrm{d} t
 $$
 
 上述均匀取点还有一个好处，就是它让我们不再需要考虑点的选取，表达式只与取点数量和区间长度有关，这使我们的运算更为方便了。
@@ -2359,21 +2667,28 @@ $$
 多项式次数高了容易振荡，所以我们可以尝试分段取积分。简单的方法是把区间分成 $n$ 段，然后在每一段上都应用辛普森法则，然后取加和。
 
 令 $f\in C^4[a, b]$, $n$ 为偶数， $h=\frac{b-a}{n}$， $x_j=a+jh$，则有
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{3}\left( f(a)+2 \sum_{j=1}^{\frac{n}{2}-1}f(x_{2j})+4 \sum_{j=1}^{\frac{n} {2}}f(x_{2j-1})+f(b) \right)-\frac{nh^5}{180}f^{(4)}(\xi )
+\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{3}\left( f(a)+2
+  \sum_{j=1}^{\frac{n}{2}-1}f(x_{2j})+4 \sum_{j=1}^{\frac{n}
+{2}}f(x_{2j-1})+f(b) \right)-\frac{nh^5}{180}f^{(4)}(\xi )
 $$
 
 系数 4 来自于辛普森法则的中间项，系数 2 来自两边同时运用辛普森法则，系数 1 则是因为边界。
 
 使用梯形法则的情况如下：
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{2}\left( f(a)+2 \sum_{j=1}^{n-1}f(x_j)+f(b) \right)-\frac{nh^3}{12}f''(\xi )
+\int_{a}^{b}f(x)\mathrm{d}x=\frac{h}{2}\left( f(a)+2
+\sum_{j=1}^{n-1}f(x_j)+f(b) \right)-\frac{nh^3}{12}f''(\xi )
 $$
 
 Composite Integration 是稳定的。这意味着，我们可以放心地增加分段的段数，而不需要担心误差变得过大。对于 $[a, b]$ 上的积分，分段积分的误差有上限
+
 $$
 (b-a)\epsilon
 $$
+
 其中 $\epsilon$ 是每次计算的误差上限。
 
 ### 龙伯格积分 Romberg Integration
@@ -2383,33 +2698,43 @@ $$
 还记得埃德金加速吗？当我们发现一个收敛序列之后，我们可以对其中的某些关键条件做一些扰动，从而得到一些新的和真值、误差有关的关系式。通过合理的方法消去误差，我们可以得到一个新的真值的近似表达式。这个新的表达式就可以用于收敛的加速。
 
 我们重记分段积分时的梯形法则为
+
 $$
 A=T_n-\frac{(b-a)^3}{12n^2}f''(\xi _n)
 $$
+
 当我们对区间数量 $n$ 做一个扰动，使它变成 $2n$，就会得到
+
 $$
 A=T_{2n}-\frac{(b-a)^3}{48n^2}f''(\xi _{2n})
 $$
+
 如果我们近似取 $f''(\xi _n)\approx f''(\xi _{2n})$，就可以得到
+
 $$
 A=\frac{4T_{2n}-T_{n}}{3}
 $$
+
 于是，我们就可以通过这个式子作为一个 $A$ 的近似解。
 
 更进一步地，我们发现，上面得到的式子中， $T_{2n}$ 与 $T_n$ 前的系数只与误差项的次数有关。如果我们记
+
 $$
 S_n=\frac{4T_{2n}-T_n}{3}
 $$
+
 就有 $S_n$ 的误差项次数为 4。因此，我们可以进一步加速收敛：
+
 $$
 \left\{
-\begin{align*}
-S_n&=\frac{4T_{2n}-T_n}{4-1}\\
-C_n&=\frac{4^2S_{2n}-S_n}{4^2-1}\\
-R_n&=\frac{4^3C_{2n}-C_n}{4^3-1}
-\end{align*}
-\right.
+  \begin{align*}
+    S_n&=\frac{4T_{2n}-T_n}{4-1}\\
+    C_n&=\frac{4^2S_{2n}-S_n}{4^2-1}\\
+    R_n&=\frac{4^3C_{2n}-C_n}{4^3-1}
+  \end{align*}
+  \right.
 $$
+
 而具体的递推思路如下图：
 
 ![alt text](mdPaste/numericalAnalysis/image-21.png)
@@ -2417,20 +2742,30 @@ $$
 ### Richardson's Extrapolation
 
 理查德外推是对如龙伯格积分情形的一种推广。假设我们有一个 $T_0(h)$ 来近似真解 $I$，且对于某个变量 $h$，它的 truncation error 满足
+
 $$
 T_0(h)-I=\alpha _1h+\alpha _2h^2+\alpha _3h^3+\ldots
 $$
+
 那么，我们就可以选择对 $h$ 做一个扰动，得到
+
 $$
-T_0 \left( \frac{h}{2} \right)-I=\alpha _1 \frac{h}{2}+\alpha _2 \left( \frac{h}{2} \right)^2+ \alpha _3 \left( \frac{h}{2} \right)^3+\ldots
+T_0 \left( \frac{h}{2} \right)-I=\alpha _1 \frac{h}{2}+\alpha _2
+\left( \frac{h}{2} \right)^2+ \alpha _3 \left( \frac{h}{2} \right)^3+\ldots
 $$
+
 于是乎，我们可以得出这样一个式子：
+
 $$
-T_1(h)=\frac{2T_0 \left( \frac{h}{2} \right)-T_0(h)}{2-1}=I+\beta _1 h^2 + \beta _2 h^3+\ldots
+T_1(h)=\frac{2T_0 \left( \frac{h}{2} \right)-T_0(h)}{2-1}=I+\beta _1
+h^2 + \beta _2 h^3+\ldots
 $$
+
 每一次外推，收敛阶数就上升一阶。这样的外推过程可以不断地进行下去，于是我们得到外推序列的递推式
+
 $$
-T_n(h)=\frac{2^nT_{n-1}\left( \frac{h}{2} \right)-T_{n-1}(h)}{2^n-1}=I+t_1h^{n+1}+t_2h^{n+2}+\dots
+T_n(h)=\frac{2^nT_{n-1}\left( \frac{h}{2}
+\right)-T_{n-1}(h)}{2^n-1}=I+t_1h^{n+1}+t_2h^{n+2}+\dots
 $$
 
 ### Adaptive Quadrature Method
@@ -2438,43 +2773,54 @@ $$
 在分段积分的时候，我们注意到，对于不同部分的函数，取积分的误差是不一样的。因此，我们倾向于对积分误差可能大的部分取更细的划分。问题是，怎样算“大”？
 
 我们可以简单地利用误差的密度来选出“大”的部分。如果积分
+
 $$
 \int_{a}^{b}f(x)\mathrm{d}x
 $$
+
 的误差为 $\epsilon$，那么对于其中的一段长度为 $h$ 的区间，它可以分配到误差 $h \frac{\epsilon }{b-a}$。如果这一块实际的误差大于它，就说明它属于“大”的部分。这里的 $\frac{\epsilon }{b-a}$ 就称之为误差密度。
 
 此时，另一个问题就来了：这一块实际的误差又怎么评估？
 
 举辛普森法则为例吧，我们知道它的误差表达式为
+
 $$
 \frac{h^5}{90}f^{(4)}(\xi )
 $$
 
 它来自于
+
 $$
 \int_{a}^{b}f(x)\mathrm{d}x=S(a, b)-\frac{h^5}{90}f^{(4)}(\xi )
 $$
 
 如果我们再将这个区间二分，我们可以得到
+
 $$
-\int_{a}^{b}f(x)\mathrm{d}x=S \left( a, \frac{a+b}{2} \right) + S \left( \frac{a+b}{2}, b \right) - \frac{1}{16}\frac{h^5}{90}f^{(4)}(\xi' )
+\int_{a}^{b}f(x)\mathrm{d}x=S \left( a, \frac{a+b}{2} \right) + S
+\left( \frac{a+b}{2}, b \right) - \frac{1}{16}\frac{h^5}{90}f^{(4)}(\xi' )
 $$
 
 如果我们认为 $\xi \approx \xi '$，就可以得到
+
 $$
-\epsilon =\frac{1}{15}\left|S(a, b)-S \left( a, \frac{a+b}{2} \right) - S \left( \frac{a+b}{2}, b \right)\right|
+\epsilon =\frac{1}{15}\left|S(a, b)-S \left( a, \frac{a+b}{2} \right)
+- S \left( \frac{a+b}{2}, b \right)\right|
 $$
 
 在直觉上，如果我们先算一遍一个区间，再尝试缩小一些算，如果相差不大，就说明误差不会很大，反之，误差就可能比较大了。嗯，很符合直觉。
 
 这体现了一种后验的自适应：我们尝试再做一遍，获取额外的信息，从而进行评估。在完成这样的评估之后，我们不要浪费计算的
+
 $$
 S \left( a, \frac{a+b}{2} \right) + S \left( \frac{a+b}{2}, b \right)
 $$
 
 使用
+
 $$
-\left|\int_{a}^{b}f(x)\mathrm{d}x-\left(S \left( a, \frac{a+b}{2} \right) + S \left( \frac{a+b}{2}, b \right)\right)\right|< \epsilon
+\left|\int_{a}^{b}f(x)\mathrm{d}x-\left(S \left( a, \frac{a+b}{2}
+\right) + S \left( \frac{a+b}{2}, b \right)\right)\right|< \epsilon
 $$
 
 > 那有没有什么先验的方法呢？一种思路是训练一个 AI，然后把表达式扔给 AI，让它估计一下什么区间分细一些比较合适。
@@ -2492,24 +2838,29 @@ $$
 <!-- foundamental solution -->
 
 首先，我们考虑这个问题的可解性。如果要求精度是 $2n+1$，那么就要解决多项式系数中 $2n+2$ 个自由度。同时，我们的
+
 $$
 \sum_{k=0}^{n}A_kf(x_k)
 $$
+
 中，除了 $A_k$ 能够提供自由度外，由 $x_k$ 决定的 $f(x_k)$ 也可以提供自由度，恰好也为 $2n+2$。
 
 我们考虑
+
 $$
 f(x)=a_0x^0+a_1x^1+\ldots+a_{2n+1}x^{2n+1}
 $$
 
 此时，如果方程组
+
 $$
 \begin{align*}
 
-    \int_{a}^{b}\omega (x)\cdot x^0\mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^0\\
-    \int_{a}^{b}\omega (x)\cdot x^1 \mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^1\\
-    &\ldots\\
-    \int_{a}^{b}\omega(x)\cdot x^{2n+1} \mathrm{d}x&= \sum_{k=0}^{n}A_k\cdot x_k{}^{2n+1}
+  \int_{a}^{b}\omega (x)\cdot x^0\mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^0\\
+  \int_{a}^{b}\omega (x)\cdot x^1 \mathrm{d}x&=\sum_{k=0}^{n}A_k\cdot x_k{}^1\\
+  &\ldots\\
+  \int_{a}^{b}\omega(x)\cdot x^{2n+1} \mathrm{d}x&=
+  \sum_{k=0}^{n}A_k\cdot x_k{}^{2n+1}
 
 \end{align*}
 $$
@@ -2521,13 +2872,17 @@ $$
 * 对于某个点组 $\left\{ x_k \right\}$，如果存在某组 $\left\{ A_k \right\}$，使得上述 $2n+1$ 阶精度条件成立，那么点组 $\left\{ x_k \right\}$ 被称为高斯点。
 
 我们接下来证明， $\left\{ x_k \right\}$ 为高斯点，等价于对于任意的低于 $n$ 阶的多项式 $P_m$，有
+
 $$
 \int_{a}^{b}\omega (x)P_m(x)W(x)\mathrm{d}x=0
 $$
+
 其中
+
 $$
 W(x)=\prod_{k=0}^{n}(x-x_k)
 $$
+
 换而言之，以 $\omega (x)$ 作为权函数时， $P_m(x)$ 与 $W(x)$ 正交。
 
 > 首先，我们证明必要性。对于任意的 $P_m$，我们发现， $P_m(x)W(x)$ 这个整体恰好是一个次数不超过 $2n+1$ 的多项式。因此，根据高斯点的定义，我们有
@@ -2587,17 +2942,23 @@ $$
 勒让德多项式 Legendre Polynamials 是积分区间为 $[-1, 1]$，且权函数取 $\omega (x)\equiv 1$ 时的高斯积分的 $W(x)$。
 
 勒让德多项式的形式如下：
+
 $$
 P_k(x)=\frac{1}{2^k k!}\frac{\mathrm{d}^k}{\mathrm{d}x^k}(x^2-1)^k
 $$
+
 且有
+
 $$
 (P_k, P_k)=\frac{2}{2k+1}
 $$
+
 我们可以使用递推式
+
 $$
 P_0=1, P_1=x, (k+1)P_{k+1}=(2k+1)xP_k-kP_{k-1}
 $$
+
 来快速地导出某个阶数的勒让德多项式。采用 $P_{n+1}$ 的根作为高斯点的高斯积分公式被称为 Gauss-Legendre quadrature formula。
 
 类似于之前对切比雪夫多项式的处理，当积分区间不为 $[-1, 1]$ 时，可以通过定义域映射的方式处理，从而用勒让德多项式解决问题。
@@ -2608,20 +2969,22 @@ $$
 ## 微分方程 Differential Equations
 
 带初值条件的一阶常微分方程如下：
+
 $$
 \left\{
 
-    \begin{align*}
-        \frac{\mathrm{d}y}{\mathrm{d}t}&=f(t,y)\quad t\in[a,b]\\
-        y(a)&=\alpha
-    \end{align*}
+  \begin{align*}
+    \frac{\mathrm{d}y}{\mathrm{d}t}&=f(t,y)\quad t\in[a,b]\\
+    y(a)&=\alpha
+  \end{align*}
 
-\right.
+  \right.
 $$
 
 一种理解是把第一个等式看成一个二维空间中的向量场。决定一个初始位置，就会有对应的运动轨迹。
 
 我们的目标是，计算 $y(t)$ 在一系列网点(mesh points) 的近似。即：计算
+
 $$
 \omega _i\approx y(t_i)=y_i, i=1, \ldots, n
 $$
@@ -2631,17 +2994,21 @@ $$
 为了引入对何种一阶常微分方程存在唯一解的说明，我们引入 Libschitz condition 的定义：
 
 如果在 $R^2$ 的子集 $D$ 内，存在一个常数 $L>0$ 使得对于任意点 $(t, y_1), (t, y_2)$，都有
+
 $$
 \left|f(t, y_1)-f(t, y_2)\right|\le L \left|y_1-y_2\right|
 $$
+
 那么我们就说 $f(t, y)$ 对于变量 $y$ 在 $D$ 上满足 Lipschitz condition，并称 $L$ 是 $f$ 的 Lipschitz constant。
 
 > 直观地说，在定义域 $D$ 内，函数 $f(t, y)$ 关于 $y$ 的偏导被限制在了一个范围内。（当然，这要求 $f$ 在 $D$ 上是连续的。）
 
 如果 $f(t, y)$ 在 $D$ 上连续，且 $f$ 满足 Lipschitz Condition，那么 IVP 问题
+
 $$
 y'(t)=f(t, y), \quad a\le t\le b, \quad y(a)=\alpha
 $$
+
 就拥有一个唯一解 $y(t)$。
 
 ### 良定义 well-posed
@@ -2649,21 +3016,28 @@ $$
 在 Libschitz Condition 的基础上，我们引入良定义的定义：
 
 IVP
+
 $$
 y'(t)=f(t, y), \quad a\le t\le b, \quad y(a)=\alpha
 $$
+
 是良定义的，若
 
 1. 这个问题存在唯一解
 2. 对于任意的 $\epsilon >0$，都存在正常数 $k(\epsilon )$ 使得对于任意满足
 
 $$
-\left|\epsilon _0\right|<\epsilon , \quad \left|\delta (t)\right| < \epsilon \text{ with } t\in [a, b]
+\left|\epsilon _0\right|<\epsilon , \quad \left|\delta (t)\right| <
+\epsilon \text{ with } t\in [a, b]
 $$
+
 的 $\epsilon _0 , \quad \delta (t)$，都存在一个唯一的解 $z(t)$，使得
+
 $$
-z'(t)=f(t, z)+\delta (t), \quad  z(a)=\alpha +\epsilon _0 , \quad \left|z(t)-y(t)\right|<k(\epsilon )\epsilon
+z'(t)=f(t, z)+\delta (t), \quad  z(a)=\alpha +\epsilon _0 , \quad
+\left|z(t)-y(t)\right|<k(\epsilon )\epsilon
 $$
+
 那么这个问题被称作是良定义(well--posed problem)的。
 
 > 乍一看，良定义的第二条性质似乎比较复杂。我们可以这样在几何上理解：
@@ -2676,24 +3050,29 @@ $$
 > 因此，第二条性质实际表明了，在初始条件或方程发生微小的变化时，解的变化是可控的。
 
 可以证明，对于 $D$ 上连续的 $f(t, y)$ 和相应的 IVP
+
 $$
 y'(t)=f(t, y), \quad a\le t\le b, \quad y(a)=\alpha
 $$
+
 只要 $f$ 满足 Lipschitz Condition，那这个问题就是良定义的。
 
 ### 欧拉法
 
 根据微分的定义，我们可以使用如下的近似：
+
 $$
 y'(t_0)\approx \frac{y(t_0+h)-y(t_0)}{h}
 $$
 
 如果我们取 $h=t_1-t_0$，那么就会有
+
 $$
 y(t_1)\approx y(t_0)+hy'(t_0)=\alpha +hf(t_0, \alpha )
 $$
 
 那么实际上，我们已经获得了一个递推关系：
+
 $$
 \omega _0 = \alpha , \quad \omega _{i+1}=\omega _i+h f(t_i, \omega _i)
 $$
@@ -2701,13 +3080,17 @@ $$
 这里，我们用 $\omega _i$ 表示了 $y(t_i)$ 的近似。Lipschitz Condition 保证了 $\omega _i$ 和 $y(t_i)$ 的误差不会过大。
 
 如果 $f$ 是连续的，且它满足 Lipschitz 条件，则有
+
 $$
 \left|y_i-\omega _i\right|\le \frac{hM}{2L}\left( e^{L(t_i-t_0)}-1 \right)
 $$
 
 其中 $M$ 是 $\left|y''(t)\right|$ 的上界。二阶导的计算可以通过
+
 $$
-y''(t)=\frac{\mathrm{d}}{\mathrm{d}t}y'(t)=\frac{\mathrm{d}}{\mathrm{d}t}f(t, y(t))=\frac{\partial }{\partial t}f(t, y(t))+\frac{\partial }{\partial y}f(t, y(t))\cdot f(t, y(t))
+y''(t)=\frac{\mathrm{d}}{\mathrm{d}t}y'(t)=\frac{\mathrm{d}}{\mathrm{d}t}f(t,
+y(t))=\frac{\partial }{\partial t}f(t, y(t))+\frac{\partial
+}{\partial y}f(t, y(t))\cdot f(t, y(t))
 $$
 
 > 通过上面的误差估计公式，我们可以看到，当 $h$ 取的较小时，误差可能较小。然而，当我们注意到舍入误差时，就会发现， $h$ 取的过小同样会引入问题。
@@ -2727,35 +3110,47 @@ $$
 ### 高阶泰勒方法
 
 我们假设存在这样的递推式:
+
 $$
 \omega _0=\alpha , \quad \omega _{i+1}=\omega _i+h \phi (t, \omega _i)
 $$
+
 并且，在估计误差时，我们总是假设当前的点是精确的，只考虑求下一个点时带来的误差：
+
 $$
-\tau _{i+1}(h)=\frac{y_{i+1}-y_i-h\phi(t, y _i)}{h}=\frac{y_{i+1}-y_i}{h}-\phi (t_i, y_i)
+\tau _{i+1}(h)=\frac{y_{i+1}-y_i-h\phi(t, y
+_i)}{h}=\frac{y_{i+1}-y_i}{h}-\phi (t_i, y_i)
 $$
 
 这样的误差忽略了全局求解带来的对当前点的误差影响，被称为 **Local Truncation Error**。
 
 我们之前提到的欧拉法中的递推式就是取 $\phi = f$ 的情况。如果我们尝试为欧拉法计算 Local Truncation Error，可以简单地使用泰勒展开：
+
 $$
-y_{i+1}=y_i+hf(t_i, y_i)+\frac{h^2}{2}f'(t_i, y_i)+\ldots + \frac{h^n}{n!}f^{(n-1)}(t_i, y_i)+\frac{h^{n+1}}{(n+1)!}f^{(n)}(\xi _i, y(\xi _i))
+y_{i+1}=y_i+hf(t_i, y_i)+\frac{h^2}{2}f'(t_i, y_i)+\ldots +
+\frac{h^n}{n!}f^{(n-1)}(t_i, y_i)+\frac{h^{n+1}}{(n+1)!}f^{(n)}(\xi
+_i, y(\xi _i))
 $$
+
 于是，欧拉法的 Local Truncation Error 为 $O(h)$。
 
 那么，我们很自然地想到，可以调整递推式的形式，使得它与泰勒展开的形式接近，这样就可以利用余项的阶数评估 Local Truncation Error 的阶数。于是，我们就得到了所谓的高阶泰勒方法：
+
 $$
 \begin{align*}
-\omega _0&=\alpha\\
-\omega _{i+1}&=\omega _i+hT^{(n)}(t_i, \omega _i)\\
-T^{(n)}(t_i, \omega _i)&=f(t_i, \omega _i)+\frac{h}{2}f'(t_i, \omega _i)+\ldots+\frac{h^{n-1}}{n!}f^{(n-1)}(t_i, \omega _i)
+  \omega _0&=\alpha\\
+  \omega _{i+1}&=\omega _i+hT^{(n)}(t_i, \omega _i)\\
+  T^{(n)}(t_i, \omega _i)&=f(t_i, \omega _i)+\frac{h}{2}f'(t_i,
+  \omega _i)+\ldots+\frac{h^{n-1}}{n!}f^{(n-1)}(t_i, \omega _i)
 \end{align*}
 $$
+
 可以看到，对于 $n$ 阶的高阶泰勒方法，它的 Local Truncation Error 为 $O(h^n)$。
 
 ### 隐式欧拉法
 
 在欧拉法的迭代中，我们改用下一个点的导数来替换当前点的导数，于是就得到
+
 $$
 \omega _{i+1}=\omega _i+hf(t_{i+1}, \omega _{i+1})
 $$
@@ -2771,9 +3166,12 @@ $$
 ### 梯形法
 
 梯形法将一阶的显式欧拉法和隐式欧拉法做了结合，其递推式为：
+
 $$
-\omega _{i+1}=\omega _i+\frac{h}{2}\left[f(t_i, \omega _i)+f(t_{i+1}, \omega _{i+1})\right]
+\omega _{i+1}=\omega _i+\frac{h}{2}\left[f(t_i, \omega _i)+f(t_{i+1},
+\omega _{i+1})\right]
 $$
+
 其 LTE 阶数上升为 2。
 
 然而，如果我们这么做，那么每一步还是要引入一个复杂的方程求解过程。有没有什么办法减少解方程的次数，从而减小求解开销呢？
@@ -2781,13 +3179,17 @@ $$
 ### Double-step 方法
 
 在之前有关微分的部分，我们提到，如果多取一个采样点，就可以得到相比取 2 个采样点高一阶的精度。因此，我们可以把这个性质利用起来：
+
 $$
 \begin{align*}
-&y'(t_0)=\frac{1}{2h}\left[y(t_0+h)-y(t_0-h)\right]-\frac{h^2}{6}y^{(3)}(\xi _1)\\
-\Rightarrow&y(t_2)\approx y(t_0)+2hf(t_1, y(t_1))
+  &y'(t_0)=\frac{1}{2h}\left[y(t_0+h)-y(t_0-h)\right]-\frac{h^2}{6}y^{(3)}(\xi
+  _1)\\
+  \Rightarrow&y(t_2)\approx y(t_0)+2hf(t_1, y(t_1))
 \end{align*}
 $$
+
 这样，我们也就得到了递推式
+
 $$
 \omega _{i+2}=\omega _{i}+2hf(t_{i+1}, \omega _{i+1})
 $$
@@ -2802,40 +3204,47 @@ $$
 
 $$
 \left\{
-\begin{align*}
-\omega _{i+1}&=\omega _i+h \left( \lambda _1K_1+\lambda _2K_2 \right)\\
-K_1&=f(t_i, \omega _i)\\
-K_2&=f(t_i+ph, \omega _i+phK_1)
-\end{align*}
-\right.
+  \begin{align*}
+    \omega _{i+1}&=\omega _i+h \left( \lambda _1K_1+\lambda _2K_2 \right)\\
+    K_1&=f(t_i, \omega _i)\\
+    K_2&=f(t_i+ph, \omega _i+phK_1)
+  \end{align*}
+  \right.
 $$
 
 我们总是希望这个方法的 LTE 阶数尽可能的高。因此，我们针对 LTE 做分析：
 
 将 $K_2$ 泰勒展开：
+
 $$
 \begin{align*}
-K_2&=f(t_i+ph, y_i+phK_1)\\
-&=f(t_i, y_i)+phf_t(t_i, y_i)+phK_1f_y(t_i, y_i)+O(h^2)\\
-&=y'(t_i)+phy''(t_i)+O(h^2)
+  K_2&=f(t_i+ph, y_i+phK_1)\\
+  &=f(t_i, y_i)+phf_t(t_i, y_i)+phK_1f_y(t_i, y_i)+O(h^2)\\
+  &=y'(t_i)+phy''(t_i)+O(h^2)
 \end{align*}
 $$
 
 于是，我们就有
+
 $$
-\omega _{i+1}=y_i+\left( \lambda _1+\lambda _2 \right)hy'(t_i)+\lambda _2 ph^2 y''(t_i)+O(h^3)
+\omega _{i+1}=y_i+\left( \lambda _1+\lambda _2
+\right)hy'(t_i)+\lambda _2 ph^2 y''(t_i)+O(h^3)
 $$
 
 自然地，我们会要求它和 $y_{i+1}$ 的泰勒展开接近：
+
 $$
 y_{i+1}=y_i+hy'(t_i)+\frac{h^2}{2}y''(t_i)+O(h^3)
 $$
+
 那么就有方程
+
 $$
-\left\{\begin{align*}
-\lambda _1+\lambda _2&=1\\
-\lambda _2 p&=\frac{1}{2}
-\end{align*}\right.
+\left\{
+  \begin{align*}
+    \lambda _1+\lambda _2&=1\\
+    \lambda _2 p&=\frac{1}{2}
+  \end{align*}\right.
 $$
 
 如上方程拥有无穷多组解，而通过如上方法获得的解法被称为二阶的 Runge-Kutta 方法。
@@ -2843,26 +3252,33 @@ $$
 * 一个经典的选择是 $p=1 , \quad \lambda _1=\lambda _2=\frac{1}{2}$。这个选择被称作 **Modified Euler's method** 或 **Heun's Method**。
 
 $$
-\omega _{i+1}=\omega _i+\frac{h}{2} \left[ f \left( t_i, \omega _i \right) + f \left( t_i+h, \omega _i+h f \left( t_i, \omega _i \right) \right)\right]
+\omega _{i+1}=\omega _i+\frac{h}{2} \left[ f \left( t_i, \omega _i
+  \right) + f \left( t_i+h, \omega _i+h f \left( t_i, \omega _i \right)
+\right)\right]
 $$
+
 * 另一个选择是 $p=\frac{1}{2}, \quad \lambda _1=0 , \quad \lambda _2=1$，这个选择被称作 **Midpoint Method**。
 
 $$
-\omega _{i+1}=\omega _i+hf \left( t_i+\frac{h}{2}, \omega _i+\frac{h}{2} f \left( t_i, \omega _i \right) \right)
+\omega _{i+1}=\omega _i+hf \left( t_i+\frac{h}{2}, \omega
+_i+\frac{h}{2} f \left( t_i, \omega _i \right) \right)
 $$
+
 而当我们继续拓展 $K$ 的数量，我们就会得到如下的方程组：
 
 ![alt text](mdPaste/numericalAnalysis/image-17.png)
 
 经过权衡，最流行的 Runge-Kutta 方法为 Classical Runge-Kutta Order 4 Method，也就是
+
 $$
-\left\{\begin{align*}
-\omega _{i+1}&=\omega _i+\frac{h}{6}\left( K_1+2K_2+2K_3+K_4 \right)\\
-K_1&=f(t_i, \omega _i)\\
-K_2&=f(t+\frac{h}{2}, \omega _i+\frac{h}{2}K_1)\\
-K_3&=f(t_i+\frac{h}{2}, \omega _i+\frac{h}{2}K_2)\\
-K_4&=f(t_i+h, \omega _i+hK_3)
-\end{align*}\right.
+\left\{
+  \begin{align*}
+    \omega _{i+1}&=\omega _i+\frac{h}{6}\left( K_1+2K_2+2K_3+K_4 \right)\\
+    K_1&=f(t_i, \omega _i)\\
+    K_2&=f(t+\frac{h}{2}, \omega _i+\frac{h}{2}K_1)\\
+    K_3&=f(t_i+\frac{h}{2}, \omega _i+\frac{h}{2}K_2)\\
+    K_4&=f(t_i+h, \omega _i+hK_3)
+  \end{align*}\right.
 $$
 
 Runge-Kutta 法的 LTE 阶数并不是线性增长的，它满足如下规律：
@@ -2874,28 +3290,39 @@ Runge-Kutta 法的 LTE 阶数并不是线性增长的，它满足如下规律：
 ### 多步方法
 
 我们考虑使用之前更多个已得到结果的项来计算下一项。用数学表达式来表示，也就是把递推式变成
+
 $$
-\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega _{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega
+_{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
 $$
+
 其中 $f_i=f(t_i, \omega _i)$。当 $b_0=0$ 时，这是一个显式方法，否则为一个隐式方法。
 
 在计算 LTE ($\tau(h)$) 时，我们假设之前的计算结果都是准确的，于是有
+
 $$
-\tau _{i+1}(h)=\frac{y_{i+1}-(a_0y_i+\ldots+a_{m-1}y_{i+1-m})}{h}-\left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+\tau
+_{i+1}(h)=\frac{y_{i+1}-(a_0y_i+\ldots+a_{m-1}y_{i+1-m})}{h}-\left(
+b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
 $$
 
 #### 积分思路
 
 在讨论显式方法时，如果我们选择利用 $(t_i, f _i), (t_{i-1}, f _{i-1}), \ldots, (t_{i+1-m}, f _{i+1-m})$ 这 $m$ 个点做一个牛顿插值，就可以得到插值多项式 $P_{m-1}$ 和余项 $R_{m-1}$。那么，下一个点的 $y$ 就可以通过积分的方法来近似表示：
+
 $$
 \begin{align*}
-&\int_{t_i}^{t_{i+1}}f(t, y(t))\mathrm{d}t = h \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s + h \int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s\\
-&\Rightarrow \begin{align*}
-\omega _{i+1}&=\omega _i+h \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s\\
-\tau _{i+1}(h)&=\int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s
-\end{align*}
+  &\int_{t_i}^{t_{i+1}}f(t, y(t))\mathrm{d}t = h
+  \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s + h
+  \int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s\\
+  &\Rightarrow
+  \begin{align*}
+    \omega _{i+1}&=\omega _i+h \int_{0}^{1}P_{m-1}(t_i+sh)\mathrm{d}s\\
+    \tau _{i+1}(h)&=\int_{0}^{1}R_{m-1}(t_i+sh)\mathrm{d}s
+  \end{align*}
 \end{align*}
 $$
+
 其中 $s \in [0, 1]$。
 
 > 举个例子，如果我们尝试得到一个显式的两步方法，那么我们可以先对 $(t_i, f_i), (t_{i-1}, f_{i-1})$ 取牛顿插值，即
@@ -2919,8 +3346,10 @@ $$
 其中 $\tau _{i+1}=A_mh^my^{(m+1)}(\xi _i)$。
 
 一个常用的方法为 **Adams-Bashforth Four-Step Explicit Method**，即
+
 $$
-\omega _{i+1}=\omega _i+\frac{h}{24}\left( 55f_i-59f_{i-1}+37f_{i-2}-9f_{i-3} \right)
+\omega _{i+1}=\omega _i+\frac{h}{24}\left(
+55f_i-59f_{i-1}+37f_{i-2}-9f_{i-3} \right)
 $$
 
 当我们使用隐式方法时，则需要改为对 $(t_{i+1}, f_{i+1}), (t_i, f_i), \ldots, (t_{i+1-m}, f_{i+1-m})$ 这 $m+1$ 个点做插值。类似地，我们可以得出这样一张系数表：
@@ -2930,6 +3359,7 @@ $$
 其中 $\tau _{i+1}=B_mh^{m+1}y^{m+2}(\xi _i)$。
 
 **Adams-Moulton Three-Step Implicit Method** 为
+
 $$
 \omega _{i+1}=\omega _i+\frac{h}{24}(9f_{i+1}+19f_i-5f_{i-1}+f_{i-2})
 $$
@@ -2939,8 +3369,10 @@ $$
 #### 泰勒展开思路
 
 再放一遍表达式：
+
 $$
-\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega _{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
+\omega _{i+1}=a_{0}\omega _i+a_1 \omega _{i-1}+\ldots+a_{m-1}\omega
+_{i+1-m}+h \left( b_0 f_{i+1}+b_1f_i+\ldots+ b_m f_{i+1-m} \right)
 $$
 
 我们可以依旧采用泰勒展开的思路，对 $y_{i-1}, \ldots, y_{i+1-m}$ 与 $f_{i+1}, f_{i-1}, \ldots, f_{i+1-m}$ 全部关于 $t_i$ 进行泰勒展开，然后利用待定系数法求解一组合适的 $\left\{ a_k \right\}, \left\{ b_k \right\}$。
@@ -2987,36 +3419,45 @@ $$
 #### 一阶微分方程的 m 阶系统
 
 以下是一个一阶微分方程的 $m$ 阶系统：
+
 $$
 \left\{
-\begin{align*}
-u_1'(t)&=f_1(t, u_1(t), \ldots, u_m(t))\\
-\ldots &=\ldots\\
-u_m'(t)&=f_m(t, u_1(t), \ldots, u_m(t))\\
-u_1(a)&=\alpha _1\\
-\ldots &=\ldots\\
-u_m(a)&=\alpha _m
-\end{align*}
-\right.
+  \begin{align*}
+    u_1'(t)&=f_1(t, u_1(t), \ldots, u_m(t))\\
+    \ldots &=\ldots\\
+    u_m'(t)&=f_m(t, u_1(t), \ldots, u_m(t))\\
+    u_1(a)&=\alpha _1\\
+    \ldots &=\ldots\\
+    u_m(a)&=\alpha _m
+  \end{align*}
+  \right.
 $$
+
 如果我们使用向量的形式写这些等式，就可以把它们转化成我们熟悉的形式：
 
 记
+
 $$
-\vec{y}=\begin{pmatrix}u_1\\ \vdots\\ u_m\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
-f_1\\ \vdots \\ f_m
-\end{pmatrix}, \quad \vec{\alpha }=\begin{pmatrix}
-\alpha _1\\ \vdots\\ \alpha _m
+\vec{y}=
+\begin{pmatrix}u_1\\ \vdots\\ u_m
+\end{pmatrix}, \quad \vec{f}=
+\begin{pmatrix}
+  f_1\\ \vdots \\ f_m
+\end{pmatrix}, \quad \vec{\alpha }=
+\begin{pmatrix}
+  \alpha _1\\ \vdots\\ \alpha _m
 \end{pmatrix}
 $$
+
 则有
+
 $$
 \left\{
-\begin{align*}
-\vec{y}'(t)&=\vec{f}(t, \vec{y})\\
-\vec{y}(a)&=\vec{\alpha }
-\end{align*}
-\right.
+  \begin{align*}
+    \vec{y}'(t)&=\vec{f}(t, \vec{y})\\
+    \vec{y}(a)&=\vec{\alpha }
+  \end{align*}
+  \right.
 $$
 
 形式上的熟悉带来求解上的熟悉。
@@ -3024,13 +3465,15 @@ $$
 #### 高阶微分方程
 
 以下是一个 $m$ 阶的微分方程：
+
 $$
 \left\{
-\begin{align*}
-&y^{(m)}(t)=f(t, y, y', \ldots, y^{m-1})\\
-&y(a)=\alpha _1, \quad y'(a)=\alpha _2 , \ldots, \quad y^{(m-1)}(a)=\alpha _m
-\end{align*}
-\right.
+  \begin{align*}
+    &y^{(m)}(t)=f(t, y, y', \ldots, y^{m-1})\\
+    &y(a)=\alpha _1, \quad y'(a)=\alpha _2 , \ldots, \quad
+    y^{(m-1)}(a)=\alpha _m
+  \end{align*}
+  \right.
 $$
 
 > $m$ 阶就需要 $m$ 个初值。
@@ -3038,22 +3481,30 @@ $$
 我们可以通过变量替换的方式，将求解 $m$ 阶微分方程的问题转化为求解一阶微分方程的 $m$ 阶系统：
 
 取 $u_k(t)=y^{(k-1)}(t)$，则有
+
 $$
 \left\{
-\begin{align*}
-\vec{y}'(t)&=\vec{f}(t, \vec{y})\\
-\vec{y}(a)&=\vec{\alpha }
-\end{align*}
-\right.
+  \begin{align*}
+    \vec{y}'(t)&=\vec{f}(t, \vec{y})\\
+    \vec{y}(a)&=\vec{\alpha }
+  \end{align*}
+  \right.
 $$
+
 其中
+
 $$
-\vec{y}=\begin{pmatrix}u_1\\ \vdots\\ u_{m-1}\\ u_m\end{pmatrix}, \quad \vec{f}=\begin{pmatrix}
-u_2\\ \vdots \\ u_m\\ f(t, u_1(t), \ldots, u_m(t))
-\end{pmatrix}, \quad \vec{\alpha }=\begin{pmatrix}
-\alpha _1\\ \vdots\\ \alpha _{m-1}\\ \alpha _m
+\vec{y}=
+\begin{pmatrix}u_1\\ \vdots\\ u_{m-1}\\ u_m
+\end{pmatrix}, \quad \vec{f}=
+\begin{pmatrix}
+  u_2\\ \vdots \\ u_m\\ f(t, u_1(t), \ldots, u_m(t))
+\end{pmatrix}, \quad \vec{\alpha }=
+\begin{pmatrix}
+  \alpha _1\\ \vdots\\ \alpha _{m-1}\\ \alpha _m
 \end{pmatrix}
 $$
+
 <!-- p323#5 -->
 <!-- 转化成系统，然后用向量的思路 -->
 
@@ -3112,15 +3563,19 @@ $$
 #### 一致与收敛
 
 考虑一个单步的微分方程解法，我们称它是**一致**(Consistent)的，如果它的 LTE  $\tau _i(h)$ 满足
+
 $$
 \lim_{h\to 0}\max_{1\le i\le n}\left|\tau _i(h)\right|=0
 $$
+
 也就是说，对于一个一致的微分方程解法，我们可以通过减小采样间隙的方式来无限降低它的局部截断误差。
 
 更进一步地，如果我们直接要求
+
 $$
 \lim_{h\to 0}\max_{1\le i\le n}\left|y_i-\omega _i\right|=0
 $$
+
 那我们称这个解法是**收敛**(Convergent)的。
 
 也就是说，对于一个收敛的微分方程解法，我们可以通过减小采样间隙的方式来无限降低它的解与真值之间的误差。
@@ -3132,6 +3587,7 @@ $$
 如果一个 ODE 方法的初值条件受到一个小的扰动，它的全部的近似结果受到的扰动也较小，那么它对应的求解方法是**稳定**(stable)的。
 
 上面的定义显然是模糊的，我们首先需要讨论一个合理的评判规则。一个 ODE 方法的稳定性是相对于**测试方程**(test equation) 而言的。一个常见的测试方程是线性标量方程，即：
+
 $$
 y'=\lambda y , \quad y(0)=\alpha , \quad  Re(\lambda )<0
 $$
@@ -3145,19 +3601,25 @@ $$
 #### 比较：欧拉法的显/隐式方法
 
 让我们考虑欧拉显式方法。我们知道它的递推式为
+
 $$
 \omega _{i+1}=\omega _i+h f_i
 $$
+
 对于我们的测试方程，这个递推式也就是
+
 $$
 \omega _{i+1}=\omega _i+h\lambda \omega _i=(H +1)\omega _i
 $$
+
 那么，我们可以根据等比数列的知识得到
+
 $$
 \omega _{i+1}=\alpha (1+H )^{i+1}
 $$
 
 我们的带有误差的初值为 $\alpha ^*=\alpha +\epsilon$，于是我们得到
+
 $$
 \epsilon _{i+1}=\omega ^*_{i+1}-\omega _{i+1}=(1+H)^{i+1}\epsilon
 $$
@@ -3165,65 +3627,83 @@ $$
 为了让误差随着采样数的增加而减小，必须有 $\left|1+H\right|<1$。于是， $H$ 的范围也就是复平面上以 $(-1, 0i)$ 为圆心，半径为 $1$ 的圆。
 
 如果我们再考虑欧拉隐式方法，就能得到
+
 $$
 \left\{
-\begin{align*}
-\omega _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\alpha \\
-\epsilon _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\epsilon
-\end{align*}
-\right.
+  \begin{align*}
+    \omega _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\alpha \\
+    \epsilon _{i+1}&=\left( \frac{1}{1-H} \right)^{i+1}\epsilon
+  \end{align*}
+  \right.
 $$
+
 因为我们已经规定了 $Re(\lambda )<0$，所以隐式方法总是稳定的！
 
 #### 对微分方程系统的分析
 
 考虑
+
 $$
 \left\{
-\begin{align*}
-u_1'&=9u_1+24u_2+5 \cos\left(t\right)-\frac{1}{3}\sin\left(t\right), \quad u_1(0)=\frac{4}{3}\\
-u_2'&=-24u_1-51u_2-9 \cos\left(t\right)+\frac{1}{3}\sin\left(t\right), \quad u_2(0)=\frac{2}{3}
-\end{align*}
-\right.
+  \begin{align*}
+    u_1'&=9u_1+24u_2+5
+    \cos\left(t\right)-\frac{1}{3}\sin\left(t\right), \quad u_1(0)=\frac{4}{3}\\
+    u_2'&=-24u_1-51u_2-9
+    \cos\left(t\right)+\frac{1}{3}\sin\left(t\right), \quad u_2(0)=\frac{2}{3}
+  \end{align*}
+  \right.
 $$
+
 我们如何选择 $h$ 来保证使用显式欧拉法时的稳定性呢？
 
 考虑将上述方程写成向量的形式。我们记
+
 $$
 \left\{
-\begin{align*}
-\mathbf{y}&=\begin{pmatrix}
-u_1\\
-u_2
-\end{pmatrix}\\
-A &=\begin{pmatrix}
-9&24\\
--24&-51
-\end{pmatrix}\\
-\mathbf{g}(t) &=\begin{pmatrix}
-5 \cos\left(t\right)-\frac{1}{3}\sin\left(t\right)\\
--9 \cos\left(t\right)+\frac{1}{3} \sin\left(t\right)
-\end{pmatrix}
-\end{align*}
-\right.
+  \begin{align*}
+    \mathbf{y}&=
+    \begin{pmatrix}
+      u_1\\
+      u_2
+    \end{pmatrix}\\
+    A &=
+    \begin{pmatrix}
+      9&24\\
+      -24&-51
+    \end{pmatrix}\\
+    \mathbf{g}(t) &=
+    \begin{pmatrix}
+      5 \cos\left(t\right)-\frac{1}{3}\sin\left(t\right)\\
+      -9 \cos\left(t\right)+\frac{1}{3} \sin\left(t\right)
+    \end{pmatrix}
+  \end{align*}
+  \right.
 $$
+
 那么就有
+
 $$
 \mathbf{y}'=A \mathbf{y}+\mathbf{g}(t)
 $$
+
 如果我们考虑对 $A$ 做特征值分解 $A=U^{-1}\Lambda U$，那么就有
+
 $$
 (U \mathbf{y})'=\Lambda ( U \mathbf{y})+( U \mathbf{g}(t))
 $$
+
 我们注意到，$\Lambda$ 是一个对角矩阵，所以此时新的变量 $U \mathbf{y}$ 的两个变量是互相独立的。因此，我们可以直接使用一阶常微分方程中判断稳定性的结论，即：
+
 $$
 \left\{
-\begin{align*}
-\left|\lambda _1+1\right|<1\\
-\left|\lambda _2+1\right|<1
-\end{align*}
-\right.
+  \begin{align*}
+    \left|\lambda _1+1\right|<1\\
+    \left|\lambda _2+1\right|<1
+  \end{align*}
+  \right.
 $$
+
 可以解得 $\lambda _1=-3 , \quad \lambda _2=-39$，因此我们应当取 $h<\frac{2}{39}$。
 
 其实我们注意到，对于另一个变量来说，这么小的 $h$ 在求解上还是太浪费了。因此，实际问题中降低计算量的一个思路就是避免产生特征值相差较多的 $A$。
+
