@@ -9,7 +9,7 @@ category: "瞎折腾"
 
 ## informant
 
-informant 是一个用于查看arch资讯的命令
+informant 是一个用于查看 arch 资讯的命令
 
 ```bash
 informant list
@@ -20,7 +20,7 @@ informant read <编号>
 # 查看新闻内容
 ```
 
-`informant`会自动添加到`sudo pacman -Syu`的钩子中，以避免我在更新系统时错过官方对于可能破坏系统的更新的公告。
+`informant` 会自动添加到 `sudo pacman -Syu` 的钩子中，以避免我在更新系统时错过官方对于可能破坏系统的更新的公告。
 
 ## 添加定制脚本到环境变量
 
@@ -30,13 +30,13 @@ informant read <编号>
 sudo ln -s ~/path/to/myScript.sh /usr/local/bin/scriptShortName
 ```
 
-来建立符号链接。`/usr/local/bin`一般用于存放用户个人的一些内容，这可避免与`/usr/bin`中的系统依赖产生冲突。
+来建立符号链接。`/usr/local/bin` 一般用于存放用户个人的一些内容，这可避免与 `/usr/bin` 中的系统依赖产生冲突。
 
-## 解决wslg与arch兼容问题
+## 解决 wslg 与 arch 兼容问题
 
 No X11 display socket
 
-使用`xeyes`时报错`Error: Can't open display: :0`
+使用 `xeyes` 时报错 `Error: Can't open display: :0`
 
 使用如下方法解决。
 
@@ -76,7 +76,7 @@ Generating locales...
   zh_CN.UTF-8...[error] cannot open locale definition file `zh_CN': No such file or directory
 ```
 
-结果是直接从网上下载了zh_CN
+结果是直接从网上下载了 zh_CN
 
 ```bash
 sudo wget -O /usr/share/i18n/locales/zh_CN https://sourceware.org/git/\?p\=glibc.git\;a\=blob_plain\;f\=localedata/locales/zh_CN\;hb\=HEAD
@@ -90,7 +90,7 @@ sudo wget -O /usr/share/i18n/locales/zh_CN https://sourceware.org/git/\?p\=glibc
 du -h --max-depth=1
 ```
 
-<!-- ## 解决wslg字体太小问题
+<!-- ## 解决 wslg 字体太小问题
 
 ```bash
 #.zshrc
@@ -98,21 +98,21 @@ du -h --max-depth=1
 export QT_QPA_PLATFORM="xcb"
 ```
 
-一是避免了okular的wayland问题，二是调整了字体大小和整体缩放 -->
+一是避免了 okular 的 wayland 问题，二是调整了字体大小和整体缩放 -->
 
 <!-- ## 设置字体
 
-在~/.config/fontconfig/font.conf里 -->
+在~/.config/fontconfig/font.conf 里 -->
 
 ## 配置环境变量
 
-在`~/.zsh_profile`中添加
+在 `~/.zsh_profile` 中添加
 
 ```bash
 export PATH="${PATH}:/home/username/<...>"
 ```
 
-## 卸载okular后发现wps无法打开
+## 卸载 okular 后发现 wps 无法打开
 
 wps 打开需要依赖 phonon-qt6-vlc 。由于卸载 okular 时选择的 -Rs
 将它当作其它软件不需要的依赖，将它删去了，就会导致 wps 无法启动。运行：
@@ -125,13 +125,13 @@ sudo pacman -S phonon-qt6-vlc
 
 ## xdg-open 的默认浏览器打开方式发生改变
 
-仍未解决。目前发现，`.zshrc`中的`BROWSER`被设置为`wslview`，但是在`/usr/share/applications`中找不到`wslview.desktop`，而尝试使用
+仍未解决。目前发现，`.zshrc` 中的 `BROWSER` 被设置为 `wslview`，但是在 `/usr/share/applications` 中找不到 `wslview.desktop`，而尝试使用
 
 ```bash
 xdg-settings set default-web-browser
 ```
 
-时会报错：`BROWSER`已经设置，无法改变`xdg-settings`。
+时会报错：`BROWSER` 已经设置，无法改变 `xdg-settings`。
 
 目前的解决方案：
 
@@ -147,16 +147,16 @@ export BROWSER=edge
 sudo ln -s /mnt/c/Program\ Files\ \(x86\)/Microsoft/Edge/Application/msedge.exe /usr/local/bin/edge
 ```
 
-我的另一个想法是，在其它脚本中减少对`xdg-open`的调用，直接选择对应应用，可能更为清晰，也更不容易出问题。
+我的另一个想法是，在其它脚本中减少对 `xdg-open` 的调用，直接选择对应应用，可能更为清晰，也更不容易出问题。
 
-然而，这样做后，涉及`xdg-open`调用的内容都变成使用`edge`了，于是删除
+然而，这样做后，涉及 `xdg-open` 调用的内容都变成使用 `edge` 了，于是删除
 
 ```bash
 # 修改.zshrc
 # export BROWSER=edge
 ```
 
-取消这一点后，可以 customize `xdg-open`命令。修改`~/.config/mimeapps.list`
+取消这一点后，可以 customize `xdg-open` 命令。修改 `~/.config/mimeapps.list`
 
 ```yaml
 [Default Applications]
@@ -168,9 +168,9 @@ x-scheme-handler/about=edge.desktop
 x-scheme-handler/unknown=edge.desktop
 ```
 
-这是告诉它网页用`edge`打开。
+这是告诉它网页用 `edge` 打开。
 
-然后，我们在`~/.local/share/applications`创建`edge.desktop`文件
+然后，我们在 `~/.local/share/applications` 创建 `edge.desktop` 文件
 
 ```yaml
 [Desktop Entry]
@@ -180,16 +180,16 @@ Type=Application
 MimeType=x-scheme-handler/unknown;x-scheme-handler/about;text/html;x-scheme-handler/http;x-scheme-handler/https;
 ```
 
-最后，在命令行更新桌面程序数据库和`xdg-open`的默认浏览器：
+最后，在命令行更新桌面程序数据库和 `xdg-open` 的默认浏览器：
 
 ```bash
 update-desktop-database ~/.local/share/applications
 xdg-settings set default-web-browser edge.desktop
 ```
 
-这样就大功告成了。xdg-open将会默认使用edge.desktop打开网页。经测试，速度正常。
+这样就大功告成了。xdg-open 将会默认使用 edge.desktop 打开网页。经测试，速度正常。
 
-<!-- ## 未解决：mpv音频输出错误
+<!-- ## 未解决：mpv 音频输出错误
 
 ```log
 music mpv DJ\ SLY\ -\ いのちの名前\ \~ジブリ・メドレー\~.mp3 --no-video
@@ -232,9 +232,9 @@ Audio: no audio
 Exiting... (Errors when loading file)
 ```
 
-## 解决mpv相关的图形问题
+## 解决 mpv 相关的图形问题
 
-使用mpv时，如果不指定--no-video，会出现图形相关报错：
+使用 mpv 时，如果不指定--no-video，会出现图形相关报错：
 
 ```log
  music mpv DJ\ SLY\ -\ いのちの名前\ \~ジブリ・メドレー\~.mp3
@@ -269,7 +269,7 @@ VO: [x11] 640x640 rgba
 AO: [pulse] 44100Hz stereo 2ch float
 ```
 
-安装glxinfo用于检查opengl的配置信息：
+安装 glxinfo 用于检查 opengl 的配置信息：
 
 ```bash
  sudo pacman -S mesa-utils
@@ -296,11 +296,11 @@ OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
 OpenGL ES profile extensions:
 ```
 
-这说明当前OpenGL使用的是llvmpipe渲染，系统通过CPU进行软件渲染，而非GPU进行硬件加速。
+这说明当前 OpenGL 使用的是 llvmpipe 渲染，系统通过 CPU 进行软件渲染，而非 GPU 进行硬件加速。
 
 暂时解决不掉。fuck nvidia。
 
-第二天：拼尽全力无法战胜，不管怎么修改，opengl始终使用llvmpipe渲染，非常难受。 -->
+第二天：拼尽全力无法战胜，不管怎么修改，opengl 始终使用 llvmpipe 渲染，非常难受。 -->
 
 ## 中文输入法问题
 
@@ -310,7 +310,7 @@ OpenGL ES profile extensions:
 sudo pacman -S fcitx fcitx-libpinyin
 ```
 
-来获取经典的输入法 fctix 以及它的中文拼音拓展。在`.zshrc`中，需要加入：
+来获取经典的输入法 fctix 以及它的中文拼音拓展。在 `.zshrc` 中，需要加入：
 
 ```bash
 # 配置输入法
@@ -321,7 +321,7 @@ sudo pacman -S fcitx fcitx-libpinyin
 
 来实现输入法的环境变量配置。
 
-此外，输入法的默认字体可能非常抽象，我们修改`/home/dove/.config/fcitx/conf/fcitx-classic-ui.config`：
+此外，输入法的默认字体可能非常抽象，我们修改 `/home/dove/.config/fcitx/conf/fcitx-classic-ui.config`：
 
 ```c
 Font = Microsoft YaHei
@@ -344,13 +344,13 @@ chmod +x ~/myScripts/fcitx-init.sh
 sudo ln -s ~/myScripts/fcitx-init.sh /usr/local/bin/fcitx-init
 ```
 
-最后在`.zshrc`加上
+最后在 `.zshrc` 加上
 
 ```bash
 fcitx-init
 ```
 
-## 让yazi预览图片
+## 让 yazi 预览图片
 
 第一种方案是，暂时选择使用 chafa 来预览像素化的图片，这对于 pdf 文件惨不忍睹。
 
@@ -395,9 +395,9 @@ wezterm ssh dove@127.0.0.1
 
 然而，ssh 与 直接 wsl 打开在一些方面有所不同。一是对 DISPLAY
 变量并没有直接设置，二是不再包含 windows
-中的环境变量。不过，由于`quickcode.sh`脚本，之前的远程登录服务器被保留，因此
+中的环境变量。不过，由于 `quickcode.sh` 脚本，之前的远程登录服务器被保留，因此
 vscode 中依旧可以使用 windows 中的环境变量。目前发现需要做的就是添加对 DISPLAY
-变量(gui应用)的配置和 PULSE_SERVER 变量(mpv)的配置：
+变量(gui 应用)的配置和 PULSE_SERVER 变量(mpv)的配置：
 
 ```bash
 # ~/.zprofile
@@ -407,7 +407,7 @@ export PULSE_SERVER=unix:/mnt/wslg/PulseServer
 
 ## wezterm 的配置
 
-通过 winget 直接下载了 wezterm，它的配置在用户目录下，为`.wezterm.lua`.
+通过 winget 直接下载了 wezterm，它的配置在用户目录下，为 `.wezterm.lua`.
 
 ```lua
 local wezterm = require 'wezterm'
@@ -549,7 +549,7 @@ docker ps -a
 # CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-同时，安装`docker-buildx`使用新版构建器。
+同时，安装 `docker-buildx` 使用新版构建器。
 
 ```bash
 sudo pacman -S docker-buildx
@@ -562,7 +562,7 @@ sudo rankmirrors -n 5 /etc/pacman.d/mirrorlist
 # 将结果写入 /etc/pacman.d/mirrorlist
 ```
 
-为了让`sudo`(`sudo pacman -Syu`)可以享受网络代理，在`/etc/sudoers`中添加
+为了让 `sudo`(`sudo pacman -Syu`)可以享受网络代理，在 `/etc/sudoers` 中添加
 
 ```bash
 # 规定可以传递到 sudo 的环境变量
@@ -598,3 +598,4 @@ IgnorePkg = yazi
 # 最后一个参数为对应的 url
 sudo pacman -U https://archive.archlinux.org/packages/y/yazi/yazi-0.4.2-2-x86_64.pkg.tar.zst
 ```
+

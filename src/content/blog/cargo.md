@@ -39,7 +39,7 @@ cargo 项目分为 `bin` 和 `lib` 两种，前者是默认项，为可运行项
 
 ### Cargo.toml Details
 
-`package`块中记录项目的描述信息
+`package` 块中记录项目的描述信息
 
 ```toml
 [package]
@@ -63,9 +63,7 @@ geometry = {path = "crates/geometry"}
 
 ### Cargo 镜像配置
 
-cargo 的配置文件为 `$HOME/.cargo/config.toml
-
-```toml
+cargo 的配置文件为 `$HOME/.cargo/config.toml``` toml
 [registries]
 # 在此项下添加镜像地址
 ustc = {index = "https://mirrors.ustc.edu.cn/crates.io-index/"}
@@ -80,20 +78,24 @@ replace-with = 'ustc'
 [source.ustc]
 registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 # 这里创建了新的镜像源并将默认的 crates-io 替换成了 ustc
-```
 
+```
 ## 命令行修改依赖
 
-```md
+```
+
+md
 # 添加 regex 依赖
 cargo add regex
 # 移除 regex 依赖
 cargo remove regex
-```
 
+```
 ## 项目目录结构
 
-```txt
+```
+
+txt
 .
 ├── Cargo.lock
 ├── Cargo.toml
@@ -123,7 +125,6 @@ cargo remove regex
         └── test_module.rs
 
 ```
-
 * `src`: 源代码
 * `lib.rs`: 存放 `lib` 包的根
 * `main.rs`: 默认二进制包根
@@ -134,11 +135,13 @@ cargo remove regex
 
 ## 测试
 
-```md
-# 该命令会使 cargo 在 src/ 下的文件寻找单元测试，也会在 tests/ 目录下寻找集成测试
-cargo test
 ```
 
+md
+# 该命令会使 cargo 在 src/ 下的文件寻找单元测试，也会在 tests/ 目录下寻找集成测试
+cargo test
+
+```
 ## 缓存
 
 `CARGO_HOME` 默认为 `$HOME/.cargo/`
@@ -156,28 +159,40 @@ cargo test
 
 rustup 是 rust 官方开发的工具链管理器。为了方便地添加 windows 平台的工具，我们下载 rustup
 
-```bash
+```
+
+bash
 sudo pacman -S rustup
 rustup update stable
-```
 
+```
 然后，我们再在 linux 里下载交叉编译所需要的 mingw 工具：
 
-```bash
-sudo pacman -S mingw-w64-gcc
-# 可以用 x86_64-w64-mingw32-gcc --version 检查是否成功
 ```
 
+bash
+sudo pacman -S mingw-w64-gcc
+# 可以用 x86_64-w64-mingw32-gcc --version 检查是否成功
+
+```
 这样就有了足够的工具条件了。接下来，在项目根目录中创建 .cargo 目录，并在里面建立 config.toml:
 
-```toml
+```
+
+toml
 # config.toml
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"
-```
 
+```
 这样就指明了这个 target 时使用的链接器。在编译时，使用
 
-```bash
-cargo build --target x86_64-pc-windows-gnu --release
 ```
+
+bash
+cargo build --target x86_64-pc-windows-gnu --release
+
+```
+
+```
+

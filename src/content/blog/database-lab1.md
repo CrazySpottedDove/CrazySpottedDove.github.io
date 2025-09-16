@@ -1,32 +1,32 @@
 ---
-title: 数据库实验1
-description: 数据库实验1
+title: 数据库实验 1
+description: 数据库实验 1
 pubDate: 2025-02-24
 updatedDate: 2025-02-24
 tags: ["database","lab"]
 category: "课程实验"
 ---
-## 实验1 DBMS的安装和使用
+## 实验 1 DBMS 的安装和使用
 
 ### 实验目的
 
-1. 通过安装某个数据库管理系统，初步了解DBMS的运行环境。
+1. 通过安装某个数据库管理系统，初步了解 DBMS 的运行环境。
 
-2. 了解DBMS交互界面、图形界面和系统管理工具的使用。
+2. 了解 DBMS 交互界面、图形界面和系统管理工具的使用。
 
 3. 搭建实验平台。
 
 ### 实验内容和要求
 
-1. 根据某个DBMS的安装说明等文档，安装DBMS。
+1. 根据某个 DBMS 的安装说明等文档，安装 DBMS。
 
-2. 了解DBMS的用户管理。
+2. 了解 DBMS 的用户管理。
 
 3. 熟悉交互界面的基本交互命令。
 
 4. 熟悉图形界面的功能和操作。
 
-5. 了解基本的DBMS管理功能和操作。
+5. 了解基本的 DBMS 管理功能和操作。
 
 6. 完成实验报告。
 
@@ -101,7 +101,7 @@ mariadb 看起来丑丑的，语法补全也不是很智能，我们可以运行
 yay -S mycli python-pyfzf
 ```
 
-现在可以使用`mycli -u YourUsername -p YourPassword`来打开交互界面啦。
+现在可以使用 `mycli -u YourUsername -p YourPassword` 来打开交互界面啦。
 
 看起来还是不错的。
 

@@ -19,7 +19,7 @@ category: "实用技术"
 
 ### 拉取和检查 image
 
-`docker pull`命令可以拉取可用的 image：
+`docker pull` 命令可以拉取可用的 image：
 
 ```bash
 docker pull busybox
@@ -32,7 +32,7 @@ Status: Downloaded newer image for busybox:latest
 docker.io/library/busybox:latest
 ```
 
-可以使用`docker images`命令来查看本地有哪些 image
+可以使用 `docker images` 命令来查看本地有哪些 image
 
 ```bash
 docker images
@@ -50,7 +50,7 @@ php               5.6-apache   24c791995c1e   6 years ago    355MB
 
 ### 从 image 运行 container
 
-`docker run`会先检查本地是否已经有指定的 image(没有则尝试拉取)，然后从这个 image 创建一个 container
+`docker run` 会先检查本地是否已经有指定的 image(没有则尝试拉取)，然后从这个 image 创建一个 container
 
 ```bash
 docker run busybox echo "hello from busybox"
@@ -58,9 +58,9 @@ docker run busybox echo "hello from busybox"
 hello from busybox
 ```
 
-如上的命令从本地的 busybox image 创建了 container，并让它执行了命令`echo "hello from busybox"`。
+如上的命令从本地的 busybox image 创建了 container，并让它执行了命令 `echo "hello from busybox"`。
 
-可以使用`docker ps`命令来查看当前正在运行的 container
+可以使用 `docker ps` 命令来查看当前正在运行的 container
 
 ```bash
 docekr ps
@@ -68,9 +68,9 @@ docekr ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-可以发现什么在运行的容器都没有。这是因为之前建立的 container 在执行了`echo`命令后就光荣退役了。
+可以发现什么在运行的容器都没有。这是因为之前建立的 container 在执行了 `echo` 命令后就光荣退役了。
 
-我们可以再使用`docker ps -a`来查看所有的 container
+我们可以再使用 `docker ps -a` 来查看所有的 container
 
 ```bash
 docker ps -a
@@ -88,7 +88,7 @@ docekr run -it busybox sh
 # 在镜像名后面指定需要使用的交互工具，常见的选择为 bash，此处为 sh
 ```
 
-这时，你大概率会发现你的终端提示符不太一样了，这表明你进入了容器内部。一个通用的检查方法是：`ls`一下吧
+这时，你大概率会发现你的终端提示符不太一样了，这表明你进入了容器内部。一个通用的检查方法是：`ls` 一下吧
 
 ```bash
 # in the container
@@ -97,9 +97,9 @@ ls
 bin   dev   etc   home  proc  root  sys   tmp   usr   var
 ```
 
-想要退出这个容器，只需要运行`exit`就可以了。
+想要退出这个容器，只需要运行 `exit` 就可以了。
 
-这时，如果你再一次`docker ps -a`，你会发现有了两个 busybox 容器。
+这时，如果你再一次 `docker ps -a`，你会发现有了两个 busybox 容器。
 
 ```bash
 docker ps -a
@@ -110,7 +110,7 @@ a7ce83fb76c1   busybox                  "echo 'hello from bu…"   17 minutes ag
 
 ### 删除容器
 
-为了在容器工作完成后立刻删除它，你可以在`docker run`时添加参数`--rm`，如`docker run busybox --rm`
+为了在容器工作完成后立刻删除它，你可以在 `docker run` 时添加参数 `--rm`，如 `docker run busybox --rm`
 
 你也可以通过指明待删除容器 id 的方式删除已有容器。如果删除成功，会返回被删除的容器 id。
 
@@ -121,7 +121,7 @@ a12779762bd0
 a7ce83fb76c1
 ```
 
-如果希望删除所有的不在工作的容器，可以使用`docker container prune`
+如果希望删除所有的不在工作的容器，可以使用 `docker container prune`
 
 ```bash
 docker container prune
@@ -137,7 +137,7 @@ Total reclaimed space: 75B
 
 ### 删除镜像
 
-使用`docker rmi`加指定 id 的方式可以删除镜像
+使用 `docker rmi` 加指定 id 的方式可以删除镜像
 
 ```bash
 # example
@@ -186,7 +186,7 @@ docker run -d -P --name static-site prakhar1989/static-site
 * --name 为容器指定了名称，这里是 static-site
 * -P 会将容器内部的端口映射到宿主机上随机分配的端口。这样，我们就可以通过宿主机的端口来访问容器内的服务了
 
-那么，究竟映射到了哪些端口呢？可以通过`docker port`命令来检查
+那么，究竟映射到了哪些端口呢？可以通过 `docker port` 命令来检查
 
 ```bash
 docker port static-site
@@ -199,7 +199,7 @@ docker port static-site
 
 > 443 端口是容器中 Nginx 默认暴露出的 HTTPS 端口，可能需要在容器中配置 HTTPS 证书才能访问。方便起见，我们以 80 端口为例。
 >
-这时我们就可以访问`localhost:56904`，应当看到如下页面：
+这时我们就可以访问 `localhost:56904`，应当看到如下页面：
 
 ![alt text](../../../assets/mdPaste/docker/image.png)
 
@@ -207,7 +207,7 @@ docker port static-site
 
 ### 停止容器
 
-使用`docker stop`停止这个容器。
+使用 `docker stop` 停止这个容器。
 
 ```bash
 docker stop static-site
@@ -217,7 +217,7 @@ static-site
 
 ### 在运行容器时指定端口
 
-上面我们已经知道了，容器内部的端口为 80。于是，我们可以通过`-p`flag来指定内外端口映射关系
+上面我们已经知道了，容器内部的端口为 80。于是，我们可以通过 `-p` flag 来指定内外端口映射关系
 
 ```bash
 # 将容器的 80 端口映射到宿主机的 8888 端口
@@ -226,7 +226,7 @@ docker run -p 8888:80 prakhar1989/static-site
 Nginx is running...
 ```
 
-现在，就可以访问`localhost:8888`，看到同样的页面了。
+现在，就可以访问 `localhost:8888`，看到同样的页面了。
 
 ## 制作自己的 docker 镜像
 
@@ -241,12 +241,12 @@ Nginx is running...
 
 就维护者，镜像分为
 
-* Official images：由官方维护的镜像，典型的是`hello-world`镜像。
-* User images：由不同的用户创建并维护的镜像。在命名上，它们比官方镜像多一个用户名前缀，即`<user>/<image-name>`。
+* Official images：由官方维护的镜像，典型的是 `hello-world` 镜像。
+* User images：由不同的用户创建并维护的镜像。在命名上，它们比官方镜像多一个用户名前缀，即 `<user>/<image-name>`。
 
 ### 搜索镜像
 
-使用`docker search`命令可以搜索镜像
+使用 `docker search` 命令可以搜索镜像
 
 ```bash
 docker search ubuntu
@@ -290,7 +290,7 @@ git clone https://github.com/prakhar1989/docker-curriculum.git
 cd docker-curriculum/flask-app
 ```
 
-因为 python 包的一些破坏性更新，这个项目不能直接使用，我们修改`flask-app`中的`requirement.txt`:
+因为 python 包的一些破坏性更新，这个项目不能直接使用，我们修改 `flask-app` 中的 `requirement.txt`:
 
 ```txt
 Flask==2.1.3
@@ -320,16 +320,16 @@ CMD ["python", "./app.py"]
 
 这里面涉及一些基本的 Dockerfile 命令，让我们一一讲解。
 
-* `FROM python:3.8`指定了我们的镜像在 python:3.8 这个 base image 的基础上构建
-* `WORKDIR /usr/src/app`指定了工作目录，之后所有命令都默认在此执行
-* `COPY . .`把指定文件复制到镜像临时容器的指定位置中，这里是把所有文件复制到了工作目录
-* `RUN pip install --no-cache-dir -r requirements.txt`即通过`RUN`来在镜像临时容器内执行命令
-* `EXPOSE 5000`指定要将容器内部的哪一个网络端口暴露出来
-* `CMD ["python", "./app.py"]`指定了构建好镜像后，我们使用`docker run`从它运行容器时默认执行的命令
+* `FROM python:3.8` 指定了我们的镜像在 python:3.8 这个 base image 的基础上构建
+* `WORKDIR /usr/src/app` 指定了工作目录，之后所有命令都默认在此执行
+* `COPY . .` 把指定文件复制到镜像临时容器的指定位置中，这里是把所有文件复制到了工作目录
+* `RUN pip install --no-cache-dir -r requirements.txt` 即通过 `RUN` 来在镜像临时容器内执行命令
+* `EXPOSE 5000` 指定要将容器内部的哪一个网络端口暴露出来
+* `CMD ["python", "./app.py"]` 指定了构建好镜像后，我们使用 `docker run` 从它运行容器时默认执行的命令
 
 ### docker build
 
-使用`docker build`命令可以从 Dcokerfile 创建一个新的镜像。
+使用 `docker build` 命令可以从 Dcokerfile 创建一个新的镜像。
 
 ```bash
 # docker build 接受一个参数，用于指明包含 Dockerfile 的目录
@@ -355,9 +355,9 @@ docker build -t crazyspotteddove0/catnip .
 => => naming to CrazySpottedDove/catnip                                                                                                                            0.0s
 ```
 
->由于网络问题，上面的命令可能会失败。你可以尝试首先确认宿主机代理正常，并改用命令`docker build -t <user_name>/catnip --network host .`，这会强制临时容器使用宿主机网络
+>由于网络问题，上面的命令可能会失败。你可以尝试首先确认宿主机代理正常，并改用命令 `docker build -t <user_name>/catnip --network host .`，这会强制临时容器使用宿主机网络
 
-现在，我们可以在`docker images`中看到新建立的镜像了：
+现在，我们可以在 `docker images` 中看到新建立的镜像了：
 
 ```bash
 REPOSITORY                TAG          IMAGE ID       CREATED         SIZE
@@ -371,7 +371,7 @@ docker run -p 8888:5000 CrazySpottedDove/catnip --rm
 
 ```
 
-你应当可以在`localhost:8888`中看到一张随机的猫猫！
+你应当可以在 `localhost:8888` 中看到一张随机的猫猫！
 ![alt text](../../../assets/mdPaste/docker/image-1.png)
 
 ## 上传自己的 docker 镜像
@@ -409,7 +409,7 @@ docker run -p 8888:5000 crazyspotteddove0/catnip
 
 ### 构建
 
-我们从一个`Dockerfile`来看构建一个 C++ 项目的步骤。该项目需要使用 vcpkg, clang-18, ninja, cmake。同时，项目脚手架使用私人仓库。
+我们从一个 `Dockerfile` 来看构建一个 C++ 项目的步骤。该项目需要使用 vcpkg, clang-18, ninja, cmake。同时，项目脚手架使用私人仓库。
 
 ```dockerfile
 # 构建的第一步，指定 ubuntu:22.04 为 builder，用于编译项目
@@ -466,9 +466,9 @@ ENTRYPOINT ["/usr/local/bin/tp_cli"]
 
 这里使用了分部构建的技巧。这样做可以最小化镜像，避免带有不必要的构建工具。
 
-然而，直接这么做显然也会引入一些问题，比如说，当构建出的二进制文件还依赖一些动态链接库的时候，仅仅复制构建出的二进制文件到`runtime`容器中是远远不够的。
+然而，直接这么做显然也会引入一些问题，比如说，当构建出的二进制文件还依赖一些动态链接库的时候，仅仅复制构建出的二进制文件到 `runtime` 容器中是远远不够的。
 
-我们可以进入构建容器中，使用`ldd`指令来查看这个二进制文件依赖哪些动态链接库：
+我们可以进入构建容器中，使用 `ldd` 指令来查看这个二进制文件依赖哪些动态链接库：
 
 ```bash
 ldd ./tp_cli
@@ -515,7 +515,7 @@ RUN apt-get update -y && apt-get install -y libc++abi1 libc++1 libglx-mesa0 libg
 docker run --rm -v $(pwd)/data:/app/data -v $(pwd)/output:/app/output tp:latest --input /app/data/somedata.txt --output /app/output/somedata.txt
 ```
 
-在这个命令中，我们使用`-v`将本地的`$(pwd)/data`挂载到容器中的`/app/data`，然后在输入目录处给出容器内的路径`/app/data`，就可以做到让容器访问本地文件。这里也同理解决了容器输出到本地文件的问题。
+在这个命令中，我们使用 `-v` 将本地的 `$(pwd)/data` 挂载到容器中的 `/app/data`，然后在输入目录处给出容器内的路径 `/app/data`，就可以做到让容器访问本地文件。这里也同理解决了容器输出到本地文件的问题。
 
 ## 小玩具
 
@@ -659,3 +659,4 @@ Some characters in ducker use italics/boldface.  This doesn't work by default wh
 set -g default-terminal "tmux-256color"
 set -as terminal-overrides ',xterm*:sitm=\E[3m'
 ```
+

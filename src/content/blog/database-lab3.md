@@ -1,5 +1,5 @@
 ---
-title: 数据库实验3
+title: 数据库实验 3
 description: SQL 数据完整性
 pubDate: 2025-03-10
 updatedDate: 2025-03-10
@@ -9,7 +9,7 @@ category: "课程实验"
 
 ## 实验目的
 
-熟悉通过SQL进行数据完整性控制的方法。
+熟悉通过 SQL 进行数据完整性控制的方法。
 
 ## 实验平台
 

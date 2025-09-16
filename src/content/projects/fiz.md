@@ -27,7 +27,7 @@ O(∩_∩)O~~ 试试 **fiz** ！
 
 ![alt text](../../../assets/mdPaste/fiz/image-2.png)
 
-对于`doc, xls, pdf, ppt`文件支持预览。
+对于 `doc, xls, pdf, ppt` 文件支持预览。
 >更建议的是下载到本地（）
 
 ### 查看成绩
@@ -45,7 +45,7 @@ O(∩_∩)O~~ 试试 **fiz** ！
 在 [Github Release](https://github.com/CrazySpottedDove/fiz/releases/latest) 中提供了不同平台的 windows 版本、macos 版本和 linux 版本。用户可以自行下载。
 >fiz 没有电子签名，需要您信任
 >
->对于 mac 用户，如果提示 fiz 已损坏，可以在终端运行命令`xattr -cr /path/to/fiz.app`
+>对于 mac 用户，如果提示 fiz 已损坏，可以在终端运行命令 `xattr -cr /path/to/fiz.app`
 >
 ## 效率
 
@@ -59,4 +59,4 @@ O(∩_∩)O~~ 试试 **fiz** ！
 * 本质上服务器和学在浙大的服务器是同一个，所以报错大概率是学在浙大出问题了
 * 碍于通信方式，预览性能较差
 * 第一次登录 fiz 后有数据本地化的过程，可能有小段时间内容未渲染，无需担忧。
-* 课件默认下载目录在用户目录下，请自行在设置中修改，或者修改`YourUserPath/.fiz/.config/config.json`
+* 课件默认下载目录在用户目录下，请自行在设置中修改，或者修改 `YourUserPath/.fiz/.config/config.json`

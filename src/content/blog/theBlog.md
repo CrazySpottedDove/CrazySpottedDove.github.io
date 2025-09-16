@@ -9,7 +9,7 @@ category: "瞎折腾"
 
 ## 处理 Blog 配置文件与相关文件
 
-修改`/src/content/config.ts`如下：
+修改 `/src/content/config.ts` 如下：
 
 ```typescript
 import { defineCollection, z} from 'astro:content';
@@ -31,7 +31,7 @@ export const collections = {
 };
 ```
 
-修改`/src/layouts/BlogLayout.astro`如下：
+修改 `/src/layouts/BlogLayout.astro` 如下：
 
 ```astro
 ---
@@ -117,7 +117,7 @@ const fullPubDate = pubDate.toLocaleDateString("en", {
 </AppLayout>
 ```
 
-修改`/src/pages/blog/index.astro`如下：
+修改 `/src/pages/blog/index.astro` 如下：
 
 ```astro
 ---
@@ -163,7 +163,7 @@ const description =
 
 ## Blog 文件位置与规范
 
-在`/src/content/blog/`内添加`.md`文件，并确保文件的开头有如下的说明块：
+在 `/src/content/blog/` 内添加 `.md` 文件，并确保文件的开头有如下的说明块：
 
 ```md
 ---
@@ -177,23 +177,23 @@ tags: ["web", "mobile", "optimization", "best practices", "website", "developmen
 
 ## 编辑 Projects
 
-Project 的主文件为`/src/pages/projects.astro`。至于想要修改项目卡片元数据，则需要修改`/src/data/contributions.json`文件。
+Project 的主文件为 `/src/pages/projects.astro`。至于想要修改项目卡片元数据，则需要修改 `/src/data/contributions.json` 文件。
 
 ## 导航栏
 
-请编辑`/src/data/navigation.json`。
+请编辑 `/src/data/navigation.json`。
 
 ## 删除 Footer
 
-在`/src/layouts/AppLayout.astro`中删去与`Footer`有关内容。同时，可以在本文件中修改一些网页元数据。
+在 `/src/layouts/AppLayout.astro` 中删去与 `Footer` 有关内容。同时，可以在本文件中修改一些网页元数据。
 
 ## 修改个人信息
 
-在`/src/data/social.ts`中修改有关信息。
+在 `/src/data/social.ts` 中修改有关信息。
 
 ## 添加工作流文件
 
-创建`/.github/workflows/deploy.yml`，内容为
+创建 `/.github/workflows/deploy.yml`，内容为
 
 ```yml
 name: Deploy to GitHub Pages
@@ -237,4 +237,4 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-注：这是网页为 `https://<user-name>.github.io`时的情况，其余情况可能有所不同，需要对`astro.config.mjs`进行额外配置
+注：这是网页为 `https://<user-name>.github.io` 时的情况，其余情况可能有所不同，需要对 `astro.config.mjs` 进行额外配置

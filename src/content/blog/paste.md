@@ -224,3 +224,4 @@ printf "%s\n" "${win_paths[@]}"
 ```bash
 somecommand 1>/dev/null
 ```
+

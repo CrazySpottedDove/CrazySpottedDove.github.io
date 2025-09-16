@@ -158,10 +158,12 @@ PMD 上的应用往往是多媒体应用程序(基于 Web，面向媒体)。响�
 #### 吞吐量 Throughput/TP
 
 $$
-TP=\frac{n(\text{指令数})}{T_k(\text{总执行时间})}<TP_{\text{max}}=\frac{1}{\Delta t_0(\text{单阶段最长耗时})}
+TP=\frac{n(\text{指令数})}{T_k(\text{总执行时间})}<TP_{\text{max}}=\frac{1}{\Delta
+t_0(\text{单阶段最长耗时})}
 $$
 
 实际情况中
+
 $$
 T_k=(m(\text{单指令阶段数})+n-1)\Delta t_0
 $$
@@ -184,7 +186,8 @@ $$
 #### 提速比例 Speedup/Sp
 
 $$
-Sp=\frac{nm\Delta t_0(\text{单周期执行时间})}{(m+n-1)\Delta t_0(\text{流水线执行时间})}=\frac{nm}{m+n-1}<m
+Sp=\frac{nm\Delta t_0(\text{单周期执行时间})}{(m+n-1)\Delta
+t_0(\text{流水线执行时间})}=\frac{nm}{m+n-1}<m
 $$
 
 #### 效率 Efficiency/η
@@ -369,18 +372,20 @@ load 指令也会引发数据冲突。在 MEM 阶段，数据从 data memory 中
 新的指令对应的冲突向量为 $10110001$，老的指令们对应的冲突向量为 $00101100$，只要对它们按位取或，就能得到现在所有指令对应的冲突向量，即 $10111101$。
 
 现在，我们可以使用的 $m=2,7$，不妨再取一次 $m=2$，则有：
+
 $$
 \begin{align*}
-    10111101 \gg 2&=00101111\\
-    00101111 | 10110001 &=10111111
+  10111101 \gg 2&=00101111\\
+  00101111 | 10110001 &=10111111
 \end{align*}
 $$
 
 现在可以的选择只有 $m=7$ 了：
+
 $$
 \begin{align*}
-    10111111\gg 7&=00000001\\
-    00000001 | 10110001 &= 10110001
+  10111111\gg 7&=00000001\\
+  00000001 | 10110001 &= 10110001
 \end{align*}
 $$
 
@@ -481,26 +486,34 @@ $$
 #### CPU (Execution) time
 
 $$
-\text{CPU time}=(\text{CPU clock cycles}+\text{Memory stall cycles})\times \text{Clock cycle time}
+\text{CPU time}=(\text{CPU clock cycles}+\text{Memory stall
+cycles})\times \text{Clock cycle time}
 $$
+
 其中
+
 $$
-\text{Memory stall cycles}=\text{IC}\times \text{MemAccess refs per instructions}\times \text{Miss Rate}\times\text{Miss Penalty}
+\text{Memory stall cycles}=\text{IC}\times \text{MemAccess refs per
+instructions}\times \text{Miss Rate}\times\text{Miss Penalty}
 $$
 
 其实也就是正常执行的时间加上 miss penalty。
 
 直接用总的时钟周期算似乎比较奇怪。如果用 CPI 来计算，则有：
+
 $$
-\text{CPU time}=\text{IC}\times (\text{CPI}_{\text{Execution}}+\text{MemAccess Rate}\times \text{Miss Rate}\times\text{Miss Penalty})\times \text{Clock cycle time}
+\text{CPU time}=\text{IC}\times
+(\text{CPI}_{\text{Execution}}+\text{MemAccess Rate}\times \text{Miss
+Rate}\times\text{Miss Penalty})\times \text{Clock cycle time}
 $$
 
 #### Average Memory Access Time
 
 $$
 \begin{align*}
-\text{Average Memory Access Time}&=\frac{\text{Whole accesses time}}{\text{All memory accesses in program}}\\
-&=\text{Hit time}+(\text{MissRate}\times\text{Miss Penalty})
+  \text{Average Memory Access Time}&=\frac{\text{Whole accesses
+  time}}{\text{All memory accesses in program}}\\
+  &=\text{Hit time}+(\text{MissRate}\times\text{Miss Penalty})
 \end{align*}
 $$
 
@@ -509,8 +522,11 @@ $$
 > 如果 data memory 和 instruction memory 的 miss rate 或 miss penalty 不同，那么后式应该写成它们的加权和。
 
 这样，CPU time 也可以写成
+
 $$
-\text{CPU time}=\text{IC}\times \left(\text{ALUOps Rate}\times \text{CPI}_{\text{ALUOps}}+\text{MemAccess Rate}\times \text{AMAT}\right)\times \text{Cycle Time}
+\text{CPU time}=\text{IC}\times \left(\text{ALUOps Rate}\times
+  \text{CPI}_{\text{ALUOps}}+\text{MemAccess Rate}\times
+\text{AMAT}\right)\times \text{Cycle Time}
 $$
 
 另一个好的思路则是先计算正常工作时的时间，然后再加上 miss 造成的损失时间。
@@ -654,7 +670,9 @@ TLB 并不一定采用完全组相联的策略。它接受 virtual page number �
 在拥有了这样的定义的情况下，以二级缓存为例，我们可以这样计算总的惩罚:
 
 $$
-\text{miss rate}_{\text{L1 global}}\times \text{Hit time}_{\text{L2}}+\text{miss rate}_{\text{L2 global}}\times \text{miss penalty}_{\text{L2}}
+\text{miss rate}_{\text{L1 global}}\times \text{Hit
+time}_{\text{L2}}+\text{miss rate}_{\text{L2 global}}\times
+\text{miss penalty}_{\text{L2}}
 $$
 
 #### 关键词优先(Critical Word First)和早启动(Early Restart)
@@ -763,7 +781,7 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
    - 通过减少访问不同数组时的跨度，改善空间局部性（Spatial Locality）。
    - **示例**：
 
-     ```c
+```c
      // 原始代码
      int x[100], y[100];
      for (int i = 0; i < 100; i++) {
@@ -775,13 +793,14 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
      for (int i = 0; i < 100; i++) {
          process(data[i].x, data[i].y);
      }
-     ```
+
+```
 
 2. **循环交换（Loop Interchange）**：
    - 改变嵌套循环的顺序，使数据按存储顺序访问，从而改善空间局部性。
    - **示例**：
 
-     ```c
+```c
      // 原始代码
      for (int i = 0; i < N; i++) {
          for (int j = 0; j < M; j++) {
@@ -795,13 +814,14 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
              process(A[j][i]);
          }
      }
-     ```
+
+```
 
 3. **循环融合（Loop Fusion）**：
    - 将两个独立的循环合并为一个循环，以减少循环开销并改善局部性。
    - **示例**：
 
-     ```c
+```c
      // 原始代码
      for (int i = 0; i < N; i++) {
          process1(A[i]);
@@ -815,13 +835,14 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
          process1(A[i]);
          process2(A[i]);
      }
-     ```
+
+```
 
 4. **分块（Blocking）**：
    - 将数据划分为较小的块，并在每个块内重复访问数据，从而改善时间局部性（Temporal Locality）。
    - **示例**：
 
-     ```c
+```c
      // 原始代码
      for (int i = 0; i < N; i++) {
          for (int j = 0; j < M; j++) {
@@ -839,7 +860,8 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
              }
          }
      }
-     ```
+
+```
 
     这里的 B 称之为 blocking factor。
 
@@ -902,7 +924,7 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
 >
 > 3. **代码片段**：
 >
->    ```c
+>    ``` c
 >    for (i = 0; i < 3; i++) {
 >        for (j = 0; j < 100; j++) {
 >            a[i][j] = b[j][0] × b[j+1][0];
@@ -920,7 +942,7 @@ Pseudo-Associative Cache 中也有多个 way。同样地，它在寻找目标块
 >
 > 一种预取方案如下：
 >
-> ```c
+> ``` c
 > for (j = 0; j < 100; j += 1) {
 >     prefetch(b[j+7][0]);  // 提前预取 b[j+7][0]
 >     prefetch(a[0][j+7]);  // 提前预取 a[0][j+7]

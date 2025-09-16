@@ -297,9 +297,12 @@ SELECT a_1, a_2, ... a_n FROM r_1, r_2, ... r_n WHERE some_predication;
 ```
 
 这和
+
 $$
-\Pi_{a_1, a_2, \ldots, a_n}(\sigma_{\text{SOME\_predication}}(r_1\times r_2\times\ldots\times r_m))
+\Pi_{a_1, a_2, \ldots,
+a_n}(\sigma_{\text{SOME\_predication}}(r_1\times r_2\times\ldots\times r_m))
 $$
+
 等价。
 
 sql 对大小写不敏感，但是不允许名称中使用 `-` 。
@@ -368,7 +371,8 @@ SELECT some_attr AS new_name FROM some_table
 SELECT customer_name, T.loan_number, S.amount
 FROM borrower AS T, loan AS S
 WHERE T.loan_number = S.loan_number;
- ```
+ 
+```
 
 通过重命名，我们还可以实现一张表中同一属性的自比较
 
@@ -435,17 +439,20 @@ ORDER BY customer_name;
 实际应用中，选择、投影和笛卡尔积操作是允许重复的行的。当不希望有重复时，使用关键词 `DISTINCT` 。
 
 下面举例说明重复的行为。对于
+
 $$
 \begin{align*}
-r_1(A, B)&=\{(1, a), (2, a)\}\\
-r_2(C)&=\{(2), (3), (3)\}
+  r_1(A, B)&=\{(1, a), (2, a)\}\\
+  r_2(C)&=\{(2), (3), (3)\}
 \end{align*}
 $$
+
 有
+
 $$
 \begin{align*}
-\Pi_B(r_1)&=\{(a), (a)\}\\
-\Pi_B(r_1)\times r_2&=\{(a, 2), (a, 2), (a, 3), (a, 3), (a, 3), (a, 3)\}
+  \Pi_B(r_1)&=\{(a), (a)\}\\
+  \Pi_B(r_1)\times r_2&=\{(a, 2), (a, 2), (a, 3), (a, 3), (a, 3), (a, 3)\}
 \end{align*}
 $$
 
@@ -641,23 +648,29 @@ WHERE assets >(
 ![alt text](../../../assets/mdPaste/database/image-6.png)
 
 我们尝试用 `sql` 语句实现数学表达式
+
 $$
 \begin{align*}
 
-    &\Pi_{\text{customer\_name, branch\_name}}(\text{depositor}\bowtie\text{account})\\
-    \div&\Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
+  &\Pi_{\text{customer\_name,
+  branch\_name}}(\text{depositor}\bowtie\text{account})\\
+  \div&\Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
 
 \end{align*}
 $$
 
 首先，我们可以分别写出
+
 $$
 \Pi_{\text{customer\_name, branch\_name}}(\text{depositor}\bowtie\text{account})
 $$
+
 与
+
 $$
 \Pi_{\text{branch\_name}}(\sigma_{\text{branch\_city}='\text{Brooklyn}'}(\text{branch}))
 $$
+
 对应的 `sql` 表达式。
 
 前者为
@@ -1062,6 +1075,7 @@ CREATE ASSERTION sum_constraint CHECK(
 ```
 
 这里使用了逻辑
+
 $$
 \forall xP(x)=(\lnot\exist x)(\lnot P(x))
 $$
@@ -1352,13 +1366,17 @@ EXEC SQL <embedded SQL statement> END_EXEC
 关系集是多个同类关系的集合。关系集表示了两个或多个实体集之间的关联。
 
 从形式上来说，一个关系集是一个数学关系，它涉及 n (n ≥ 2) 个实体，每个实体均取自相应的实体集。具体地，设有 n 个实体集 E₁, E₂, …, Eₙ，则一个关系集 R 是笛卡尔积
+
 $$
 E₁ \times E₂ \times \cdots \times Eₙ
 $$
+
 的一个子集，即
+
 $$
 R \subseteq E₁ \times E₂ \times \cdots \times Eₙ.
 $$
+
 其中，每个元组 $(e₁, e₂, …, eₙ) \in R$ 表示实体 $e₁, e₂, …, eₙ$ 之间存在某种特定的联系。
 
 > 关系集中的实体集不必都是唯一的，比如说，可以只出现两个 $E_1$，这种情况叫做 Recursive relationship set 自环关系集。
@@ -1793,6 +1811,7 @@ E-R 图的种类多样。
 #### 依赖保持
 
 分解的另一个要求则是依赖保持，即分解后，子表中的所有依赖关系集的并和原表的依赖关系集应该等价：
+
 $$
 (F_1\cup F_2 \cup \ldots \cup F_n)^+=F^+
 $$
@@ -1833,7 +1852,7 @@ BCNF 的分解思路比较简单，就是检查表 $R$ 中的非平凡函数依�
 
 $$
 \begin{align*}R&=(J, K, L)\\
-F&=\left\{ JK\to L, L\to K \right\}
+  F&=\left\{ JK\to L, L\to K \right\}
 \end{align*}
 $$
 
@@ -2057,6 +2076,7 @@ RAID 是独立磁盘冗余阵列(Redundant Arryas of Independent Disks) 的缩�
 一种简单粗暴的冗余是镜像存储。此时，数据丢失只在一个磁盘发生故障后，其镜像磁盘在系统修复前也发生故障时发生。
 
 据此，我们可以导出数据丢失平均时间(Mean Time to Data Loss) 的公式：
+
 $$
 \text{Mean Time to Data Loss} = \frac{\text{MTTF}^2}{2\text{MTTR}}
 $$
@@ -2108,10 +2128,10 @@ level 4 使用块级拆分，并使用块级的校验位。level 4 用一个单�
 
 $$
 \begin{align*}
-A \oplus B &= C\\
-A' \oplus B &= C'\\
-C' &= A'\oplus (A\oplus B)\oplus A \\
-&= A' \oplus C \oplus B
+  A \oplus B &= C\\
+  A' \oplus B &= C'\\
+  C' &= A'\oplus (A\oplus B)\oplus A \\
+  &= A' \oplus C \oplus B
 \end{align*}
 $$
 
@@ -2292,9 +2312,11 @@ Hash Join 适用于处理条件类似于 `r.somkey = s.somekey` 的 theta 连接
 我们之前提到过，在 Hash Join 中，我们尝试为划分建立哈希索引。但是，如果划分过大，没法装进内存，那就没有办法建立哈希索引了。因此，一个方法时，当划分过大时，就对它使用新的哈希函数进行再划分，直到大小合适为止。这样的划分过程被称为递归划分。
 
 假设内存有 $M$ 个 block，我们倾向于一次做 $M-1$ 个划分。因此，我们总共需要做
+
 $$
 t=\lceil \log_{M-1}(b_R)-1 \rceil
 $$
+
 次划分。
 
 开销为

@@ -1,5 +1,5 @@
 ---
-title: 数据库实验4
+title: 数据库实验 4
 description: SQL 安全性
 pubDate: 2025-03-17
 updatedDate: 2025-03-17
@@ -8,7 +8,7 @@ category: "课程实验"
 ---
 ## 实验目的
 
-1. 熟悉通过SQL进行安全性控制的方法。
+1. 熟悉通过 SQL 进行安全性控制的方法。
 
 ## 实验平台
 
