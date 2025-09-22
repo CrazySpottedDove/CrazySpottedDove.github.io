@@ -8,6 +8,7 @@ category: "课程实验"
 ---
 
 ## 使用 Docker 容器
+
 实验提供了 Makefile 封装相关 Docker 命令。
 
 ```makefile
@@ -130,7 +131,7 @@ services:
 
 ## 使用交叉编译工具链
 
-```bash
+```sh
 riscv64-linux-gnu-gcc hello.c -o hello # 编译生成 riscv64 架构下的可执行文件
 riscv64-linux-gnu-gcc -S hello.c -o hello.s # 编译生成汇编代码
 riscv64-linux-gnu-objdump -d hello > hello.disasm # 反汇编
@@ -138,7 +139,7 @@ riscv64-linux-gnu-objdump -d hello > hello.disasm # 反汇编
 
 ## 编译内核
 
-```bash
+```sh
 make defconfig # 用当前架构自带的默认配置文件，生成 .config 配置文件
 make -j$(nproc) # -j 参数表明并行，$(nproc) 是 shell 命令，返回当前机器的 CPU 核心数。这么做会让 make 使用所有 CPU 并行编译。如果想要显示详细的编译命令，可以追加参数 V=1
 make distclean # 清除所有编译生成的文件、配置文件、符号链接等
@@ -157,3 +158,84 @@ make distclean # 清除所有编译生成的文件、配置文件、符号链接
 - 不同点：
   - Image 适合实际启动系统，通常体积更小，不带调试信息。
   - vmlinux 适合调试和分析，体积较大，包含符号和调试信息，不能直接启动。
+
+## 交叉编译 RISC-V 架构内核
+
+变量 `ARCH` 和 `CROSS_COMPILE` 被用来指定目标架构。默认的变量值在顶层的 Makefile 中被定义。而在命令行中，我们可以覆写它们。
+
+- `ARCH` 指定了我们需要的目标架构，如 x86，i386
+- `CROSS_COMPILE` 指定了我们的工具链前缀。如，想使用 `x86_64-pc-linux-gnu-gcc` 的话，就要设置 `CROSS_COMPILE` 为 `x86_64-pc-linux-gnu-`。
+
+直接在命令行中追加就可以覆写这些变量：
+
+```sh
+# for example
+make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnu-
+```
+
+这里我们使用
+
+```sh
+make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+```
+
+## 使用 QEMU 运行 RISC-V 内核
+
+### 什么是 QEMU
+
+QEMU（Quick Emulator）是一个开源的通用虚拟化和模拟器工具。它可以模拟多种不同的硬件平台和处理器架构（如 x86、ARM、RISC-V 等），允许用户在一台物理主机上运行不同架构的操作系统和程序。QEMU 常用于操作系统开发、内核调试、嵌入式开发等场景。
+
+主要特点：
+- 支持多种 CPU 架构的全系统模拟和用户态仿真
+- 可以与 KVM（Linux 内核虚拟机）配合，实现高性能虚拟化
+- 常用于虚拟机、操作系统实验、交叉架构开发和测试
+
+在本实验中，QEMU 用于模拟 RISC-V 平台，运行和调试编译好的 Linux 内核和文件系统镜像。
+
+### QEMU 操作
+
+- 查看寄存器 `info registers`
+- 查看内存书 `info mtree`
+- 查看内存映射 `info mem`
+- 查看 TLB `info tlb`
+- 查看设备树 `info fdt`
+- 查看物理内存中的值 `xp /xw 0x80200000`，其中 `xp` 表示查看物理内存，`/xw` 表示 16 进制显示。
+
+比如说，打印位于 `0x80200000` 的指令，可以用 `xp /i 0x80200000`，`/i` 表示以指令格式反汇编显示。
+
+### RISC-V 执行环境
+
+RISC-V 程序的行为依赖于其运行的执行环境（Execution Environment, EE）。RISC-V 执行环境接口（EEI）定义了程序启动时的初始状态、环境中硬件线程（hart）的数量和类型（包括支持的特权级）、内存和 I/O 区域的可访问性及属性、每个 hart 上所有合法指令的行为（即指令集架构 ISA 只是 EEI 的一部分），以及在执行过程中产生的中断或异常（包括环境调用）的处理方式。
+
+常见的 EEI 示例有：
+- Linux 应用二进制接口（ABI）
+- RISC-V 管理员二进制接口（SBI）
+
+RISC-V 执行环境的实现可以是纯硬件、纯软件，或软硬件结合。例如，某些功能可以通过硬件直接实现，也可以通过指令陷阱和软件模拟来实现。
+
+执行环境的实现示例包括：
+- “裸机”硬件平台：hart 由物理处理器线程直接实现，指令可访问全部物理地址空间，平台定义了从上电复位开始的执行环境。
+- RISC-V 操作系统：通过虚拟内存控制内存访问，将多个用户级 hart 映射到物理处理器线程上，为用户程序提供隔离的执行环境。
+- RISC-V 虚拟机管理器（hypervisor）：为多个客户操作系统提供 supervisor 级的执行环境。
+- RISC-V 模拟器（如 Spike、QEMU、rv8）：在 x86 等平台上模拟 RISC-V hart，可提供用户级或 supervisor 级的执行环境。
+
+简而言之，EEI 决定了 RISC-V 程序启动和运行时能“看到”的世界，包括硬件资源、特权级、内存布局、异常处理等。不同的 EEI 和实现方式会影响同一 RISC-V 程序的实际行为。
+
+> **SBI 和 ABI 是什么？实现什么功能？**
+>
+> - **SBI（Supervisor Binary Interface）**
+  > SBI 是 RISC-V 架构下 supervisor（操作系统内核）与底层固件（如 OpenSBI）之间的标准接口。它为操作系统内核提供了一组调用机制，用于访问硬件相关的功能，比如启动/关闭 hart（CPU 核心）、中断管理、定时器、I/O 等。SBI 的作用是屏蔽底层硬件差异，让操作系统内核可以在不同硬件平台上运行而无需关心具体实现细节。
+>
+> - **ABI（Application Binary Interface）**
+  > ABI 是应用程序与操作系统之间的接口标准，定义了应用程序如何调用操作系统提供的服务（如系统调用）、二进制文件格式、函数调用约定、数据类型大小和对齐方式等。Linux ABI 就是 Linux 用户程序与内核之间的接口规范。ABI 的作用是保证同一平台下编译的程序可以在不同的操作系统实现上正确运行。
+>
+> **总结：**
+> - SBI 连接“操作系统内核”与“底层固件/硬件”，为内核屏蔽硬件细节。
+> - ABI 连接“用户程序”与“操作系统内核”，为应用屏蔽内核实现细节。
+
+在 QEMU 启动过程中，QEMU 作为模拟器，实现了 RISC-V 指令集架构（ISA），在主机上虚拟出 RISC-V 的 hart（硬件线程），为上层软件提供了一个“硬件”运行环境。
+
+OpenSBI 作为固件，实现了 RISC-V 的 SBI（Supervisor Binary Interface），为操作系统内核（如 Linux）提供 SEE（Supervisor Execution Environment，管理者执行环境）。它负责在硬件和操作系统之间进行抽象和管理，比如处理中断、启动 hart、提供系统调用等。
+
+Linux 作为操作系统，实现了 Linux ABI（Application Binary Interface），为用户程序提供 AEE（Application Execution Environment，应用执行环境）。它负责管理进程、内存、文件系统等资源，并为用户程序提供标准的接口和服务。
+
