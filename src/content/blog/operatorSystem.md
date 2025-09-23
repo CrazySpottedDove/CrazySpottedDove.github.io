@@ -40,9 +40,51 @@ category: "课程笔记"
 
 ### Computer System Organization
 
-### Linux 文件系统
+#### Linux 文件系统
 
 - `home` 包含了除系统管理员外的所有用户的主目录
 - `lib` 包含了系统使用的动态链接库(.so)和内核模块(modules)
 - `mnt` 挂载的文件系统
+
+#### Linux 内核映像
+
+Linux 系统引导过程使用内核映像，放在 `/boot` 目录下。如：`vmlinux`。小的内核叫 `zImage`，大的叫 `bzImage`。
+
+#### 内核构建
+
+Linux 内核的编译采用 Kbuild 系统，而 Kbuild 基于 GNU make。
+
+Kbuild 的 Makefile 并不直接被当做 Makefile 执行，而是从 `.config` 文件中提取信息，生成 Kbuild 完成内核编译所需的文件列表。
+
+### Computer System Operation
+
+#### 计算机启动
+
+计算机系统启动过程中，程序执行顺序为：
+- ROM 中的引导程序
+- 硬盘引导程序
+- 分区引导程序
+- 操作系统的初始化程序
+
+#### 中断
+
+中断 Interrupt 指系统发生某个异步/同步事件后，处理机暂停正在执行的程序，转去执行处理该事件程序的过程。
+
+陷入 trap 是软件生成的中断，它并不由错误或用户请求产生。
+
+操作系统是通过中断来驱动的。
+
+对中断进一步细分，有：
+- 外部中断 Interrupt：外部设备发出的 I/O 请求，分为可屏蔽和不可屏蔽两类，由一些硬件设备产生，可在指令执行的任意时刻产生。
+- 异常 Exception、陷入 Trap：由 CPU（正在执行的进程）产生，一条指令终止执行后 CPU 才发出中断。常见的异常有除零、溢出及页面异常(fault 出错)等。另一种情况是使用 `int` 指令(trap 陷入)，Linux 使用该指令来实现系统调用。
+
+### Storage Structure
+
+![alt text](mdPaste/operatorSystem/image.png)
+
+还有个叫持久内存 Persistent Memory 的玩意儿，可以作为第二主存，且非易失，速度、容量、成本均在 DRAM 和 SSD 之间。
+
+### IO Structure
+
+Stop Update
 
