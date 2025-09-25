@@ -19,6 +19,8 @@ tags: ["lua", "KingdomRush", "王国保卫战", "dove 版"]
 1. 大小较小，名称以 `Kingdom Rush` 开头，为补丁文件。
 2. 大小较大，名称以 `Kingdom_Rush_dove` 开头，为改版本体文件。
 
+这里的图片只是一个示例，务必下载最新版本的补丁和本体，保证补丁和本体适配。
+
 **STEP 2**
 
 将本体压缩包与补丁压缩包分别解压缩。
@@ -38,6 +40,8 @@ tags: ["lua", "KingdomRush", "王国保卫战", "dove 版"]
 见如何安装章节，重复*下载补丁压缩包、解压缩、将文件拖入改版本体 `Kingdom Rush` 文件夹中并替换*的操作即可。
 
 **请注意，任何补丁只与大版本号相同的本体文件适配。比如说， `2.0.1` 的补丁可以用于 `2.0.0` 的本体，但不能用于 `1.0.0` 的本体。如果出现大版本号冲突的情况，请重新安装最新的本体。**
+
+如果出现新的本体文件，直接下载新的本体即可，旧的文件可以删除。您的存档不会消失。
 
 ## 如何启动
 
@@ -96,38 +100,38 @@ f3| 一键调集全图兵营前往拦截范围内的敌人
 
 ```lua
 return {
-    -- 如果需要英雄满级，请将此条改为 true，默认为 false
-    hero_full_level_at_start = false,
+	-- 如果需要英雄满级，请将此条改为 true，默认为 false
+	hero_full_level_at_start = false,
 
-    -- 出怪倍数，默认为 1(必须为整数，过大容易卡顿！)
-    enemy_count_multiplier = 1,
+	-- 出怪倍数，默认为 1(必须为整数，过大容易卡顿！)
+	enemy_count_multiplier = 1,
 
-    -- 怪物掉落金币倍率，默认为 1，向上取整
-    enemy_gold_multiplier = 1,
+	-- 怪物掉落金币倍率，默认为 1，向上取整
+	enemy_gold_multiplier = 1,
 
-    -- 怪物生命倍率，在已有的难度生命基础上相乘，默认为 1
-    enemy_health_multiplier = 1,
+	-- 怪物生命倍率，在已有的难度生命基础上相乘，默认为 1
+	enemy_health_multiplier = 1,
 
-    -- 开局金币数倍率，默认为 1
-    gold_multiplier = 1,
+	-- 开局金币数倍率，默认为 1
+	gold_multiplier = 1,
 
-    -- 英雄伤害倍率，默认为 1
-    hero_damage_multiplier = 1,
+	-- 英雄伤害倍率，默认为 1
+	hero_damage_multiplier = 1,
 
-    -- 英雄升级速度倍率，默认为 1
-    hero_xp_gain_multiplier = 1,
+	-- 英雄升级速度倍率，默认为 1
+	hero_xp_gain_multiplier = 1,
 
-    -- 路线是否倒转，默认为 false
-    reverse_path = false,
+	-- 路线是否倒转，默认为 false
+	reverse_path = false,
 
-    -- 血条是否显示，默认为 true
-    show_health_bar = true,
+	-- 血条是否显示，默认为 true
+	show_health_bar = true,
 
-    -- 启动自定义配置开关，默认为 true。如果需要恢复默认配置，可以将它变为 false
-    custom_config_enabled = true,
+	-- 启动自定义配置开关，默认为 true。如果需要恢复默认配置，可以将它变为 false
+	custom_config_enabled = true,
 
-    -- 启动无尽模式开关，默认为 false
-    endless = false
+	-- 启动无尽模式开关，默认为 false
+	endless = false,
 }
 ```
 
@@ -147,38 +151,38 @@ return {
 -- 特殊地，如需要设置 f1 键位，需要填写 "f1"
 -- 在您的存档位置中，如果启动过游戏，就可以找到 keyset.lua。您可以依据此文件对 keyset.lua 修改，以实现自定义键位。
 return {
-    -- 火雨键位，默认为 "1"
-    pow_1 = {"1"},
-    -- 援军键位，默认为 "2"
-    pow_2 = {"2"},
-    -- 一号英雄键位，默认为 "a" 或 "space"(即空格)
-    hero_1 = {"a", "space"},
-    -- 二号英雄键位，默认为 "d"
-    hero_2 = {"d"},
-    -- 三号英雄键位，默认为 "s"
-    hero_3 = {"s"},
-    -- 四号英雄键位，默认为 "q"
-    hero_4 = {"q"},
-    -- 五号英雄键位，默认为 "r"
-    hero_5 = {"r"},
-    -- 援军调集键位，默认为 "f"
-    reinforce = {"f"},
-    -- 非援军的可调集单位(如大恶魔)的调集键位，默认为 "e"
-    reinforce_other = {"e"},
-    -- 下一波键位，默认为 "w" 或 "return"(回车)
-    next_wave = {"w", "return"},
-    -- 放慢速度键位，默认为 "4"
-    slow = {"4"},
-    -- 加快速度键位，默认为 "5"
-    quick = {"5"},
-    -- 恢复正常速度键位，默认为 "6"
-    normal = {"6"},
-    -- 开启/关闭一键造塔菜单键位，默认为 "f1"
-    criket_toggle = {"f1"},
-    -- 无尽模式开启商店键位，一旦开启即扣取对应金币，默认为 "f2"
-    endless_shop = {"f2"},
-    -- 兵营寻路键位，会让士兵未处于拦截状态的兵营修改集结点到离家最近敌人位置，默认为 "f3"
-    barrack_seek = {"f3"},
+	-- 火雨键位，默认为 "1"
+	pow_1 = { "1" },
+	-- 援军键位，默认为 "2"
+	pow_2 = { "2" },
+	-- 一号英雄键位，默认为 "a" 或 "space"(即空格)
+	hero_1 = { "a", "space" },
+	-- 二号英雄键位，默认为 "d"
+	hero_2 = { "d" },
+	-- 三号英雄键位，默认为 "s"
+	hero_3 = { "s" },
+	-- 四号英雄键位，默认为 "q"
+	hero_4 = { "q" },
+	-- 五号英雄键位，默认为 "r"
+	hero_5 = { "r" },
+	-- 援军调集键位，默认为 "f"
+	reinforce = { "f" },
+	-- 非援军的可调集单位(如大恶魔)的调集键位，默认为 "e"
+	reinforce_other = { "e" },
+	-- 下一波键位，默认为 "w" 或 "return"(回车)
+	next_wave = { "w", "return" },
+	-- 放慢速度键位，默认为 "4"
+	slow = { "4" },
+	-- 加快速度键位，默认为 "5"
+	quick = { "5" },
+	-- 恢复正常速度键位，默认为 "6"
+	normal = { "6" },
+	-- 开启/关闭一键造塔菜单键位，默认为 "f1"
+	criket_toggle = { "f1" },
+	-- 无尽模式开启商店键位，一旦开启即扣取对应金币，默认为 "f2"
+	endless_shop = { "f2" },
+	-- 兵营寻路键位，会让士兵未处于拦截状态的兵营修改集结点到离家最近敌人位置，默认为 "f3"
+	barrack_seek = { "f3" },
 }
 ```
 
@@ -195,51 +199,70 @@ return {
 -- 你可以在同一文件夹中创建一个名为 criket.lua 的新文件来定义你的斗蛐蛐波次
 -- 若你的 criket 缺少一些设置将会使用本文件的设置
 return {
-    on = false, -- 是否启用斗蛐蛐，需要则置为 true
-    cash = 50000, -- 初始金币
-    groups = {
-        { -- 第 1 组出怪
-            path_index = 1, -- 设置出怪路径为 1（至少为 1）
-            delay = 5, -- 开始出这组怪的延迟，单位为秒
-            spawns = {
-                { -- 出怪 1
-                    creep = "enemy_goblin", -- 选择出怪：哥布林
-                    max = 100, -- 总数量
-                    interval = 0.1, -- 每隔 0.1 秒出一个哥布林
-                    fixed_sub_path = 0, -- 子路径，0 为随机
-                    interval_next = 5 -- 出完后，过 5 秒出下一怪
-                }, { -- 出怪 2
-                    creep = "enemy_fat_orc", -- 选择出怪：兽人
-                    max = 50, -- 总数量
-                    interval = 0.2, -- 每隔 0.2 秒出一个兽人
-                    fixed_sub_path = 0, -- 子路径，0 为随机
-                    interval_next = 0
-                }
-            }
-        }, { -- 第 2 组出怪
-            path_index = 1, -- 设置出怪路径为 1
-            delay = 0, -- 开始出怪前的延迟，单位为秒
-            spawns = {
-                { -- 出怪 1
-                    creep = "enemy_goblin", -- 选择出怪：哥布林
-                    max = 100, -- 总数量
-                    interval = 0.1, -- 每隔 0.1 秒出一个哥布林
-                    fixed_sub_path = 0, -- 子路径，0 为随机
-                    interval_next = 5 -- 出完后，过 5 秒出下一怪
-                }
-            }
-        }
-    },
-    required_textures = { -- 启用的贴图列表
-        "go_enemies_acaroth", "go_enemies_ancient_metropolis", "go_enemies_bandits", "go_enemies_bittering_rancor",
-        "go_enemies_blackburn", "go_enemies_desert", "go_enemies_elven_woods", "go_enemies_faerie_grove",
-        "go_enemies_forgotten_treasures", "go_enemies_grass", "go_enemies_halloween", "go_enemies_hulking_rage",
-        "go_enemies_ice", "go_enemies_jungle", "go_enemies_mactans_malicia", "go_enemies_rising_tides", "go_enemies_rotten",
-        "go_enemies_sarelgaz", "go_enemies_storm", "go_enemies_torment", "go_enemies_underground", "go_enemies_wastelands"
-    },
-    required_sounds = { -- 启用的音效列表
-        "hero_gerald" -- 比如说，有一个特殊的英雄 boss gerald，可能就需要他的音效
-    }
+	on = false, -- 是否启用斗蛐蛐，需要则置为 true
+	cash = 50000, -- 初始金币
+	groups = {
+		{ -- 第 1 组出怪
+			path_index = 1, -- 设置出怪路径为 1（至少为 1）
+			delay = 5, -- 开始出这组怪的延迟，单位为秒
+			spawns = {
+				{ -- 出怪 1
+					creep = "enemy_goblin", -- 选择出怪：哥布林
+					max = 100, -- 总数量
+					interval = 0.1, -- 每隔 0.1 秒出一个哥布林
+					fixed_sub_path = 0, -- 子路径，0 为随机
+					interval_next = 5, -- 出完后，过 5 秒出下一怪
+				},
+				{ -- 出怪 2
+					creep = "enemy_fat_orc", -- 选择出怪：兽人
+					max = 50, -- 总数量
+					interval = 0.2, -- 每隔 0.2 秒出一个兽人
+					fixed_sub_path = 0, -- 子路径，0 为随机
+					interval_next = 0,
+				},
+			},
+		},
+		{ -- 第 2 组出怪
+			path_index = 1, -- 设置出怪路径为 1
+			delay = 0, -- 开始出怪前的延迟，单位为秒
+			spawns = {
+				{ -- 出怪 1
+					creep = "enemy_goblin", -- 选择出怪：哥布林
+					max = 100, -- 总数量
+					interval = 0.1, -- 每隔 0.1 秒出一个哥布林
+					fixed_sub_path = 0, -- 子路径，0 为随机
+					interval_next = 5, -- 出完后，过 5 秒出下一怪
+				},
+			},
+		},
+	},
+	required_textures = { -- 启用的贴图列表
+		"go_enemies_acaroth",
+		"go_enemies_ancient_metropolis",
+		"go_enemies_bandits",
+		"go_enemies_bittering_rancor",
+		"go_enemies_blackburn",
+		"go_enemies_desert",
+		"go_enemies_elven_woods",
+		"go_enemies_faerie_grove",
+		"go_enemies_forgotten_treasures",
+		"go_enemies_grass",
+		"go_enemies_halloween",
+		"go_enemies_hulking_rage",
+		"go_enemies_ice",
+		"go_enemies_jungle",
+		"go_enemies_mactans_malicia",
+		"go_enemies_rising_tides",
+		"go_enemies_rotten",
+		"go_enemies_sarelgaz",
+		"go_enemies_storm",
+		"go_enemies_torment",
+		"go_enemies_underground",
+		"go_enemies_wastelands",
+	},
+	required_sounds = { -- 启用的音效列表
+		"hero_gerald", -- 比如说，有一个特殊的英雄 boss gerald，可能就需要他的音效
+	},
 }
 ```
 
@@ -411,6 +434,7 @@ return {
 * 红箭：血色审判从秒杀改为高额伤害（对 boss 伤害小幅降低），概率提升，无视护盾。猎人印记可对 boss 使用，且红箭优先攻击被标记敌人，攻击被标记敌人时触发血色审判概率提升。红箭的普攻和标记箭飞行过程中，如果敌人死亡，将会尝试转火。
 * 海盗：添加鹦鹉数量上限至 3，鹦鹉攻击附带晕眩。普攻为枪伤。
 * 矮人：酒桶随机索敌。普攻为枪伤，技能价格下调。
+* 暮弓：提升基础攻速。普攻拥有 0.1 穿甲。叠 buff 技能可提升自身攻速，需要点三级才能无限叠 buff；叠 buff 技能可以让周围的一座防御塔也吃到伤害加成 buff。双刀人攻击不会被闪避打断。
 
 #### 法塔
 
@@ -431,9 +455,10 @@ return {
 * 地震：岩浆可以被范围增幅。秒杀价格下降。下调裸塔价格，提升熔岩价格。钻头只会对血量高于 1000 的敌人释放。不同地震塔的岩浆造成伤害允许叠加。
 * 高达：导弹升级上限上升至 3。
 * 黑暗熔炉：提升弹射数量；多个熔炉同时攻击一个单位不会丢失伤害。
-* 大树：普攻智能索敌。火果子冷却下调，伤害下调。保留普攻减速。优化普攻与技能衔接。捶地分为内圈和外圈，外圈造成原伤害和减速，内圈造成额外 40%伤害和晕眩。
-* 大德：普攻智能索敌，优化熊的属性和复活速度，诅咒数值和冷却均降低，且诅咒传导伤害对被诅咒单位无效，被诅咒单位死亡时，诅咒传递给附近敌人，且持续时间提升一秒。保留普攻减速。
+* 大树：普攻智能索敌，伤害下降，且可以弹跳一次。火果子冷却下调，伤害下调。保留普攻减速。优化普攻与技能衔接。捶地分为内圈和外圈，外圈造成原伤害和减速，内圈造成额外 40%伤害和晕眩。
+* 大德：普攻智能索敌，每次有概率唤起更多的石头。优化熊的属性和复活速度，诅咒数值和冷却均降低，且诅咒传导伤害对被诅咒单位无效，被诅咒单位死亡时，诅咒传递给附近敌人，且持续时间提升一秒。保留普攻减速。被诅咒单位受到微量持续伤害。
 * 三管加农炮：辣椒对狂轰滥炸生效，且不会卡狂轰滥炸冷却。
+* 恶魔澡堂：大恶魔没有敌人时也会召唤，小恶魔在没有敌人时会以较低频率召唤。小恶魔落地造成少量范围伤害，恶魔爆炸伤害替换为炮伤。
 
 #### 兵营
 
