@@ -853,18 +853,6 @@ mtvec 的低两位被分配给 MODE 字段，是因为异常/中断处理有不�
 
 在向量中断模式下，发生中断后 PC 会被设置为 $mtvec_{BASE}+4\times interrupt_cause$，其中 $mtvec_{BASE}$ 是 mtvec 的高位部分，$interrupt_cuase$ 是中断原因编号。这样可以让不同类型的中断跳转到各自专属的处理函数入口，提高中断处理的灵活性和效率。
 
-mtvec：机器模式陷阱向量寄存器，保存异常或中断发生时跳转的入口地址（trap handler）。可以配置为定址模式或向量模式。
-
-medeleg：异常委托寄存器，用于指定哪些异常可以从 M 模式委托给 S 模式处理。置位后，相关异常由 S 模式的异常处理程序处理。
-
-mideleg：中断委托寄存器，用于指定哪些中断可以从 M 模式委托给 S 模式处理。置位后，相关中断由 S 模式的中断处理程序处理。
-
-mepc：机器异常程序计数器，保存异常或中断发生时的指令地址。异常处理结束后，可以通过该寄存器恢复原来的执行流程。
-
-mcause：机器异常原因寄存器，记录导致异常或中断的原因（如非法指令、定时器中断等），用于异常处理程序判断和处理。
-
-mtval：机器异常值寄存器，保存与异常相关的附加信息（如出错的地址或指令），帮助异常处理程序进行诊断和恢复。
-
 #### medeleg, mideleg 寄存器(Machine Trap Delegation Registers)
 
 委派机制的作用是将部分异常（trap）或中断的处理权从最高特权级（M 模式）下放到次高特权级（S 模式），这样可以让操作系统内核直接处理常见的异常和中断，提高系统效率和灵活性，同时减少固件（如 OpenSBI）与内核之间的切换开销。
@@ -898,20 +886,41 @@ mcause 寄存器中，中断和异常的区别在于最高位的取值：最高�
 
 ![alt text](mdPaste/os-lab1/image-3.png)
 
+![alt text](mdPaste/os-lab1/image-5.png)
+
+![alt text](mdPaste/os-lab1/image-4.png)
+
+![alt text](mdPaste/os-lab1/image-6.png)
 ```sh
-#  MIE（第 3 位）为 0：机器模式中断禁止
-#  MPP 字段（第 11-12 位）为 0：异常前特权级为 U 模式
-#  MPIE 位（第 7 位）为 0：异常前 MIE 为0
-#  SIE（第2位）为0：S 模式中断禁止
+# MPIE = 1
+# FS = 11
+# MXR = 1
+# MPRV = 1
+# SD = 1
 mstatus  8000000a00006080
 
-# STIP（第六位）为1，说明转发给S模式的定时器中断等待处理
+# STIP = 1，说明转发给S模式的定时器中断等待处理
 mip      0000000000000020
 
-# 
+# MSIE 为 1
 mie      0000000000000008
-mideleg  0000000000001666
+
+# Instruction Address misaligned
+# Breakpoint
+# Environment call from U-mode
+# Instruction page fault
+# Load page fault
+# Store/AMO page fault
+# Software check
+# 以上异常被委派到 S 模式
 medeleg  0000000000f4b509
+
+# SSIE
+# STIE
+# SEIE
+# 以上中断被委派到 S 模式
+mideleg  0000000000001666
+
 mtvec    00000000800004f8
 stvec    0000000080200000
 mepc     0000000080200000
