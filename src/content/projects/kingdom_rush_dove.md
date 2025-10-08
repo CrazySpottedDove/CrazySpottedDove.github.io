@@ -12,7 +12,7 @@ tags: ["lua", "KingdomRush", "王国保卫战", "dove 版"]
 
 **STEP 1**
 
-在群 681643424 或 718780854 内下载改版本体压缩包与补丁压缩包。
+在 q 群 681643424 / 718780854 / 698678477(总群) 内下载改版本体压缩包与补丁压缩包。
 
 ![alt text](mdPaste/kingdom_rush_dove/image.png)
 
