@@ -578,3 +578,5 @@ return {
 * 红兵 `enemy_blade`
 * 绿兵 `enemy_forest`
 * 天十 `eb_10yr`
+
+## [更新记录点击此处查询](https://github.com/CrazySpottedDove/KingdomRushDove/commits/master/)
