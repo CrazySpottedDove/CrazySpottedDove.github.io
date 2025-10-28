@@ -581,4 +581,4 @@ return {
 * 绿兵 `enemy_forest`
 * 天十 `eb_10yr`
 
-## [更新记录点击此处查询](https://github.com/CrazySpottedDove/KingdomRushDove/commits/master/)
+## [更新记录点击此处查询](https://dgithub.xyz/CrazySpottedDove/KingdomRushDove/commits/master/)
