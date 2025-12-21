@@ -1,80 +1,66 @@
 [
-    {
-        "name": "kingdom_rush_dove",
-        "url": "https://github.com/CrazySpottedDove/KingdomRushDove",
-        "website": true,
-        "description": "一个注重平衡性、可操作性、舒适性的王国保卫战改版",
-        "languages": ["lua"],
-        "role": "author"
-    },
-    {
-        "name": "fiz",
-        "url": "https://github.com/CrazySpottedDove/fiz",
-        "website": true,
-        "description": "高速简洁的学在浙大第三方",
-        "languages": [
-            "tauri",
-            "Rust",
-            "Vue",
-            "CSS",
-            "JavaScript",
-            "Html"
-        ],
-        "role": "author"
-    },
-    {
-        "name": "zac",
-        "url": "https://github.com/CrazySpottedDove/zac",
-        "website": true,
-        "description": "一个用于代替雪灾浙大网页端的命令行高速工具，支持拉取课件、提交作业、查看成绩(包括持续查询)",
-        "languages": [
-            "Rust"
-        ],
-        "role": "author"
-    },
-    {
-        "name": "Lab-Assistance",
-        "url": "https://github.com/CrazySpottedDove/Lab-Assistance",
-        "website": true,
-        "description": "一个桌面应用，可以在考虑有效数字的同时进行数据处理，计算不确定度，并支持导出 LaTeX 图表代码",
-        "languages": [
-            "JavaScript",
-            "Vue",
-            "TeX",
-            "CSS",
-            "Html"
-        ],
-        "role": "author"
-    },
-    {
-        "name": "ZJU-GPA",
-        "url": "https://github.com/CrazySpottedDove/ZJU-G.P.A.",
-        "website": true,
-        "description": "精美(大概)的普通物理Ⅰ(H) 课程笔记，且包括定理证明、习题解答",
-        "languages": [
-            "TeX"
-        ],
-        "role": "maintainer"
-    },
-    {
-        "name": "wsl2ImageTransfer",
-        "url": "https://github.com/CrazySpottedDove/wsl2ImageTransfer",
-        "website": false,
-        "description": "一个用于快速在 tex 文档中插入截图的 vscode 插件，windows/wsl2 可用",
-        "languages": [
-            "JavaScript"
-        ],
-        "role": "author"
-    },
-    {
-        "name": "PhysicsLabReportTemplate_LaTeX",
-        "url": "https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX",
-        "website": false,
-        "description": "普通物理实验Ⅱ的混合实验报告 LaTeX 模板",
-        "languages": [
-            "TeX"
-        ],
-        "role": "author"
-    }
+	{
+		"name": "kingdom_rush_dove",
+		"url": "https://github.com/CrazySpottedDove/KingdomRushDove",
+		"website": true,
+		"description": "一个注重平衡性、可操作性、舒适性的王国保卫战改版",
+		"languages": ["lua"],
+		"role": "author"
+	},
+	{
+		"name": "fiz",
+		"url": "https://github.com/CrazySpottedDove/fiz",
+		"website": true,
+		"description": "高速简洁的学在浙大第三方",
+		"languages": ["tauri", "Rust", "Vue", "CSS", "JavaScript", "Html"],
+		"role": "author"
+	},
+	{
+		"name": "dlfmt",
+		"url": "https://github.com/CrazySpottedDove/dl",
+		"website": true,
+		"description": "一个高性能的 lua 代码格式化工具",
+		"languages": ["lua", "cpp"],
+		"role": "author"
+	},
+	{
+		"name": "zac",
+		"url": "https://github.com/CrazySpottedDove/zac",
+		"website": true,
+		"description": "一个用于代替雪灾浙大网页端的命令行高速工具，支持拉取课件、提交作业、查看成绩(包括持续查询)",
+		"languages": ["Rust"],
+		"role": "author"
+	},
+	{
+		"name": "Lab-Assistance",
+		"url": "https://github.com/CrazySpottedDove/Lab-Assistance",
+		"website": true,
+		"description": "一个桌面应用，可以在考虑有效数字的同时进行数据处理，计算不确定度，并支持导出 LaTeX 图表代码",
+		"languages": ["JavaScript", "Vue", "TeX", "CSS", "Html"],
+		"role": "author"
+	},
+	{
+		"name": "ZJU-GPA",
+		"url": "https://github.com/CrazySpottedDove/ZJU-G.P.A.",
+		"website": true,
+		"description": "精美(大概)的普通物理Ⅰ(H) 课程笔记，且包括定理证明、习题解答",
+		"languages": ["TeX"],
+		"role": "maintainer"
+	},
+	{
+		"name": "wsl2ImageTransfer",
+		"url": "https://github.com/CrazySpottedDove/wsl2ImageTransfer",
+		"website": false,
+		"description": "一个用于快速在 tex 文档中插入截图的 vscode 插件，windows/wsl2 可用",
+		"languages": ["JavaScript"],
+		"role": "author"
+	},
+	{
+		"name": "PhysicsLabReportTemplate_LaTeX",
+		"url": "https://github.com/CrazySpottedDove/PhysicsLabReportTemplate_LaTeX",
+		"website": false,
+		"description": "普通物理实验Ⅱ的混合实验报告 LaTeX 模板",
+		"languages": ["TeX"],
+		"role": "author"
+	}
 ]
-
