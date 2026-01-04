@@ -1,137 +1,137 @@
 ---
 title: dlfmt
-description: 高性能的 lua 代码格式化工具
+description: A lua formatter with extremply high performance
 pubDate: 2025-12-21
 updatedDate: 2025-12-21
-tags: ["lua","formatter","lua formatter","格式化","格式化工具","vscode 插件","高性能工具"]
+tags: ["lua","formatter","lua formatter","格式化","格式化工具","vscode 插件","高性能工具", "vscode extension", "high performance", "cpp"]
 ---
 
-## 简介
+## Brief
 
-dlfmt 是一款高性能的 lua 代码格式化工具，同时也提供了一定程度的压缩代码功能。如果你需要管理一些十万字符级别的 lua 代码文件，那么选择使用 dlfmt 进行格式化会是更好的选择。
+*dlfmt* is a high-performance Lua code formatting tool written in cpp, which also provides a certain degree of code compression functionality. If you need to manage Lua code files with hundreds of thousands of characters, choosing dlfmt for formatting will be a good option.
 
-## 性能对比
+## Performance
 
 ### Brief
 
-| 文件名            | 行数  | 字符数  | 工具        | 平均时间 (s) |
+| filename          | lines |  chars  | format-tool | Avg Time (s) |
 |-------------------|-------|---------|-------------|--------------|
-| hero_scripts.lua  | 29118 | 765150  | lua-format  | 1.1080       |
-| hero_scripts.lua  | 29118 | 765150  | stylua      | 1.5490       |
-| hero_scripts.lua  | 29118 | 765150  | dlfmt       | 0.0434       |
-| go_towers.lua     | 53804 | 1365652 | lua-format  | 21.2510      |
-| go_towers.lua     | 53804 | 1365652 | stylua      | 2.5120       |
-| go_towers.lua     | 53804 | 1365652 | dlfmt       | 0.1080       |
-| lldebugger.lua    | 2548  | 60634   | lua-format  | 0.1348       |
-| lldebugger.lua    | 2548  | 60634   | stylua      | 0.2504       |
-| lldebugger.lua    | 2548  | 60634   | dlfmt       | 0.0045       |
+| hero_scripts.lua  | 29118 | 765150  | lua-format  | 0.9240       |
+| hero_scripts.lua  | 29118 | 765150  | stylua      | 1.327        |
+| hero_scripts.lua  | 29118 | 765150  | dlfmt       | 0.0184       |
+| go_towers.lua     | 53804 | 1365652 | lua-format  | 16.771       |
+| go_towers.lua     | 53804 | 1365652 | stylua      | 2.054        |
+| go_towers.lua     | 53804 | 1365652 | dlfmt       | 0.0308       |
+| lldebugger.lua    | 2548  | 60634   | lua-format  | 0.1044       |
+| lldebugger.lua    | 2548  | 60634   | stylua      | 0.2059       |
+| lldebugger.lua    | 2548  | 60634   | dlfmt       | 0.0030       |
 
 ### Detail
 
 `hero_scripts.lua`: 29118 lines, 765150 chars.
 
 ```sh
-hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./kr1/hero_scripts.lua -i'
+hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./kr1/hero_scripts.lua -i' --warmup 1
 Benchmark 1: /home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./kr1/hero_scripts.lua -i
-  Time (mean ± σ):      1.108 s ±  0.035 s    [User: 1.018 s, System: 0.090 s]
-  Range (min … max):    1.062 s …  1.168 s    10 runs
+  Time (mean ± σ):     924.0 ms ±   7.5 ms    [User: 848.5 ms, System: 75.4 ms]
+  Range (min … max):   913.7 ms … 934.8 ms    10 runs
 
-hyperfine 'stylua ./kr1/hero_scripts.lua --syntax Lua52'
+hyperfine 'stylua ./kr1/hero_scripts.lua --syntax Lua52' --warmup 1
 Benchmark 1: stylua ./kr1/hero_scripts.lua --syntax Lua52
-  Time (mean ± σ):      1.549 s ±  0.033 s    [User: 1.110 s, System: 0.442 s]
-  Range (min … max):    1.489 s …  1.617 s    10 runs
+  Time (mean ± σ):      1.327 s ±  0.019 s    [User: 0.968 s, System: 0.360 s]
+  Range (min … max):    1.296 s …  1.351 s    10 runs
 
-hyperfine '/home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./kr1/hero_scripts.lua'
-Benchmark 1: /home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./kr1/hero_scripts.lua
-  Time (mean ± σ):      43.4 ms ±   1.6 ms    [User: 28.3 ms, System: 15.0 ms]
-  Range (min … max):    40.6 ms …  48.7 ms    66 runs
+hyperfine 'dlfmt --format-file ./kr1/hero_scripts.lua' --warmup 1
+Benchmark 1: dlfmt --format-file ./kr1/hero_scripts.lua
+  Time (mean ± σ):      18.4 ms ±   0.8 ms    [User: 7.7 ms, System: 10.8 ms]
+  Range (min … max):    17.0 ms …  21.6 ms    141 runs
 ```
 
 `go_towers.lua`: 53804 lines, 1365652 chars.
 
 ```sh
-hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./_assets/kr1-desktop/images/fullhd/go_towers.lua -i'
+hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./_assets/kr1-desktop/images/fullhd/go_towers.lua -i' --warmup 1
 Benchmark 1: /home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./_assets/kr1-desktop/images/fullhd/go_towers.lua -i
-  Time (mean ± σ):     21.251 s ±  0.538 s    [User: 21.066 s, System: 0.184 s]
-  Range (min … max):   20.518 s … 21.850 s    10 runs
+  Time (mean ± σ):     16.771 s ±  0.167 s    [User: 16.626 s, System: 0.145 s]
+  Range (min … max):   16.546 s … 17.009 s    10 runs
 
-hyperfine 'stylua ./_assets/kr1-desktop/images/fullhd/go_towers.lua --syntax Lua52'
+hyperfine 'stylua ./_assets/kr1-desktop/images/fullhd/go_towers.lua --syntax Lua52' --warmup 1
 Benchmark 1: stylua ./_assets/kr1-desktop/images/fullhd/go_towers.lua --syntax Lua52
-  Time (mean ± σ):      2.512 s ±  0.137 s    [User: 0.874 s, System: 1.639 s]
-  Range (min … max):    2.304 s …  2.715 s    10 runs
+  Time (mean ± σ):      2.054 s ±  0.031 s    [User: 0.701 s, System: 1.355 s]
+  Range (min … max):    1.997 s …  2.083 s    10 runs
 
-hyperfine '/home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./_assets/kr1-desktop/images/fullhd/go_towers.lua'
-Benchmark 1: /home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./_assets/kr1-desktop/images/fullhd/go_towers.lua
-  Time (mean ± σ):     108.0 ms ±   1.8 ms    [User: 75.3 ms, System: 32.9 ms]
-  Range (min … max):   105.8 ms … 111.7 ms    27 runs
+hyperfine 'dlfmt --format-file ./_assets/kr1-desktop/images/fullhd/go_towers.lua' --warmup 1
+Benchmark 1: dlfmt --format-file ./_assets/kr1-desktop/images/fullhd/go_towers.lua
+  Time (mean ± σ):      30.8 ms ±   1.0 ms    [User: 10.3 ms, System: 20.1 ms]
+  Range (min … max):    29.2 ms …  34.7 ms    90 runs
 ```
 
 `lldebugger.lua`: 2548 lines, 60634 chars.
 
 ```sh
-hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./lldebugger.lua -i'
+hyperfine '/home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./lldebugger.lua -i' --warmup 1 --shell=none
 Benchmark 1: /home/dove/.vscode-server/extensions/yinfei.luahelper-0.2.29/server/linux/lua-format ./lldebugger.lua -i
-  Time (mean ± σ):     134.8 ms ±   4.0 ms    [User: 118.7 ms, System: 15.2 ms]
-  Range (min … max):   129.7 ms … 142.6 ms    21 runs
+  Time (mean ± σ):     104.4 ms ±   1.4 ms    [User: 94.6 ms, System: 9.1 ms]
+  Range (min … max):   101.8 ms … 107.2 ms    28 runs
 
-hyperfine 'stylua ./lldebugger.lua --syntax Lua52'
+hyperfine 'stylua ./lldebugger.lua --syntax Lua52' --warmup 1 --shell=none
 Benchmark 1: stylua ./lldebugger.lua --syntax Lua52
-  Time (mean ± σ):     250.4 ms ±  18.2 ms    [User: 148.1 ms, System: 103.6 ms]
-  Range (min … max):   233.2 ms … 283.2 ms    10 runs
+  Time (mean ± σ):     205.9 ms ±   4.3 ms    [User: 121.3 ms, System: 86.7 ms]
+  Range (min … max):   201.0 ms … 213.2 ms    14 runs
 
-hyperfine '/home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./lldebugger.lua'
-Benchmark 1: /home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/bin/linux/dlfmt --format-file ./lldebugger.lua
-  Time (mean ± σ):       4.5 ms ±   0.4 ms    [User: 1.8 ms, System: 2.0 ms]
-  Range (min … max):     4.0 ms …   6.9 ms    366 runs
+hyperfine 'dlfmt --format-file ./lldebugger.lua' --warmup 1 --shell=none
+Benchmark 1: dlfmt --format-file ./lldebugger.lua
+  Time (mean ± σ):       3.0 ms ±   0.3 ms    [User: 0.7 ms, System: 0.9 ms]
+  Range (min … max):     2.5 ms …   6.2 ms    962 runs
 ```
 
-## 用法
+## Usage
 
-### 格式化单个文件: --format-file \<file\>
+### Format a Single File: --format-file \<file\>
 
 ```sh
-./build-release/dlfmt --format-file ./tmp/hero_scripts.lua
+dlfmt --format-file ./tmp/hero_scripts.lua
 [info dlfmt.cpp:442] Formatted file './tmp/hero_scripts.lua' in 38 ms.
 ```
 
-### 格式化整个文件夹: --format-directory \<directory\>
+### Format an Entire Directory: --format-directory \<directory\>
 
 ```sh
-./build-release/dlfmt --format-directory ./tmp/src-dlua
+dlfmt --format-directory ./tmp/src-dlua
 [info dlfmt.cpp:84] 1206 .lua files collected.
 [info dlfmt.cpp:432] Formatted directory './tmp/src-dlua' in 357 ms.
 ```
 
-### 压缩单个文件: --compress-file \<file\>
+### Compress a Single File: --compress-file \<file\>
 
 ```sh
-./build-release/dlfmt --compress-file ./tmp/hero_scripts.lua
+dlfmt --compress-file ./tmp/hero_scripts.lua
 [info dlfmt.cpp:462] Compressed file './tmp/hero_scripts.lua' in 36 ms.
 ```
 
-### 压缩整个文件夹: --compress-directory \<directory\>
+### Compress an Entire Directory: --compress-directory \<directory\>
 
 ```sh
-./build-release/dlfmt --compress-directory ./tmp/src-dlua
+dlfmt --compress-directory ./tmp/src-dlua
 [info dlfmt.cpp:150] 1206 .lua files collected.
 [info dlfmt.cpp:452] Compressed directory './tmp/src-dlua' in 357 ms.
 ```
 
-### 执行格式化任务: --json-task \<json_path\>
+### Execute Formatting tasks: --json-task \<json_path\>
 
 ```sh
-./build-release/dlfmt --json-task ./task.json
+dlfmt --json-task ./task.json
 [info dlfmt.cpp:316] 842 files to format collected.
 [info dlfmt.cpp:317] 364 files to compress collected.
 [info dlfmt.cpp:491] Processed json task './task.json' in 444 ms.
 # Cache file .dlfmt_cache.json will be left in the same dir. So next time you launch json-task, you see:
-./build-release/dlfmt --json-task ./task.json
+dlfmt --json-task ./task.json
 [info dlfmt.cpp:297] 0 files to format collected.
 [info dlfmt.cpp:298] 0 files to compress collected.
 [info dlfmt.cpp:472] Processed json task './task.json' in 15 ms.
 ```
 
-格式化任务的定义模板如下：
+The template for defining a formatting task is as follows:
 
 ```json
 {
@@ -167,23 +167,47 @@ Benchmark 1: /home/dove/.vscode-server/extensions/crazyspotteddove.dlfmt-0.0.6/b
       "type": "compress",
       "directory": "kr1/data/levels"
     }
-  ]
+  ],
+  "params": {
+    "format": "manual",
+    "compress": "auto"
+  }
 }
 ```
 
-- format: 指定一个目录，将目录下的 `.lua` 文件格式化，并排除 `exclude` 所有目录。
-- compress: 指定一个目录，将目录下的 `.lua` 文件压缩，并排除 `exclude` 所有目录。
+- `type` format: Specify a directory, format all .lua files under the directory.
+- `type` compress: Specify a directory, compress all .lua files under the directory.
+- `exclude`: exclude all directories listed in a single task.
+- `params.format`: param for format tasks.
+- `params.compress`: param for compress tasks.
 
-## 格式化效果
+## Formatting Effect
 
-首先介绍格式化规则：
+### Auto
 
-- 块级语句前后加空行。
-- 不同组的行级语句之间加空行。
-- 注释全都换为短注释，依附在语句前，采用相同对齐。
-- 算符前后加空格等。
+When dlfmt works under auto mode, it format your code with the rules as follows:
 
-以下为`lua-minify`的一个代码片段格式化后的效果：
+- Add blank lines before and after block-level statements.
+- Add blank lines between different groups of line-level statements. The Group types are shown as follow.
+
+```cpp
+enum class FormatStatGroup {
+  None,
+  Block,
+  LocalDecl,
+  Label,
+  Assign,
+  Break,
+  Return,
+  Call,
+  Goto
+};
+```
+
+- All comments are attached before the statement, and aligned accordingly.
+- Add spaces before and after operators, etc.
+
+Below is a code snippet from lua-minify after auto formatting:
 
 ```lua
 local function MinifyVariables_2(globalScope, rootScope)
@@ -327,9 +351,9 @@ local function MinifyVariables_2(globalScope, rootScope)
 			-- can't collide with it.
 			for _, otherVar in pairs(allVariables) do
 				if not otherVar.Renamed then
-					if otherVar.Type == 'Global' then
+					if otherVar.Type == "Global" then
 						otherVar.UsedNameArray[i] = true
-					elseif otherVar.Type == 'Local' then
+					elseif otherVar.Type == "Local" then
 						-- Other var is a local, see if there is a reference to this global within
 						-- that local's lifetime.
 						for _, refAt in pairs(var.ReferenceLocationList) do
@@ -347,37 +371,42 @@ local function MinifyVariables_2(globalScope, rootScope)
 			end
 		end
 	end
--- --
--- print("Total Variables: "..#allVariables)
--- print("Total Range: "..rootScope.BeginLocation.."-"..rootScope.EndLocation)
--- print("")
--- for _, var in pairs(allVariables) do
--- 	io.write("`"..var.Name.."':\n\t#symbols: "..#var.RenameList..
--- 		"\n\tassigned to: "..tostring(var.AssignedTo))
--- 	if var.Type == 'Local' then
--- 		io.write("\n\trange: "..var.BeginLocation.."-"..var.EndLocation)
--- 		io.write("\n\tlocal type: "..var.Info.Type)
--- 	end
--- 	io.write("\n\n")
--- end
--- -- First we want to rename all of the variables to unique temoraries, so that we can
--- -- easily use the scope::GetVar function to check whether renames are valid.
--- local temporaryIndex = 0
--- for _, var in pairs(allVariables) do
--- 	var:Rename('_TMP_'..temporaryIndex..'_')
--- 	temporaryIndex = temporaryIndex + 1
--- end
+--[[
+print("Total Variables: "..#allVariables)
+print("Total Range: "..rootScope.BeginLocation.."-"..rootScope.EndLocation)
+print("")
+for _, var in pairs(allVariables) do
+	io.write("`"..var.Name.."':\n\t#symbols: "..#var.RenameList..
+		"\n\tassigned to: "..tostring(var.AssignedTo))
+	if var.Type == 'Local' then
+		io.write("\n\trange: "..var.BeginLocation.."-"..var.EndLocation)
+		io.write("\n\tlocal type: "..var.Info.Type)
+	end
+	io.write("\n\n")
+end
+-- First we want to rename all of the variables to unique temoraries, so that we can
+-- easily use the scope::GetVar function to check whether renames are valid.
+local temporaryIndex = 0
+for _, var in pairs(allVariables) do
+	var:Rename('_TMP_'..temporaryIndex..'_')
+	temporaryIndex = temporaryIndex + 1
+end
 -- For each variable, we need to build a list of names that collide with it
---
---error()
+
+error()
+]]
 end
 ```
 
-## 压缩效果
+### Manual
 
-dlfmt 压缩只是单纯压缩缩进，不会做修改变量名的额外操作。为了 debug 方便，一些换行会被保留。注释则会全部删去。
+There's always some case that people get annoyed by certain auto breakline method. So manual mode for dlfmt formatting just remove the rules of "adding blank lines between different groups of line-level statements". However, continuous breaklines with an amount bigger than 2 will be rejected, back to 2.
 
-以下为`lua-minify`的一个代码片段压缩后的效果：
+## Compression Effect
+
+Now dlfmt compression only compresses indentation and does not perform extra operations such as renaming variables. For debugging convenience, some line breaks are retained. All comments will be removed.
+
+Below is a code snippet from lua-minify after compression:
 
 ```lua
 local function MinifyVariables_2(globalScope,rootScope)
@@ -459,9 +488,9 @@ end
 else
 for _,otherVar in pairs(allVariables) do
 if not otherVar.Renamed then
-if otherVar.Type=='Global' then
+if otherVar.Type=="Global" then
 otherVar.UsedNameArray[i]=true
-elseif otherVar.Type=='Local' then
+elseif otherVar.Type=="Local" then
 for _,refAt in pairs(var.ReferenceLocationList) do
 if refAt>=otherVar.BeginLocation and refAt<=otherVar.ScopeEndLocation then
 otherVar.UsedNameArray[i]=true
@@ -478,7 +507,9 @@ end
 end
 ```
 
-## 插件支持
+## Extension Support
 
-在 vscode 中搜索插件：`dlfmt`。
+Search for extension in vscode: `dlfmt`
 
+- For daily usage, just set `dlfmt` as your default formatter.
+- In your file explorer, you can right click an item and choose the action to applied.For example, when right clicking a .json file, the item `dlfmt: run json tasks` is shown.
