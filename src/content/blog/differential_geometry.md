@@ -150,11 +150,13 @@ $$
 所以，$\mathbf{\gamma }'(s)$ 与 $\mathbf{\alpha }(s)$ 垂直，而 $\mathbf{\gamma} (s)$ 为单位长，于是可得 $\mathbf{\gamma }'(s)$ 垂直于 $\mathbf{\gamma }(s)$，因此 $\mathbf{\gamma }'(s) \parallel \mathbf{\beta }(s)$。
 
 我们不妨设
+
 $$
 \mathbf{\gamma }'(s)=-\tau (s)\mathbf{\beta }(s)
 $$
 
 于是(这里用到了 $\mathbf{\beta }(s)$ 是单位向量的性质)
+
 $$
 \tau (s)=-\mathbf{\gamma }'(s)\cdot \mathbf{\beta }(s)
 $$
@@ -163,11 +165,12 @@ $$
 
 ### 挠率的表达式
 
-
 $$
 \begin{align*}
-\tau (s)&=\frac{\left( \mathbf{r}'(s), \mathbf{r}''(s), \mathbf{r}'''(s) \right)}{\kappa ^2(s)}\\
-\tau (t)&=\frac{\left( \mathbf{r}'(t), \mathbf{r}''(t), \mathbf{r}'''(t) \right)}{\left|\mathbf{r}'(t)\times \mathbf{r}''(t)\right|^2}
+  \tau (s)&=\frac{\left( \mathbf{r}'(s), \mathbf{r}''(s),
+  \mathbf{r}'''(s) \right)}{\kappa ^2(s)}\\
+  \tau (t)&=\frac{\left( \mathbf{r}'(t), \mathbf{r}''(t),
+  \mathbf{r}'''(t) \right)}{\left|\mathbf{r}'(t)\times \mathbf{r}''(t)\right|^2}
 \end{align*}
 $$
 
@@ -175,12 +178,12 @@ $$
 
 $$
 \left\{
-\begin{align*}
-\mathbf{\alpha }'(s)&=\kappa (s)\mathbf{\beta }(s)\\
-\mathbf{\beta }'(s)&=-\kappa (s)\mathbf{\alpha }(s)+\tau (s)\gamma (s)\\
-\mathbf{\gamma }'(s)&=-\tau (s)\beta (s)
-\end{align*}
-\right.
+  \begin{align*}
+    \mathbf{\alpha }'(s)&=\kappa (s)\mathbf{\beta }(s)\\
+    \mathbf{\beta }'(s)&=-\kappa (s)\mathbf{\alpha }(s)+\tau (s)\gamma (s)\\
+    \mathbf{\gamma }'(s)&=-\tau (s)\beta (s)
+  \end{align*}
+  \right.
 $$
 
 此为曲线在点 $P(s)$ 处的 Frenet 公式。这意味着，三个基本向量的导数可以直接由曲率、挠率和三个基本向量的线性组合表示。
@@ -192,18 +195,20 @@ $$
 单向证明：
 
 如果 $\mathbf{r}(s)$ 是一条平面曲线，那么设它所在的平面的法向量为 $\mathbf{n}$。于是单位切向量
+
 $$
 \mathbf{\alpha }\cdot \mathbf{n} = 0
 $$
 
 上式两端同时对 $s$ 求导即有
+
 $$
 \left\{
-\begin{align*}
-\mathbf{r}''(s)\cdot \mathbf{n}&=0\\
-\mathbf{r}'''(s)\cdot \mathbf{n}&=0
-\end{align*}
-\right.
+  \begin{align*}
+    \mathbf{r}''(s)\cdot \mathbf{n}&=0\\
+    \mathbf{r}'''(s)\cdot \mathbf{n}&=0
+  \end{align*}
+  \right.
 $$
 
 于是就可以知道，这三个导数共面，根据挠率的表达式就得到挠率的值为 $0$。
@@ -216,3 +221,48 @@ $$
 
 ## 空间曲线一点邻近的结构
 
+对于向量函数，我们依然有泰勒展开式。因此，如果 $\mathbf{r}(s)$ 是一条曲率处处不为 0 的空间曲线，那么就有它在 $P(0)$ 的邻近有
+
+$$
+\mathbf{r}(s)-\mathbf{r}(0)=\mathbf{\alpha }(0)s + \frac{1}{2} \kappa
+(0)\mathbf{\beta }(0)s^2 + \frac{1}{6} \kappa '(0) \beta (0) s^3 +
+\frac{1}{6}\kappa (0)(-\kappa (0)\mathbf{\alpha }(0)+ \tau
+(0)\mathbf{\gamma }(0))s^3 + o(s^3)
+$$
+
+整理即有
+
+$$
+\mathbf{r}(s)-\mathbf{r}(0)=\left( s - \frac{1}{6}\kappa ^2(0)s^3
+\right)\mathbf{\alpha }(0)+ \left( \frac{1}{2}\kappa (0)s^2 +
+\frac{1}{6} \kappa '(0)s^3 \right)\beta (0) + \left(\frac{1}{6}\kappa
+(0)\tau (0)s^3\right) \mathbf{\gamma }(0) + o(s^3)
+$$
+
+这实质上是转化成了坐标系 $\left\{ \mathbf{r}(0), \mathbf{\alpha }(0), \mathbf{\beta }(0), \mathbf{\gamma }(0) \right\}$ 下的坐标。
+
+$$
+\left\{
+  \begin{align*}
+    x(s)&=s - \frac{1}{6}\kappa ^2(0)s^3 + o(s^3)\\
+    y(s)&=\frac{1}{2}\kappa (0)s^2 + \frac{1}{6} \kappa '(0)s^3 + o(s^3)\\
+    z(s)&=\frac{1}{6}\kappa (0)\tau (0)s^3 + o(s^3)
+  \end{align*}
+  \right.
+$$
+
+如果我们再做一次近似，那就变成了
+
+$$
+\left\{
+  \begin{align*}
+    \bar{x}(s)&=s\\
+    \bar{y}(s)&=\frac{1}{2}\kappa (0)s^2\\
+    \bar{z}(s)&=\frac{1}{6}\kappa (0)\tau (0)s^3
+  \end{align*}
+  \right.
+$$
+
+这就得到了一个新的曲线 $\bar{\mathbf{r}}(s)=\left\{ \bar{x}(s),\bar{y}(s),\bar{z}(s) \right\}$。我们把这个曲线称作 $\mathbf{r}(s)$ 在点 $s_0=0$ 邻近的近似曲线。
+
+那么，一种自然的想法，就是通过近似曲线的形状来近似地构建原曲线的形状。
